@@ -1,0 +1,55 @@
+---
+export interface Props {
+  id: string;
+  title: string;
+  slug: string;
+  description?: string;
+  previewStacked?: boolean;
+  previewPlain?: boolean;
+}
+
+const { id, title, slug, description, previewStacked = false, previewPlain = false } = Astro.props;
+
+const previewClass = [
+  'showcase__preview',
+  previewStacked ? 'showcase__preview--stacked' : '',
+  previewPlain ? 'showcase__preview--plain' : '',
+].filter(Boolean).join(' ');
+---
+<section class="section" id={id}>
+  <p class="section__eyebrow">&lt;{slug} /&gt;</p>
+  <h3 class="section__title">{title}</h3>
+  {description && <p class="section__lede">{description}</p>}
+
+  <div class="showcase" data-showcase>
+    <header class="showcase__head">
+      <p class="showcase__head-title">{title}</p>
+      <p class="showcase__head-meta">preview</p>
+    </header>
+
+    <div class={previewClass}>
+      <slot name="preview" />
+    </div>
+
+    <div class="showcase__tabs" role="tablist" aria-label={`${title} code`}>
+      <button class="showcase__tab" role="tab" aria-selected="true" data-tab="react">React</button>
+      <button class="showcase__tab" role="tab" aria-selected="false" data-tab="vanilla">Vanilla</button>
+      <button class="showcase__copy" type="button" data-copy aria-label="Copy code to clipboard">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="0" ry="0" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        <span data-copy-label>Copy</span>
+      </button>
+    </div>
+
+    <div class="showcase__code">
+      <div class="showcase__panel is-active" role="tabpanel" data-panel="react">
+        <slot name="react" />
+      </div>
+      <div class="showcase__panel" role="tabpanel" data-panel="vanilla">
+        <slot name="vanilla" />
+      </div>
+    </div>
+  </div>
+</section>
