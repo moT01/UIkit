@@ -1,5 +1,7 @@
 # build output
 dist/
+# CDN-ready bundle
+dist-cdn/
 # generated types
 .astro/
 
