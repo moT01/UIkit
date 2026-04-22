@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
-export type PanelVariant = "default" | "primary" | "danger" | "info";
+export type PanelVariant = 'default' | 'primary' | 'danger' | 'info';
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: PanelVariant;
@@ -8,20 +8,20 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Panel = forwardRef<HTMLDivElement, PanelProps>(
-  ({ variant = "default", title, className = "", children, ...rest }, ref) => {
+  ({ variant = 'default', title, className = '', children, ...rest }, ref) => {
     const classes = [
-      "panel",
-      variant !== "default" && `panel--${variant}`,
-      className,
+      'panel',
+      variant !== 'default' && `panel--${variant}`,
+      className
     ]
       .filter(Boolean)
-      .join(" ");
+      .join(' ');
     return (
       <div ref={ref} className={classes} {...rest}>
-        {title !== undefined && <p className="panel__heading">{title}</p>}
-        <div className="panel__body">{children}</div>
+        {title !== undefined && <p className='panel__heading'>{title}</p>}
+        <div className='panel__body'>{children}</div>
       </div>
     );
-  },
+  }
 );
-Panel.displayName = "Panel";
+Panel.displayName = 'Panel';

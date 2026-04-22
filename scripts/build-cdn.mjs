@@ -20,20 +20,19 @@
  * (e.g. https://cdn.freecodecamp.org/uikit/styles.min.css → .../uikit/fonts/...).
  */
 
-import { promises as fs } from "node:fs";
-import { createHash } from "node:crypto";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { bundle } from "lightningcss";
+import { promises as fs } from 'node:fs';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { bundle } from 'lightningcss';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..");
-const stylesDir = path.join(repoRoot, "src", "styles");
-const publicDir = path.join(repoRoot, "public");
-const outRoot = path.join(repoRoot, "dist-cdn", "uikit");
+const repoRoot = path.resolve(__dirname, '..');
+const stylesDir = path.join(repoRoot, 'src', 'styles');
+const publicDir = path.join(repoRoot, 'public');
+const outRoot = path.join(repoRoot, 'dist-cdn', 'uikit');
 
-const rewriteFontUrl = (url) =>
-  url.startsWith("/fonts/") ? "." + url : url;
+const rewriteFontUrl = url => (url.startsWith('/fonts/') ? '.' + url : url);
 
 function bundleCss(entryFile) {
   const { code, warnings } = bundle({
@@ -43,12 +42,12 @@ function bundleCss(entryFile) {
     visitor: {
       Url(node) {
         return { ...node, url: rewriteFontUrl(node.url) };
-      },
-    },
+      }
+    }
   });
   if (warnings && warnings.length) {
     for (const w of warnings) {
-      console.warn(`[build-cdn] warn: ${w.type} ${w.value ?? ""}`);
+      console.warn(`[build-cdn] warn: ${w.type} ${w.value ?? ''}`);
     }
   }
   return code;
@@ -56,14 +55,14 @@ function bundleCss(entryFile) {
 
 async function readVersion() {
   const pkg = JSON.parse(
-    await fs.readFile(path.join(repoRoot, "package.json"), "utf8"),
+    await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8')
   );
   if (!pkg.version) throw new Error('package.json is missing "version".');
   return pkg.version;
 }
 
 function getAliasDirs(version) {
-  const aliases = ["latest", version];
+  const aliases = ['latest', version];
   const stable = version.match(/^(\d+)\.(\d+)\.(\d+)$/);
   if (!stable) return aliases;
 
@@ -86,8 +85,8 @@ async function copyDirIfExists(src, dest) {
 async function hashFile(filePath) {
   const buf = await fs.readFile(filePath);
   return {
-    sha256: createHash("sha256").update(buf).digest("hex"),
-    bytes: buf.byteLength,
+    sha256: createHash('sha256').update(buf).digest('hex'),
+    bytes: buf.byteLength
   };
 }
 
@@ -108,7 +107,7 @@ async function copyDirContents(src, dest) {
   await fs.mkdir(dest, { recursive: true });
   for (const entry of await fs.readdir(src, { withFileTypes: true })) {
     await fs.cp(path.join(src, entry.name), path.join(dest, entry.name), {
-      recursive: true,
+      recursive: true
     });
   }
 }
@@ -116,56 +115,56 @@ async function copyDirContents(src, dest) {
 async function writeBundle(destDir) {
   await fs.mkdir(destDir, { recursive: true });
 
-  const styles = bundleCss(path.join(stylesDir, "_cdn-entry.css"));
-  const tokensOnly = bundleCss(path.join(stylesDir, "tokens.css"));
-  const componentsOnly = bundleCss(path.join(stylesDir, "components.css"));
+  const styles = bundleCss(path.join(stylesDir, '_cdn-entry.css'));
+  const tokensOnly = bundleCss(path.join(stylesDir, 'tokens.css'));
+  const componentsOnly = bundleCss(path.join(stylesDir, 'components.css'));
 
   await Promise.all([
-    fs.writeFile(path.join(destDir, "styles.min.css"), styles),
-    fs.writeFile(path.join(destDir, "tokens.min.css"), tokensOnly),
-    fs.writeFile(path.join(destDir, "components.min.css"), componentsOnly),
+    fs.writeFile(path.join(destDir, 'styles.min.css'), styles),
+    fs.writeFile(path.join(destDir, 'tokens.min.css'), tokensOnly),
+    fs.writeFile(path.join(destDir, 'components.min.css'), componentsOnly)
   ]);
 
   await copyDirIfExists(
-    path.join(publicDir, "fonts"),
-    path.join(destDir, "fonts"),
+    path.join(publicDir, 'fonts'),
+    path.join(destDir, 'fonts')
   );
   await copyDirIfExists(
-    path.join(publicDir, "brand"),
-    path.join(destDir, "brand"),
+    path.join(publicDir, 'brand'),
+    path.join(destDir, 'brand')
   );
 
   const files = await walk(destDir);
   const manifest = {};
   for (const rel of files) {
-    if (rel === "manifest.json") continue;
+    if (rel === 'manifest.json') continue;
     manifest[rel] = await hashFile(path.join(destDir, rel));
   }
   await fs.writeFile(
-    path.join(destDir, "manifest.json"),
+    path.join(destDir, 'manifest.json'),
     JSON.stringify(
       { generatedAt: new Date().toISOString(), files: manifest },
       null,
-      2,
-    ) + "\n",
+      2
+    ) + '\n'
   );
 }
 
 async function writeEntryCss() {
   const entry = "@import 'tokens.css';\n@import 'components.css';\n";
-  await fs.writeFile(path.join(stylesDir, "_cdn-entry.css"), entry);
+  await fs.writeFile(path.join(stylesDir, '_cdn-entry.css'), entry);
 }
 
 async function removeEntryCss() {
   try {
-    await fs.unlink(path.join(stylesDir, "_cdn-entry.css"));
+    await fs.unlink(path.join(stylesDir, '_cdn-entry.css'));
   } catch {}
 }
 
 async function main() {
   const version = await readVersion();
   const aliasDirs = getAliasDirs(version);
-  const stagingDir = path.join(repoRoot, "dist-cdn", ".uikit-staging");
+  const stagingDir = path.join(repoRoot, 'dist-cdn', '.uikit-staging');
 
   await fs.rm(outRoot, { recursive: true, force: true });
   await fs.rm(stagingDir, { recursive: true, force: true });
@@ -185,11 +184,11 @@ async function main() {
 
   const rel = path.relative(repoRoot, outRoot);
   console.log(
-    `[build-cdn] wrote ${rel}/ (version ${version}, aliases: ${aliasDirs.join(", ")})`,
+    `[build-cdn] wrote ${rel}/ (version ${version}, aliases: ${aliasDirs.join(', ')})`
   );
 }
 
-main().catch((err) => {
-  console.error("[build-cdn] failed:", err);
+main().catch(err => {
+  console.error('[build-cdn] failed:', err);
   process.exit(1);
 });

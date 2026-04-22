@@ -1,25 +1,25 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
-export type HelpBlockVariant = "default" | "error" | "success";
+export type HelpBlockVariant = 'default' | 'error' | 'success';
 
 export interface HelpBlockProps extends React.HTMLAttributes<HTMLParagraphElement> {
   variant?: HelpBlockVariant;
 }
 
 export const HelpBlock = forwardRef<HTMLParagraphElement, HelpBlockProps>(
-  ({ variant = "default", className = "", children, ...rest }, ref) => {
+  ({ variant = 'default', className = '', children, ...rest }, ref) => {
     const classes = [
-      "form-help",
-      variant !== "default" && `form-help--${variant}`,
-      className,
+      'form-help',
+      variant !== 'default' && `form-help--${variant}`,
+      className
     ]
       .filter(Boolean)
-      .join(" ");
+      .join(' ');
     return (
       <p ref={ref} className={classes} {...rest}>
         {children}
       </p>
     );
-  },
+  }
 );
-HelpBlock.displayName = "HelpBlock";
+HelpBlock.displayName = 'HelpBlock';

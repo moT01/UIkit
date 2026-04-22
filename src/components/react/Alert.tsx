@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
-export type AlertVariant = "info" | "success" | "warning" | "danger";
+export type AlertVariant = 'info' | 'success' | 'warning' | 'danger';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: AlertVariant;
@@ -10,23 +10,23 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   (
-    { variant = "info", title, icon, className = "", children, ...rest },
-    ref,
+    { variant = 'info', title, icon, className = '', children, ...rest },
+    ref
   ) => {
-    const classes = ["alert", `alert--${variant}`, className]
+    const classes = ['alert', `alert--${variant}`, className]
       .filter(Boolean)
-      .join(" ");
+      .join(' ');
     const structured = title !== undefined || icon !== undefined;
     return (
-      <div ref={ref} role="alert" className={classes} {...rest}>
+      <div ref={ref} role='alert' className={classes} {...rest}>
         {icon !== undefined && (
-          <span className="alert__icon" aria-hidden="true">
+          <span className='alert__icon' aria-hidden='true'>
             {icon}
           </span>
         )}
         {structured ? (
-          <div className="alert__body">
-            {title !== undefined && <p className="alert__title">{title}</p>}
+          <div className='alert__body'>
+            {title !== undefined && <p className='alert__title'>{title}</p>}
             {children}
           </div>
         ) : (
@@ -34,6 +34,6 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
         )}
       </div>
     );
-  },
+  }
 );
-Alert.displayName = "Alert";
+Alert.displayName = 'Alert';

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export interface TooltipProps {
   content: React.ReactNode;
@@ -9,16 +9,16 @@ export interface TooltipProps {
 export const Tooltip = ({
   content,
   children,
-  className = "",
+  className = ''
 }: TooltipProps) => {
-  const classes = ["tip", className].filter(Boolean).join(" ");
+  const classes = ['tip', className].filter(Boolean).join(' ');
   return (
     <span className={classes} tabIndex={0}>
       {children}
-      <span role="tooltip" className="tip__bubble">
+      <span role='tooltip' className='tip__bubble'>
         {content}
       </span>
     </span>
   );
 };
-Tooltip.displayName = "Tooltip";
+Tooltip.displayName = 'Tooltip';

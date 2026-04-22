@@ -1,12 +1,12 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   invalid?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className = "", invalid, ...rest }, ref) => {
-    const classes = ["input", className].filter(Boolean).join(" ");
+  ({ className = '', invalid, ...rest }, ref) => {
+    const classes = ['input', className].filter(Boolean).join(' ');
     return (
       <input
         ref={ref}
@@ -15,6 +15,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {...rest}
       />
     );
-  },
+  }
 );
-Input.displayName = "Input";
+Input.displayName = 'Input';

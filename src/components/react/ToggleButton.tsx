@@ -1,10 +1,10 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState } from 'react';
 
-export type ToggleButtonSize = "sm" | "md" | "lg";
+export type ToggleButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ToggleButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "onChange"
+  'onChange'
 > {
   pressed?: boolean;
   defaultPressed?: boolean;
@@ -18,27 +18,27 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
       pressed,
       defaultPressed,
       onPressedChange,
-      size = "md",
-      className = "",
+      size = 'md',
+      className = '',
       onClick,
       children,
       ...rest
     },
-    ref,
+    ref
   ) => {
     const [internal, setInternal] = useState(defaultPressed ?? false);
     const isControlled = pressed !== undefined;
-    const value = isControlled ? (pressed as boolean) : internal;
+    const value = isControlled ? pressed : internal;
 
     const classes = [
-      "toggle-btn",
-      size !== "md" && `toggle-btn--${size}`,
-      className,
+      'toggle-btn',
+      size !== 'md' && `toggle-btn--${size}`,
+      className
     ]
       .filter(Boolean)
-      .join(" ");
+      .join(' ');
 
-    const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = e => {
       const next = !value;
       if (!isControlled) setInternal(next);
       onPressedChange?.(next);
@@ -48,7 +48,7 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
     return (
       <button
         ref={ref}
-        type="button"
+        type='button'
         aria-pressed={value}
         className={classes}
         onClick={handleClick}
@@ -57,6 +57,6 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
         {children}
       </button>
     );
-  },
+  }
 );
-ToggleButton.displayName = "ToggleButton";
+ToggleButton.displayName = 'ToggleButton';

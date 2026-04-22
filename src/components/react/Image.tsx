@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
 export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   caption?: React.ReactNode;
@@ -6,8 +6,8 @@ export interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 }
 
 export const Image = forwardRef<HTMLImageElement, ImageProps>(
-  ({ caption, className = "", figureClassName = "", alt, ...rest }, ref) => {
-    const imgClasses = ["img--responsive", className].filter(Boolean).join(" ");
+  ({ caption, className = '', figureClassName = '', alt, ...rest }, ref) => {
+    const imgClasses = ['img--responsive', className].filter(Boolean).join(' ');
     if (caption === undefined) {
       return <img ref={ref} alt={alt} className={imgClasses} {...rest} />;
     }
@@ -17,6 +17,6 @@ export const Image = forwardRef<HTMLImageElement, ImageProps>(
         <figcaption>{caption}</figcaption>
       </figure>
     );
-  },
+  }
 );
-Image.displayName = "Image";
+Image.displayName = 'Image';

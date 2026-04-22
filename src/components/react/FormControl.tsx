@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef } from 'react';
 
 type CommonProps = {
   className?: string;
@@ -6,13 +6,13 @@ type CommonProps = {
 };
 
 type InputBased = CommonProps &
-  Omit<React.InputHTMLAttributes<HTMLInputElement>, "as"> & {
-    as?: "input";
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, 'as'> & {
+    as?: 'input';
   };
 
 type TextareaBased = CommonProps &
-  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "as"> & {
-    as: "textarea";
+  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'as'> & {
+    as: 'textarea';
   };
 
 export type FormControlProps = InputBased | TextareaBased;
@@ -22,18 +22,18 @@ export const FormControl = forwardRef<
   FormControlProps
 >((props, ref) => {
   const {
-    as = "input",
-    className = "",
+    as = 'input',
+    className = '',
     invalid,
     ...rest
   } = props as CommonProps & {
-    as?: "input" | "textarea";
+    as?: 'input' | 'textarea';
     [key: string]: unknown;
   };
-  const isTextarea = as === "textarea";
-  const classes = ["input", isTextarea && "input--textarea", className]
+  const isTextarea = as === 'textarea';
+  const classes = ['input', isTextarea && 'input--textarea', className]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
   const ariaInvalid = invalid || undefined;
   if (isTextarea) {
     return (
@@ -54,4 +54,4 @@ export const FormControl = forwardRef<
     />
   );
 });
-FormControl.displayName = "FormControl";
+FormControl.displayName = 'FormControl';

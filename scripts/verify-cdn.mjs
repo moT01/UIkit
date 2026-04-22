@@ -10,17 +10,17 @@
  * Exits non-zero on any failure.
  */
 
-import { promises as fs } from "node:fs";
-import { createHash } from "node:crypto";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { promises as fs } from 'node:fs';
+import { createHash } from 'node:crypto';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const repoRoot = path.resolve(__dirname, "..");
-const outRoot = path.join(repoRoot, "dist-cdn", "uikit");
+const repoRoot = path.resolve(__dirname, '..');
+const outRoot = path.join(repoRoot, 'dist-cdn', 'uikit');
 
 const FAILURES = [];
-const fail = (msg) => FAILURES.push(msg);
+const fail = msg => FAILURES.push(msg);
 
 async function exists(p) {
   try {
@@ -33,11 +33,11 @@ async function exists(p) {
 
 async function hashFile(p) {
   const buf = await fs.readFile(p);
-  return createHash("sha256").update(buf).digest("hex");
+  return createHash('sha256').update(buf).digest('hex');
 }
 
 function getAliasDirs(version) {
-  const aliases = ["latest", version];
+  const aliases = ['latest', version];
   const stable = version.match(/^(\d+)\.(\d+)\.(\d+)$/);
   if (!stable) return aliases;
 
@@ -49,7 +49,11 @@ function getAliasDirs(version) {
 async function walk(dir, basePath = dir, skipTopLevelDirs = new Set()) {
   const out = [];
   for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
-    if (dir === basePath && entry.isDirectory() && skipTopLevelDirs.has(entry.name)) {
+    if (
+      dir === basePath &&
+      entry.isDirectory() &&
+      skipTopLevelDirs.has(entry.name)
+    ) {
       continue;
     }
     const full = path.join(dir, entry.name);
@@ -63,22 +67,22 @@ async function walk(dir, basePath = dir, skipTopLevelDirs = new Set()) {
 }
 
 async function checkFontUrlRewrite(cssPath) {
-  const css = await fs.readFile(cssPath, "utf8");
+  const css = await fs.readFile(cssPath, 'utf8');
   const bad = css.match(/url\(\s*["']?\/fonts\//g);
   if (bad) {
     fail(
-      `${path.relative(repoRoot, cssPath)}: found ${bad.length} absolute /fonts/ urls (must be ./fonts/...)`,
+      `${path.relative(repoRoot, cssPath)}: found ${bad.length} absolute /fonts/ urls (must be ./fonts/...)`
     );
   }
   const refs = [
-    ...css.matchAll(/url\(\s*["']?(\.\/fonts\/[^"')]+)["']?\s*\)/g),
-  ].map((m) => m[1]);
+    ...css.matchAll(/url\(\s*["']?(\.\/fonts\/[^"')]+)["']?\s*\)/g)
+  ].map(m => m[1]);
   const cssDir = path.dirname(cssPath);
   for (const ref of refs) {
     const absolute = path.join(cssDir, ref);
     if (!(await exists(absolute))) {
       fail(
-        `${path.relative(repoRoot, cssPath)}: references missing font ${ref}`,
+        `${path.relative(repoRoot, cssPath)}: references missing font ${ref}`
       );
     }
   }
@@ -86,12 +90,12 @@ async function checkFontUrlRewrite(cssPath) {
 }
 
 async function verifyManifest(dir) {
-  const manifestPath = path.join(dir, "manifest.json");
+  const manifestPath = path.join(dir, 'manifest.json');
   if (!(await exists(manifestPath))) {
     fail(`${path.relative(repoRoot, manifestPath)} missing`);
     return;
   }
-  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
   for (const [rel, meta] of Object.entries(manifest.files)) {
     const p = path.join(dir, rel);
     if (!(await exists(p))) {
@@ -101,7 +105,7 @@ async function verifyManifest(dir) {
     const actual = await hashFile(p);
     if (actual !== meta.sha256) {
       fail(
-        `manifest hash mismatch for ${rel}: expected ${meta.sha256}, got ${actual}`,
+        `manifest hash mismatch for ${rel}: expected ${meta.sha256}, got ${actual}`
       );
     }
   }
@@ -113,22 +117,22 @@ async function verifyDir(dir, label) {
     return;
   }
   const required = [
-    "styles.min.css",
-    "tokens.min.css",
-    "components.min.css",
-    "fonts",
-    "manifest.json",
+    'styles.min.css',
+    'tokens.min.css',
+    'components.min.css',
+    'fonts',
+    'manifest.json'
   ];
   for (const r of required) {
     if (!(await exists(path.join(dir, r)))) fail(`${label}: missing ${r}`);
   }
-  for (const css of ["styles.min.css", "tokens.min.css"]) {
+  for (const css of ['styles.min.css', 'tokens.min.css']) {
     const p = path.join(dir, css);
     if (await exists(p)) {
       const refs = await checkFontUrlRewrite(p);
-      if (css === "styles.min.css" && refs < 4) {
+      if (css === 'styles.min.css' && refs < 4) {
         fail(
-          `${label}/${css}: expected at least 4 font url() refs, found ${refs}`,
+          `${label}/${css}: expected at least 4 font url() refs, found ${refs}`
         );
       }
     }
@@ -141,7 +145,7 @@ async function verifyMirror(sourceDir, targetDir, label, aliasDirs) {
 
   const [sourceFiles, targetFiles] = await Promise.all([
     walk(sourceDir, sourceDir, new Set(aliasDirs)),
-    walk(targetDir),
+    walk(targetDir)
   ]);
 
   const sourceJson = JSON.stringify(sourceFiles);
@@ -154,7 +158,7 @@ async function verifyMirror(sourceDir, targetDir, label, aliasDirs) {
   for (const rel of sourceFiles) {
     const [sourceHash, targetHash] = await Promise.all([
       hashFile(path.join(sourceDir, rel)),
-      hashFile(path.join(targetDir, rel)),
+      hashFile(path.join(targetDir, rel))
     ]);
     if (sourceHash !== targetHash) {
       fail(`${label}: ${rel} does not match top-level bundle`);
@@ -164,11 +168,11 @@ async function verifyMirror(sourceDir, targetDir, label, aliasDirs) {
 
 async function main() {
   const pkg = JSON.parse(
-    await fs.readFile(path.join(repoRoot, "package.json"), "utf8"),
+    await fs.readFile(path.join(repoRoot, 'package.json'), 'utf8')
   );
   const aliasDirs = getAliasDirs(pkg.version);
 
-  await verifyDir(outRoot, "dist-cdn/uikit");
+  await verifyDir(outRoot, 'dist-cdn/uikit');
   for (const alias of aliasDirs) {
     const aliasPath = path.join(outRoot, alias);
     const label = `dist-cdn/uikit/${alias}`;
@@ -177,14 +181,14 @@ async function main() {
   }
 
   if (FAILURES.length) {
-    console.error("[verify-cdn] failed:");
-    for (const f of FAILURES) console.error("  - " + f);
+    console.error('[verify-cdn] failed:');
+    for (const f of FAILURES) console.error('  - ' + f);
     process.exit(1);
   }
-  console.log("[verify-cdn] ok");
+  console.log('[verify-cdn] ok');
 }
 
-main().catch((err) => {
-  console.error("[verify-cdn] crashed:", err);
+main().catch(err => {
+  console.error('[verify-cdn] crashed:', err);
   process.exit(1);
 });

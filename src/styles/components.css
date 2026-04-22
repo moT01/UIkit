@@ -32,14 +32,14 @@
   color: var(--background-primary);
 }
 .btn:active::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: var(--gray-90);
   opacity: 0.2;
 }
 .btn:disabled,
-.btn[aria-disabled="true"] {
+.btn[aria-disabled='true'] {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -111,7 +111,7 @@
   width: 100%;
 }
 
-.btn[aria-busy="true"] {
+.btn[aria-busy='true'] {
   cursor: progress;
 }
 .btn__spinner {
@@ -149,7 +149,7 @@
     color 120ms,
     border-color 120ms;
 }
-.toggle-btn[aria-pressed="true"] {
+.toggle-btn[aria-pressed='true'] {
   background: var(--foreground-primary);
   color: var(--background-primary);
   border-color: var(--foreground-primary);
@@ -236,7 +236,7 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-.input[aria-invalid="true"] {
+.input[aria-invalid='true'] {
   border-color: var(--danger-color);
 }
 .input--textarea {
@@ -282,7 +282,7 @@
   color: var(--foreground-primary);
   cursor: pointer;
 }
-.check input[type="checkbox"] {
+.check input[type='checkbox'] {
   width: 18px;
   height: 18px;
   margin-top: 3px;
@@ -603,7 +603,7 @@
 .tabs__tab:hover {
   background: var(--background-tertiary);
 }
-.tabs__tab[aria-selected="true"] {
+.tabs__tab[aria-selected='true'] {
   font-weight: 700;
   background: var(--foreground-quaternary);
   color: var(--background-secondary);
@@ -658,7 +658,7 @@
   text-decoration: none;
 }
 .dropdown__item:hover,
-.dropdown__item[aria-current="true"],
+.dropdown__item[aria-current='true'],
 .dropdown__item--active {
   background: var(--background-tertiary);
   color: var(--foreground-primary);
@@ -702,7 +702,7 @@
   background: rgba(0, 0, 0, 0.55);
   overflow: auto;
 }
-.modal[data-open="true"],
+.modal[data-open='true'],
 .modal--open {
   display: flex;
 }

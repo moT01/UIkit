@@ -1,10 +1,13 @@
 type Block = HTMLElement;
 
 function activate(block: Block, tab: string): void {
-  block.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((btn) => {
-    btn.setAttribute('aria-selected', btn.dataset.tab === tab ? 'true' : 'false');
+  block.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach(btn => {
+    btn.setAttribute(
+      'aria-selected',
+      btn.dataset.tab === tab ? 'true' : 'false'
+    );
   });
-  block.querySelectorAll<HTMLElement>('[data-panel]').forEach((panel) => {
+  block.querySelectorAll<HTMLElement>('[data-panel]').forEach(panel => {
     panel.classList.toggle('is-active', panel.dataset.panel === tab);
   });
 }
@@ -16,8 +19,10 @@ function visibleText(el: HTMLElement | null): string {
 }
 
 function wire(block: Block): void {
-  block.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((btn) => {
-    btn.addEventListener('click', () => activate(block, btn.dataset.tab ?? 'react'));
+  block.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach(btn => {
+    btn.addEventListener('click', () =>
+      activate(block, btn.dataset.tab ?? 'react')
+    );
   });
 
   const copyBtn = block.querySelector<HTMLButtonElement>('[data-copy]');

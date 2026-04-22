@@ -1,42 +1,49 @@
 ---
 import { nav } from '../data/nav.ts';
 ---
-<aside class="sidebar" aria-label="Component navigation">
-  <div class="sidebar__intro">
-    <p class="sidebar__intro-kicker">fCC UIKit</p>
-    <p class="sidebar__intro-title">Component storybook</p>
+
+<aside class='sidebar' aria-label='Component navigation'>
+  <div class='sidebar__intro'>
+    <p class='sidebar__intro-kicker'>fCC UIKit</p>
+    <p class='sidebar__intro-title'>Component storybook</p>
   </div>
 
-  {nav.map((section) => (
-    <nav class="sidebar__section" aria-label={section.label}>
-      <p class="sidebar__section-title">{section.label}</p>
-      <ul class="sidebar__list">
-        {section.items.map((item) => (
-          <li>
-            <a
-              class="sidebar__link"
-              href={item.href}
-              data-sidebar-link
-              data-target={item.id}
-            >{item.label}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  ))}
+  {
+    nav.map(section => (
+      <nav class='sidebar__section' aria-label={section.label}>
+        <p class='sidebar__section-title'>{section.label}</p>
+        <ul class='sidebar__list'>
+          {section.items.map(item => (
+            <li>
+              <a
+                class='sidebar__link'
+                href={item.href}
+                data-sidebar-link
+                data-target={item.id}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ))
+  }
 
-  <p class="sidebar__hint">Press <kbd class="kbd">/</kbd> to search</p>
+  <p class='sidebar__hint'>Press <kbd class='kbd'>/</kbd> to search</p>
 </aside>
 
 <script is:inline>
   (function () {
     const links = Array.from(document.querySelectorAll('[data-sidebar-link]'));
     if (!links.length) return;
-    const byTarget = new Map(links.map((a) => [a.getAttribute('data-target'), a]));
+    const byTarget = new Map(
+      links.map(a => [a.getAttribute('data-target'), a])
+    );
     const path = window.location.pathname.replace(/\/$/, '') || '/';
 
     // Highlight the current page for cross-page links (guides landing/sub-pages).
-    links.forEach((a) => {
+    links.forEach(a => {
       const href = a.getAttribute('href') || '';
       const hrefPath = href.split('#')[0].replace(/\/$/, '') || '/';
       if (hrefPath === path && !href.includes('#')) {
@@ -46,22 +53,27 @@ import { nav } from '../data/nav.ts';
 
     // On the storybook page, also track the current section via scroll.
     if (path === '/' || path === '') {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const id = entry.target.getAttribute('id');
-          if (!id) return;
-          const match = byTarget.get(id);
-          if (!match) return;
-          links.forEach((a) => {
-            const href = a.getAttribute('href') || '';
-            if (href.startsWith('/#')) a.classList.remove('is-active');
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const id = entry.target.getAttribute('id');
+            if (!id) return;
+            const match = byTarget.get(id);
+            if (!match) return;
+            links.forEach(a => {
+              const href = a.getAttribute('href') || '';
+              if (href.startsWith('/#')) a.classList.remove('is-active');
+            });
+            match.classList.add('is-active');
           });
-          match.classList.add('is-active');
-        });
-      }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
 
-      document.querySelectorAll('section[id]').forEach((s) => observer.observe(s));
+      document
+        .querySelectorAll('section[id]')
+        .forEach(s => observer.observe(s));
     }
   })();
 </script>
