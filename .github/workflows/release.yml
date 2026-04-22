@@ -4,54 +4,59 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: Git ref to release
+        description: Git ref of UIkit to release
         required: true
         default: main
         type: string
-      draft:
-        description: Create a draft release
-        required: true
-        default: true
-        type: boolean
-      prerelease:
-        description: Mark the release as a prerelease
-        required: true
-        default: false
-        type: boolean
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ inputs.ref }}
-          fetch-depth: 0
+          path: uikit
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
         with:
           version: 10
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: uikit/pnpm-lock.yaml
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test
-      - run: pnpm build:cdn
-      - run: pnpm verify:cdn
-      - run: pnpm build
+      - name: Install
+        working-directory: uikit
+        run: pnpm install --frozen-lockfile
 
-      - name: Read package version
+      - name: Lint
+        working-directory: uikit
+        run: pnpm lint
+
+      - name: Test
+        working-directory: uikit
+        run: pnpm test
+
+      - name: Build CDN bundle
+        working-directory: uikit
+        run: pnpm build:cdn
+
+      - name: Verify CDN bundle
+        working-directory: uikit
+        run: pnpm verify:cdn
+
+      - name: Read UIkit version
         id: version
-        run: |
-          echo "value=$(node -p 'JSON.parse(require(\"fs\").readFileSync(\"package.json\", \"utf8\")).version')" >> "$GITHUB_OUTPUT"
+        working-directory: uikit
+        run: echo "value=$(node -p 'require(\"./package.json\").version')" >> "$GITHUB_OUTPUT"
 
-      - name: Validate package version
+      - name: Validate version is semver x.y.z
         env:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
@@ -60,71 +65,46 @@ jobs:
             exit 1
           fi
 
-      - name: Package release assets
-        env:
-          VERSION: ${{ steps.version.outputs.value }}
-        run: |
-          mkdir -p release-assets
-          tar -C dist-cdn -czf "release-assets/fcc-uikit-${VERSION}.tar.gz" uikit
-          (
-            cd dist-cdn
-            zip -qr "../release-assets/fcc-uikit-${VERSION}.zip" uikit
-          )
-          (
-            cd release-assets
-            shasum -a 256 * > "fcc-uikit-${VERSION}-sha256.txt"
-          )
-
-      - uses: actions/upload-artifact@v4
+      - name: Checkout cdn repo
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          name: release-assets-${{ steps.version.outputs.value }}
-          path: release-assets/
-          if-no-files-found: error
-          retention-days: 30
+          repository: freeCodeCamp/cdn
+          token: ${{ secrets.CDN_PUSH_TOKEN }}
+          path: cdn
+          fetch-depth: 1
 
-      - name: Ensure release tag is unused
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.value }}
+      - name: Sync uikit bundle into cdn/build/uikit
         run: |
-          tag="v${VERSION}"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "::error::Release ${tag} already exists"
-            exit 1
-          fi
+          mkdir -p cdn/build/uikit
+          rsync -a --delete uikit/dist-cdn/uikit/ cdn/build/uikit/
 
-      - name: Create GitHub release
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.version.outputs.value }}
-        run: |
-          tag="v${VERSION}"
-          args=(
-            release-assets/*
-            --target "${{ inputs.ref }}"
-            --title "$tag"
-            --generate-notes
-          )
+      - name: Open PR on cdn
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
+        with:
+          path: cdn
+          token: ${{ secrets.CDN_PUSH_TOKEN }}
+          branch: release/uikit-v${{ steps.version.outputs.value }}
+          base: main
+          commit-message: 'chore(uikit): publish v${{ steps.version.outputs.value }}'
+          title: 'chore(uikit): publish v${{ steps.version.outputs.value }}'
+          body: |
+            Automated publish of `fcc-uikit` v${{ steps.version.outputs.value }}
+            from `freeCodeCamp/UIkit@${{ inputs.ref }}`.
 
-          if [ "${{ inputs.draft }}" = "true" ]; then
-            args+=(--draft)
-          fi
+            Updates `build/uikit/` with the rolling bundle plus the versioned
+            aliases (`latest/`, `<major>/`, `<major>.<minor>/`, `<version>/`).
+          delete-branch: true
+          signoff: true
 
-          if [ "${{ inputs.prerelease }}" = "true" ]; then
-            args+=(--prerelease)
-          fi
-
-          gh release create "$tag" "${args[@]}"
-
-      - name: Write release handoff
+      - name: Write release summary
         env:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
           {
-            echo "## Release ready"
+            echo "## Release dispatched"
             echo
-            echo "- Tag: \`v${VERSION}\`"
-            echo "- Ref: \`${{ inputs.ref }}\`"
-            echo "- Assets: \`fcc-uikit-${VERSION}.tar.gz\`, \`fcc-uikit-${VERSION}.zip\`, \`fcc-uikit-${VERSION}-sha256.txt\`"
-            echo "- Next step: extract the \`uikit/\` folder and copy it into \`freeCodeCamp/cdn/build/uikit/\`."
+            echo "- UIkit ref: \`${{ inputs.ref }}\`"
+            echo "- UIkit version: \`v${VERSION}\`"
+            echo "- Target: freeCodeCamp/cdn branch \`release/uikit-v${VERSION}\`"
+            echo "- Next step: review and merge the PR opened on \`freeCodeCamp/cdn\`."
           } >> "$GITHUB_STEP_SUMMARY"
