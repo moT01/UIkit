@@ -5,7 +5,7 @@
  *   - No absolute `/fonts/` urls in any .min.css.
  *   - Every `./fonts/...` reference resolves to a real file.
  *   - manifest.json sha256 hashes match recomputed file hashes.
- *   - The versioned subtree mirrors the top-level bundle.
+ *   - The alias subtrees mirror the top-level bundle.
  *
  * Exits non-zero on any failure.
  */
@@ -34,6 +34,32 @@ async function exists(p) {
 async function hashFile(p) {
   const buf = await fs.readFile(p);
   return createHash("sha256").update(buf).digest("hex");
+}
+
+function getAliasDirs(version) {
+  const aliases = ["latest", version];
+  const stable = version.match(/^(\d+)\.(\d+)\.(\d+)$/);
+  if (!stable) return aliases;
+
+  const [, major, minor] = stable;
+  aliases.splice(1, 0, major, `${major}.${minor}`);
+  return [...new Set(aliases)];
+}
+
+async function walk(dir, basePath = dir, skipTopLevelDirs = new Set()) {
+  const out = [];
+  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+    if (dir === basePath && entry.isDirectory() && skipTopLevelDirs.has(entry.name)) {
+      continue;
+    }
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...(await walk(full, basePath, skipTopLevelDirs)));
+    } else if (entry.isFile()) {
+      out.push(path.relative(basePath, full));
+    }
+  }
+  return out.sort();
 }
 
 async function checkFontUrlRewrite(cssPath) {
@@ -110,15 +136,45 @@ async function verifyDir(dir, label) {
   await verifyManifest(dir);
 }
 
+async function verifyMirror(sourceDir, targetDir, label, aliasDirs) {
+  if (!(await exists(sourceDir)) || !(await exists(targetDir))) return;
+
+  const [sourceFiles, targetFiles] = await Promise.all([
+    walk(sourceDir, sourceDir, new Set(aliasDirs)),
+    walk(targetDir),
+  ]);
+
+  const sourceJson = JSON.stringify(sourceFiles);
+  const targetJson = JSON.stringify(targetFiles);
+  if (sourceJson !== targetJson) {
+    fail(`${label}: file list does not match top-level bundle`);
+    return;
+  }
+
+  for (const rel of sourceFiles) {
+    const [sourceHash, targetHash] = await Promise.all([
+      hashFile(path.join(sourceDir, rel)),
+      hashFile(path.join(targetDir, rel)),
+    ]);
+    if (sourceHash !== targetHash) {
+      fail(`${label}: ${rel} does not match top-level bundle`);
+    }
+  }
+}
+
 async function main() {
   const pkg = JSON.parse(
     await fs.readFile(path.join(repoRoot, "package.json"), "utf8"),
   );
+  const aliasDirs = getAliasDirs(pkg.version);
+
   await verifyDir(outRoot, "dist-cdn/uikit");
-  await verifyDir(
-    path.join(outRoot, pkg.version),
-    `dist-cdn/uikit/${pkg.version}`,
-  );
+  for (const alias of aliasDirs) {
+    const aliasPath = path.join(outRoot, alias);
+    const label = `dist-cdn/uikit/${alias}`;
+    await verifyDir(aliasPath, label);
+    await verifyMirror(outRoot, aliasPath, label, aliasDirs);
+  }
 
   if (FAILURES.length) {
     console.error("[verify-cdn] failed:");

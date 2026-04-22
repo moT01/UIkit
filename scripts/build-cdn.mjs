@@ -10,6 +10,9 @@
  *     fonts/                    copied verbatim from public/fonts/
  *     brand/                    copied verbatim from public/brand/ (if present)
  *     manifest.json             sha256 + byte size per file
+ *     latest/                   full mirror of the current release
+ *     <major>/                  latest release in that major line
+ *     <major>.<minor>/          latest release in that minor line
  *     <pkg.version>/            full mirror pinned to package.json version
  *
  * All `url('/fonts/...')` refs are rewritten to `url('./fonts/...')` so the
@@ -59,6 +62,16 @@ async function readVersion() {
   return pkg.version;
 }
 
+function getAliasDirs(version) {
+  const aliases = ["latest", version];
+  const stable = version.match(/^(\d+)\.(\d+)\.(\d+)$/);
+  if (!stable) return aliases;
+
+  const [, major, minor] = stable;
+  aliases.splice(1, 0, major, `${major}.${minor}`);
+  return [...new Set(aliases)];
+}
+
 async function copyDirIfExists(src, dest) {
   try {
     const stat = await fs.stat(src);
@@ -89,6 +102,15 @@ async function walk(dir, basePath = dir) {
     }
   }
   return out.sort();
+}
+
+async function copyDirContents(src, dest) {
+  await fs.mkdir(dest, { recursive: true });
+  for (const entry of await fs.readdir(src, { withFileTypes: true })) {
+    await fs.cp(path.join(src, entry.name), path.join(dest, entry.name), {
+      recursive: true,
+    });
+  }
 }
 
 async function writeBundle(destDir) {
@@ -142,20 +164,29 @@ async function removeEntryCss() {
 
 async function main() {
   const version = await readVersion();
+  const aliasDirs = getAliasDirs(version);
+  const stagingDir = path.join(repoRoot, "dist-cdn", ".uikit-staging");
 
   await fs.rm(outRoot, { recursive: true, force: true });
+  await fs.rm(stagingDir, { recursive: true, force: true });
   await fs.mkdir(outRoot, { recursive: true });
 
   await writeEntryCss();
   try {
-    await writeBundle(outRoot);
-    await writeBundle(path.join(outRoot, version));
+    await writeBundle(stagingDir);
+    await copyDirContents(stagingDir, outRoot);
+    for (const alias of aliasDirs) {
+      await fs.cp(stagingDir, path.join(outRoot, alias), { recursive: true });
+    }
   } finally {
     await removeEntryCss();
+    await fs.rm(stagingDir, { recursive: true, force: true });
   }
 
   const rel = path.relative(repoRoot, outRoot);
-  console.log(`[build-cdn] wrote ${rel}/ (version ${version})`);
+  console.log(
+    `[build-cdn] wrote ${rel}/ (version ${version}, aliases: ${aliasDirs.join(", ")})`,
+  );
 }
 
 main().catch((err) => {

@@ -1,0 +1,130 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Git ref to release
+        required: true
+        default: main
+        type: string
+      draft:
+        description: Create a draft release
+        required: true
+        default: true
+        type: boolean
+      prerelease:
+        description: Mark the release as a prerelease
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm build:cdn
+      - run: pnpm verify:cdn
+      - run: pnpm build
+
+      - name: Read package version
+        id: version
+        run: |
+          echo "value=$(node -p 'JSON.parse(require(\"fs\").readFileSync(\"package.json\", \"utf8\")).version')" >> "$GITHUB_OUTPUT"
+
+      - name: Validate package version
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::package.json version must be a full semver x.y.z value, got '$VERSION'"
+            exit 1
+          fi
+
+      - name: Package release assets
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          mkdir -p release-assets
+          tar -C dist-cdn -czf "release-assets/fcc-uikit-${VERSION}.tar.gz" uikit
+          (
+            cd dist-cdn
+            zip -qr "../release-assets/fcc-uikit-${VERSION}.zip" uikit
+          )
+          (
+            cd release-assets
+            shasum -a 256 * > "fcc-uikit-${VERSION}-sha256.txt"
+          )
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-assets-${{ steps.version.outputs.value }}
+          path: release-assets/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Ensure release tag is unused
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          tag="v${VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::error::Release ${tag} already exists"
+            exit 1
+          fi
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          tag="v${VERSION}"
+          args=(
+            release-assets/*
+            --target "${{ inputs.ref }}"
+            --title "$tag"
+            --generate-notes
+          )
+
+          if [ "${{ inputs.draft }}" = "true" ]; then
+            args+=(--draft)
+          fi
+
+          if [ "${{ inputs.prerelease }}" = "true" ]; then
+            args+=(--prerelease)
+          fi
+
+          gh release create "$tag" "${args[@]}"
+
+      - name: Write release handoff
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          {
+            echo "## Release ready"
+            echo
+            echo "- Tag: \`v${VERSION}\`"
+            echo "- Ref: \`${{ inputs.ref }}\`"
+            echo "- Assets: \`fcc-uikit-${VERSION}.tar.gz\`, \`fcc-uikit-${VERSION}.zip\`, \`fcc-uikit-${VERSION}-sha256.txt\`"
+            echo "- Next step: extract the \`uikit/\` folder and copy it into \`freeCodeCamp/cdn/build/uikit/\`."
+          } >> "$GITHUB_STEP_SUMMARY"

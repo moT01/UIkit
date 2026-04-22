@@ -106,13 +106,17 @@ export default function App() &#123;
             <p class="section__eyebrow">Step 03</p>
             <h2 class="section__title">Pin a version (optional)</h2>
             <p class="section__lede">
-              The unversioned URL tracks the latest release. For apps that
-              can't absorb breaking changes, point at a versioned copy.
+              The unversioned URL tracks the latest release. You can also opt
+              into explicit aliases for the current release, a major line, a
+              minor line, or one exact pinned version.
             </p>
             <div class="guide-block">
-              <p class="guide-block__title">Versioned URL</p>
-              <pre class="guide-pre"><code>@import url("https://cdn.freecodecamp.org/uikit/0.1.0/styles.min.css");</code></pre>
-              <p class="guide-meta">Each release ships a <code>/&lt;version&gt;/</code> subtree alongside the rolling latest.</p>
+              <p class="guide-block__title">Alias examples</p>
+              <pre class="guide-pre"><code>@import url("https://cdn.freecodecamp.org/uikit/latest/styles.min.css");
+@import url("https://cdn.freecodecamp.org/uikit/0/styles.min.css");
+@import url("https://cdn.freecodecamp.org/uikit/0.1/styles.min.css");
+@import url("https://cdn.freecodecamp.org/uikit/0.1.0/styles.min.css");</code></pre>
+              <p class="guide-meta">Each release ships a rolling latest plus <code>/latest/</code>, <code>/&lt;major&gt;/</code>, <code>/&lt;major&gt;.&lt;minor&gt;/</code>, and <code>/&lt;version&gt;/</code> mirrors.</p>
             </div>
           </section>
 

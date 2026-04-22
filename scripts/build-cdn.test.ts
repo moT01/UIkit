@@ -26,6 +26,36 @@ async function readPkgVersion(): Promise<string> {
   return JSON.parse(raw).version as string;
 }
 
+function getAliasDirs(version: string): string[] {
+  const aliases = ["latest", version];
+  const stable = version.match(/^(\d+)\.(\d+)\.(\d+)$/);
+  if (!stable) return aliases;
+
+  const [, major, minor] = stable;
+  aliases.splice(1, 0, major, `${major}.${minor}`);
+  return [...new Set(aliases)];
+}
+
+async function walk(
+  dir: string,
+  basePath = dir,
+  skipTopLevelDirs = new Set<string>(),
+): Promise<string[]> {
+  const out: string[] = [];
+  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+    if (dir === basePath && entry.isDirectory() && skipTopLevelDirs.has(entry.name)) {
+      continue;
+    }
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...(await walk(full, basePath, skipTopLevelDirs)));
+    } else if (entry.isFile()) {
+      out.push(path.relative(basePath, full));
+    }
+  }
+  return out.sort();
+}
+
 test("build-cdn produces the expected layout", async () => {
   const result = spawnSync("node", [buildScript], {
     cwd: repoRoot,
@@ -38,23 +68,48 @@ test("build-cdn produces the expected layout", async () => {
   );
 
   const version = await readPkgVersion();
+  const aliasDirs = getAliasDirs(version);
   const required = [
     "styles.min.css",
     "tokens.min.css",
     "components.min.css",
     "manifest.json",
     "fonts",
-    path.join(version, "styles.min.css"),
-    path.join(version, "tokens.min.css"),
-    path.join(version, "components.min.css"),
-    path.join(version, "manifest.json"),
-    path.join(version, "fonts"),
   ];
+  for (const alias of aliasDirs) {
+    required.push(
+      path.join(alias, "styles.min.css"),
+      path.join(alias, "tokens.min.css"),
+      path.join(alias, "components.min.css"),
+      path.join(alias, "manifest.json"),
+      path.join(alias, "fonts"),
+    );
+  }
   for (const rel of required) {
     assert.ok(
       await exists(path.join(outRoot, rel)),
       `dist-cdn/uikit/${rel} missing`,
     );
+  }
+});
+
+test("alias directories mirror the top-level bundle", async () => {
+  const version = await readPkgVersion();
+  const aliasDirs = getAliasDirs(version);
+  const topLevelFiles = await walk(outRoot, outRoot, new Set(aliasDirs));
+
+  for (const alias of aliasDirs) {
+    const aliasRoot = path.join(outRoot, alias);
+    const aliasFiles = await walk(aliasRoot);
+    assert.deepEqual(aliasFiles, topLevelFiles, `${alias} file list mismatch`);
+
+    for (const rel of topLevelFiles) {
+      const [topLevelBuf, aliasBuf] = await Promise.all([
+        fs.readFile(path.join(outRoot, rel)),
+        fs.readFile(path.join(aliasRoot, rel)),
+      ]);
+      assert.deepEqual(aliasBuf, topLevelBuf, `${alias}/${rel} mismatch`);
+    }
   }
 });
 
