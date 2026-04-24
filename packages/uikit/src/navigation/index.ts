@@ -1,5 +1,10 @@
 export { Combobox, filterItemsByLabel } from './Combobox';
 export type { ComboboxProps, ComboboxItem } from './Combobox';
+export { useAsyncComboboxItems } from './useAsyncComboboxItems';
+export type {
+  UseAsyncComboboxItemsOptions,
+  UseAsyncComboboxItemsReturn
+} from './useAsyncComboboxItems';
 export { Listbox } from './Listbox';
 export { Navbar } from './Navbar';
 export type { NavbarProps } from './Navbar';

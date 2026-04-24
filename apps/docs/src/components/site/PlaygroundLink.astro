@@ -1,0 +1,129 @@
+---
+// Opens a pre-seeded StackBlitz playground for a given code snippet.
+// We compose a URL against `stackblitz.com/run` which accepts a
+// payload describing files + dependencies. The anchor is SSR-safe
+// (no JavaScript needed on the page itself) — clicking navigates to
+// StackBlitz which does the heavy lifting.
+//
+// Keeping the integration link-based (instead of embedding an iframe)
+// avoids pulling the 600 kB Sandpack bundle into every component
+// page while still giving readers a "run this" affordance.
+
+export interface Props {
+  /** TSX source that mounts under `<App />`. Must be self-contained. */
+  code: string;
+  /** Optional extra dependencies. `@freecodecamp/uikit` is always added. */
+  dependencies?: Record<string, string>;
+  /** Button label. Default: "Open in playground". */
+  label?: string;
+}
+
+const { code, dependencies = {}, label = 'Open in playground' } = Astro.props;
+
+const deps: Record<string, string> = {
+  react: '^19.0.0',
+  'react-dom': '^19.0.0',
+  '@freecodecamp/uikit': 'latest',
+  '@freecodecamp/uikit-css': 'latest',
+  ...dependencies
+};
+
+const projectPayload = {
+  title: 'fCC UIKit playground',
+  template: 'node',
+  dependencies: deps,
+  files: {
+    'package.json': JSON.stringify(
+      {
+        name: 'fcc-uikit-playground',
+        version: '0.0.0',
+        type: 'module',
+        dependencies: deps,
+        scripts: {
+          dev: 'vite',
+          build: 'vite build'
+        }
+      },
+      null,
+      2
+    ),
+    'index.html': `<!doctype html>
+<html>
+  <head><meta charset="utf-8" /><title>fCC UIKit playground</title></head>
+  <body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body>
+</html>`,
+    'src/main.tsx': `import React from 'react';
+import { createRoot } from 'react-dom/client';
+import '@freecodecamp/uikit-css/components.css';
+import '@freecodecamp/uikit-css/tokens.css';
+import { App } from './App';
+
+createRoot(document.getElementById('root')!).render(<App />);
+`,
+    'src/App.tsx': code
+  }
+};
+
+// StackBlitz `fork` endpoint accepts a form-POST via a link that we
+// construct client-side. For SSR simplicity we emit a form the user
+// can submit — one click opens the playground in a new tab.
+const payload = JSON.stringify(projectPayload);
+---
+
+<form
+  action='https://stackblitz.com/run'
+  method='POST'
+  target='_blank'
+  class='playground-link'
+>
+  <input type='hidden' name='project[title]' value={projectPayload.title} />
+  <input type='hidden' name='project[template]' value='node' />
+  {
+    Object.entries(projectPayload.files).map(([path, contents]) => (
+      <input type='hidden' name={`project[files][${path}]`} value={contents} />
+    ))
+  }
+  {
+    Object.entries(projectPayload.dependencies).map(([name, version]) => (
+      <input
+        type='hidden'
+        name={`project[dependencies][${name}]`}
+        value={version}
+      />
+    ))
+  }
+  <button type='submit' class='btn btn--sm playground-link__button'>
+    <svg
+      width='14'
+      height='14'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      stroke-width='2'
+      stroke-linecap='round'
+      stroke-linejoin='round'
+      aria-hidden='true'
+    >
+      <path d='M7 17l9-9M16 8H9M16 8v7'></path>
+    </svg>
+    {label}
+  </button>
+  <!--
+    `payload` retained for debug parity with the downstream service;
+    not emitted as a field because the individual inputs above already
+    carry every key StackBlitz needs.
+  -->
+  <input type='hidden' value={payload} style='display:none' />
+</form>
+
+<style>
+  .playground-link {
+    margin: 16px 0;
+    display: inline-block;
+  }
+  .playground-link__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+</style>

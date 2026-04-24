@@ -32,6 +32,26 @@ export interface ComboboxProps extends Omit<
   inputValue?: string;
   placeholder?: string;
   disabled?: boolean;
+  /**
+   * When true, render a `data-part="loading"` row instead of empty/items.
+   * Useful during async fetches; pair with `useAsyncComboboxItems` for
+   * debounce + cancellation.
+   */
+  loading?: boolean;
+  /**
+   * Render a `data-part="error"` row with this message. Takes priority
+   * over the empty state so transient fetch errors surface clearly.
+   */
+  error?: React.ReactNode;
+  /**
+   * Message for the empty state. Rendered when `items.length === 0`
+   * and we're not loading. Defaults to "No results".
+   */
+  emptyMessage?: React.ReactNode;
+  /**
+   * Message for the loading state. Defaults to "Loading…".
+   */
+  loadingMessage?: React.ReactNode;
   onValueChange?: (value: string) => void;
   onInputValueChange?: (inputValue: string) => void;
   renderItem?: (item: ComboboxItem) => React.ReactNode;
@@ -47,6 +67,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       inputValue,
       placeholder,
       disabled,
+      loading,
+      error,
+      emptyMessage,
+      loadingMessage,
       onValueChange,
       onInputValueChange,
       renderItem,
@@ -62,6 +86,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const rootId = id ?? `combobox-${reactId}`;
     const listId = `${rootId}-listbox`;
     const classes = ['combobox', className].filter(Boolean).join(' ');
+    const showLoading = Boolean(loading);
+    const showError = !showLoading && error !== undefined && error !== null;
+    const showEmpty = !showLoading && !showError && items.length === 0;
     return (
       <div ref={ref} id={rootId} className={classes} data-part='root' {...rest}>
         <input
@@ -85,26 +112,64 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           role='listbox'
           className='combobox__list'
           data-part='listbox'
+          aria-busy={showLoading ? true : undefined}
         >
-          {items.map(item => {
-            const selected = value === item.value;
-            return (
-              <li
-                key={item.value}
-                role='option'
-                className='combobox__item'
-                data-part='item'
-                data-value={item.value}
-                aria-selected={selected}
-                aria-disabled={item.disabled ? true : undefined}
-                onClick={
-                  item.disabled ? undefined : () => onValueChange?.(item.value)
-                }
-              >
-                {renderItem ? renderItem(item) : item.label}
-              </li>
-            );
-          })}
+          {showLoading && (
+            <li
+              className='combobox__item combobox__item--status'
+              data-part='loading'
+              role='option'
+              aria-disabled='true'
+              aria-selected='false'
+            >
+              {loadingMessage ?? 'Loading…'}
+            </li>
+          )}
+          {showError && (
+            <li
+              className='combobox__item combobox__item--status'
+              data-part='error'
+              role='option'
+              aria-disabled='true'
+              aria-selected='false'
+            >
+              {error}
+            </li>
+          )}
+          {showEmpty && (
+            <li
+              className='combobox__item combobox__item--status'
+              data-part='empty'
+              role='option'
+              aria-disabled='true'
+              aria-selected='false'
+            >
+              {emptyMessage ?? 'No results'}
+            </li>
+          )}
+          {!showLoading &&
+            !showError &&
+            items.map(item => {
+              const selected = value === item.value;
+              return (
+                <li
+                  key={item.value}
+                  role='option'
+                  className='combobox__item'
+                  data-part='item'
+                  data-value={item.value}
+                  aria-selected={selected}
+                  aria-disabled={item.disabled ? true : undefined}
+                  onClick={
+                    item.disabled
+                      ? undefined
+                      : () => onValueChange?.(item.value)
+                  }
+                >
+                  {renderItem ? renderItem(item) : item.label}
+                </li>
+              );
+            })}
         </ul>
       </div>
     );

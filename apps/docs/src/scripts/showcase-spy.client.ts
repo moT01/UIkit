@@ -56,21 +56,51 @@ function init(): void {
     }
   }
 
+  // Track last-applied id to avoid touching the DOM on every sub-pixel
+  // scroll tick — mutating on every callback churns paint + makes
+  // screen readers chatter.
+  let lastActiveId: string | null = null;
+
+  const setActive = (id: string): void => {
+    if (lastActiveId === id) return;
+    const match = byTarget.get(id);
+    if (!match) return;
+    clearActive();
+    match.setAttribute('data-active', 'true');
+    lastActiveId = id;
+  };
+
+  if (hashId && byTarget.has(hashId)) {
+    lastActiveId = hashId;
+  }
+
   const observer = new IntersectionObserver(
     entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const id = entry.target.getAttribute('id');
-        if (!id) return;
-        const match = byTarget.get(id);
-        if (!match) return;
-        clearActive();
-        match.setAttribute('data-active', 'true');
-      });
+      // When multiple sections overlap the central band, pick the
+      // topmost one — that's what the eye reads.
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .map(e => ({
+          id: e.target.getAttribute('id'),
+          top: e.boundingClientRect.top
+        }))
+        .filter((e): e is { id: string; top: number } => e.id !== null);
+      if (!visible.length) return;
+      visible.sort((a, b) => a.top - b.top);
+      setActive(visible[0].id);
     },
-    { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+    { rootMargin: '-30% 0px -60% 0px', threshold: [0, 0.25, 0.5] }
   );
   sections.forEach(s => observer.observe(s));
+
+  // Clicking a sidebar link should promote its target to active
+  // immediately — don't wait for the scroll animation to settle.
+  links.forEach(a => {
+    a.addEventListener('click', () => {
+      const target = a.getAttribute('data-target');
+      if (target) setActive(target);
+    });
+  });
 }
 
 if (document.readyState === 'loading') {

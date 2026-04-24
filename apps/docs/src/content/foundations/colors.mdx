@@ -7,6 +7,7 @@ wide: true
 ---
 
 import SwatchGrid from '../../components/foundations/SwatchGrid.astro';
+import PaletteGallery from '../../components/foundations/PaletteGallery.astro';
 
 ## Palette roots
 
@@ -83,3 +84,12 @@ to `packages/uikit-css/src/tokens.css` first so every surface picks it up.
   border: 1px solid var(--border-strong);
 }
 ```
+
+## Palette gallery
+
+A scoped preview of both palette roots — flipping `.light-palette` on
+`<html>` toggles every surface together, but you can also apply the
+class to any subtree for per-region theming. Each tile below is its
+own palette root.
+
+<PaletteGallery />

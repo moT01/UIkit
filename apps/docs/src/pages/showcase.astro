@@ -349,6 +349,17 @@ export function Actions() {
 <button class="btn btn--danger">Dangerous</button>
 <button class="btn btn--ghost">Ghost</button>`}
               />
+              <Code
+                slot='tailwind'
+                lang='html'
+                code={`<!-- Command-line Chic button rebuilt with Tailwind utilities.
+     Token colours (--cta-background etc.) still flow from
+     @freecodecamp/uikit-css; only the layout/shape comes from
+     Tailwind classes here. -->
+<button class="inline-flex items-center gap-2 h-10 px-4 font-bold text-[color:var(--cta-foreground)] bg-[color:var(--cta-background)] border-[3px] border-[color:var(--cta-background)] rounded-none">Start curriculum</button>
+<button class="inline-flex items-center gap-2 h-10 px-4 font-semibold text-[color:var(--foreground-primary)] bg-transparent border-[3px] border-[color:var(--foreground-primary)] rounded-none">Secondary</button>
+<button class="inline-flex items-center gap-2 h-10 px-4 font-semibold text-[color:var(--danger-foreground)] bg-transparent border-[3px] border-[color:var(--danger-background)] rounded-none">Dangerous</button>`}
+              />
             </Showcase>
 
             <Showcase
@@ -714,6 +725,14 @@ export function Pressed() {
   <p class="callout__body">Open the editor fullscreen with <kbd>F11</kbd>.</p>
 </aside>`}
               />
+              <Code
+                slot='tailwind'
+                lang='html'
+                code={`<aside class="relative pl-4 py-3 pr-4 bg-[color:var(--background-secondary)] border-l-4 border-[color:var(--highlight-background)]">
+  <p class="m-0 font-mono text-[11px] uppercase tracking-wider text-[color:var(--highlight-foreground)]">Tip</p>
+  <p class="mt-1 text-[color:var(--foreground-primary)]">Open the editor fullscreen with <kbd class="font-mono border border-[color:var(--foreground-quaternary)] px-1">F11</kbd>.</p>
+</aside>`}
+              />
             </Showcase>
 
             <Showcase
@@ -746,6 +765,13 @@ export function Pressed() {
                 code={`<span class="badge badge--success">Passed</span>
 <span class="badge badge--warning">In review</span>
 <span class="badge badge--danger">Failed</span>`}
+              />
+              <Code
+                slot='tailwind'
+                lang='html'
+                code={`<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--success-foreground)] bg-[color:var(--success-background)]">Passed</span>
+<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--warning-foreground)] bg-[color:var(--warning-background)]">In review</span>
+<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--danger-foreground)] bg-[color:var(--danger-background)]">Failed</span>`}
               />
             </Showcase>
 
@@ -934,6 +960,18 @@ export function Pressed() {
   <h3 class="card__title">Responsive Web Design</h3>
   <p class="card__body">Build five certification projects...</p>
   <div class="progress"><div class="progress__bar progress__bar--purple" style="width:62%"></div></div>
+</article>`}
+              />
+              <Code
+                slot='tailwind'
+                lang='html'
+                code={`<article class="p-6 bg-[color:var(--background-secondary)] border border-[color:var(--foreground-quaternary)]">
+  <header class="flex items-center gap-3 mb-3">
+    <span class="w-2 h-2 rounded-full bg-[color:var(--purple-color)]"></span>
+    <p class="m-0 font-mono text-xs uppercase tracking-wider text-[color:var(--foreground-muted)]">300 HOURS</p>
+  </header>
+  <h3 class="m-0 mb-2 text-lg font-bold text-[color:var(--foreground-primary)]">Responsive Web Design</h3>
+  <p class="text-[color:var(--foreground-secondary)]">Build five certification projects...</p>
 </article>`}
               />
             </Showcase>

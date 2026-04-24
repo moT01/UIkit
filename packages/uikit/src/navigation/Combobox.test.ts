@@ -117,3 +117,43 @@ test('Combobox composes consumer className on the root', () => {
   );
   assert.match(html, /class="combobox extra"/);
 });
+
+test('Combobox renders a loading row when loading=true', () => {
+  const html = renderToStaticMarkup(
+    createElement(Combobox, { items, loading: true, 'aria-label': 'Stack' })
+  );
+  assert.match(
+    html,
+    /<li[^>]*data-part="loading"[^>]*>[\s\S]*Loading/,
+    'expected a data-part=loading row when loading=true'
+  );
+});
+
+test('Combobox renders an empty row when items is empty and not loading', () => {
+  const html = renderToStaticMarkup(
+    createElement(Combobox, { items: [], 'aria-label': 'Stack' })
+  );
+  assert.match(html, /<li[^>]*data-part="empty"[^>]*>/);
+});
+
+test('Combobox custom emptyMessage is used for the empty row', () => {
+  const html = renderToStaticMarkup(
+    createElement(Combobox, {
+      items: [],
+      emptyMessage: 'No tracks found',
+      'aria-label': 'Stack'
+    })
+  );
+  assert.match(html, /No tracks found/);
+});
+
+test('Combobox renders an error row when error is provided', () => {
+  const html = renderToStaticMarkup(
+    createElement(Combobox, {
+      items,
+      error: 'Network blip',
+      'aria-label': 'Stack'
+    })
+  );
+  assert.match(html, /<li[^>]*data-part="error"[^>]*>[\s\S]*Network blip/);
+});

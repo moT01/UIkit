@@ -20,9 +20,28 @@ import PropTable from '../../components/site/PropTable.astro';
 import TokenChips from '../../components/site/TokenChips.astro';
 import DoDont from '../../components/site/DoDont.astro';
 import RelatedComponents from '../../components/site/RelatedComponents.astro';
+import PlaygroundLink from '../../components/site/PlaygroundLink.astro';
 
 Buttons trigger immediate actions. Use a link for navigation, a button for
 anything that changes state on the current page.
+
+<PlaygroundLink
+  code={`import { Button } from '@freecodecamp/uikit/primitives';
+
+export function App() {
+  return (
+    <div style={{ display: 'flex', gap: 12, padding: 24 }}>
+      <Button variant='primary'>Start curriculum</Button>
+      <Button variant='secondary'>Secondary</Button>
+      <Button variant='danger'>Dangerous</Button>
+      <Button variant='ghost'>Ghost</Button>
+      <Button size='sm'>Small</Button>
+      <Button size='lg'>Large</Button>
+    </div>
+  );
+}
+`}
+/>
 
 ## Props
 
