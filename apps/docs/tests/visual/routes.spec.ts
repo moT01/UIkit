@@ -5,10 +5,19 @@ import { test, expect } from '@playwright/test';
 // full-page screenshot, drifting sidebar active-state between retries.
 // Pages that run a scroll-spy (showcase) bail early when this flag is
 // set.
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     (window as unknown as { __NO_SPY__: boolean }).__NO_SPY__ = true;
   });
+  // Wave 8 P6 (W8-9) — the `desktop-light` project re-runs every
+  // spec under the light palette. Toggle the class before any user
+  // code runs so first-paint snapshots reflect the light surface.
+  if (testInfo.project.name === 'desktop-light') {
+    await page.addInitScript(() => {
+      document.documentElement.classList.remove('dark-palette');
+      document.documentElement.classList.add('light-palette');
+    });
+  }
 });
 
 /**

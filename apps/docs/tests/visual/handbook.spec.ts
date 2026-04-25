@@ -6,10 +6,19 @@
 // silently breaks layout is caught.
 import { test, expect } from '@playwright/test';
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     (window as unknown as { __NO_SPY__: boolean }).__NO_SPY__ = true;
   });
+  // Wave 8 P6 (W8-9) — `desktop-light` project flips the palette
+  // class before any user code runs so first-paint snapshots
+  // reflect the light surface.
+  if (testInfo.project.name === 'desktop-light') {
+    await page.addInitScript(() => {
+      document.documentElement.classList.remove('dark-palette');
+      document.documentElement.classList.add('light-palette');
+    });
+  }
 });
 
 test('/handbook renders the full page stably', async ({ page }) => {

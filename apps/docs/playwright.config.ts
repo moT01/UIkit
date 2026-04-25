@@ -50,6 +50,26 @@ export default defineConfig({
     {
       name: 'desktop',
       use: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }
+    },
+    // Wave 8 P6 (W8-9) — dark + light parity. Re-runs the
+    // `routes`, `playground-card`, and `handbook` specs at desktop
+    // viewport with a `light-palette` class set on `<html>` before
+    // any user code runs. Goldens auto-suffix via the existing
+    // `{projectName}` token in `snapshotPathTemplate`. Path filters
+    // were rejected (D7) because non-CSS regressions (component
+    // conditionals, JS theme toggles, asset paths) can break light
+    // mode without touching `*.css` — every-PR gate is the contract.
+    {
+      name: 'desktop-light',
+      testMatch: [
+        '**/routes.spec.ts',
+        '**/playground-card.spec.ts',
+        '**/handbook.spec.ts'
+      ],
+      use: {
+        viewport: { width: 1440, height: 900 },
+        deviceScaleFactor: 1
+      }
     }
   ],
   webServer: {

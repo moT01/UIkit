@@ -72,21 +72,30 @@ import { AppHeader } from './AppHeader.tsx';
           if (hamburgerIcon) hamburgerIcon.style.display = open ? 'none' : '';
           if (closeIcon) closeIcon.style.display = open ? '' : 'none';
         };
+        // Wave 8 P5 (W8-7) — close-path focus restoration. Every
+        // close path (ESC, backdrop tap, link click) returns focus
+        // to the hamburger so keyboard + assistive-tech users land
+        // back at a meaningful anchor instead of <body>.
+        const close = () => {
+          setOpen(false);
+          navBtn.focus();
+        };
         navBtn.addEventListener('click', () =>
           setOpen(navBtn.getAttribute('aria-expanded') !== 'true')
         );
-        backdrop?.addEventListener('click', () => setOpen(false));
+        backdrop?.addEventListener('click', close);
         document.addEventListener('keydown', e => {
           if (
             e.key === 'Escape' &&
             document.body.hasAttribute('data-nav-open')
           ) {
-            setOpen(false);
-            navBtn.focus();
+            close();
           }
         });
         // Clicking a nav link dismisses the drawer so the main surface
-        // gets focus after route change.
+        // gets focus after route change. We intentionally don't refocus
+        // the hamburger here — the destination page's focus management
+        // owns the post-navigation focus surface.
         sidebar.addEventListener('click', e => {
           const target = e.target;
           if (target instanceof HTMLElement && target.closest('a[href]')) {
