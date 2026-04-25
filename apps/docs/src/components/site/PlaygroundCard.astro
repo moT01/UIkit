@@ -1,15 +1,34 @@
 ---
+// Wave 6 / Wave 7 — PlaygroundCard. Single per-component surface on `/`:
+// eyebrow → big title → lead → grid-bordered preview → REACT|HTML|
+// TAILWIND tabs with copy menu → optional ANATOMY <details>. The
+// data-attribute contract drives showcase.client.ts (tab switching,
+// copy-as menu, scroll-spy). Wave 7 P0 retired the legacy per-component
+// route; `source` is required so the View source link always renders.
 import { icons } from '@freecodecamp/uikit-icons';
 
 export interface Props {
+  /** Anchor slug; must match a knownComponentSlug entry. */
   id: string;
+  /** Big title — "Button". */
   title: string;
+  /** Eyebrow source — renders as <COMPONENT />. */
   slug: string;
   description?: string;
+  /** Path under packages/uikit/src/ for the source link. Required. */
+  source: string;
+  status?: 'stable' | 'beta' | 'planned';
+  since?: string;
+  /** CSS custom-property names this component reads, e.g. ['--color-primary']. */
+  tokens?: string[];
+  /** WAI-ARIA APG URL or pattern name. */
+  a11yPattern?: string;
   previewStacked?: boolean;
   previewPlain?: boolean;
-  /** Path under packages/uikit/src/ — used to build the source link. */
-  source?: string;
+  /** When true, the ANATOMY <details> block renders open. Wave 7 P3 —
+   * the FIRST card on `/` (typically Button) sets this so the user
+   * sees the anatomy block expanded by default; rest stay closed. */
+  defaultOpen?: boolean;
 }
 
 const {
@@ -17,9 +36,14 @@ const {
   title,
   slug,
   description,
+  source,
+  status,
+  since,
+  tokens,
+  a11yPattern,
   previewStacked = false,
   previewPlain = false,
-  source
+  defaultOpen = false
 } = Astro.props;
 
 const previewClass = [
@@ -30,9 +54,11 @@ const previewClass = [
   .filter(Boolean)
   .join(' ');
 
-const sourceHref = source
-  ? `https://github.com/freeCodeCamp/ui/blob/main/packages/uikit/src/${source}`
-  : null;
+const sourceHref = `https://github.com/freeCodeCamp/ui/blob/main/packages/uikit/src/${source}`;
+
+const hasAnatomy = Boolean(
+  status || since || (tokens && tokens.length) || a11yPattern
+);
 ---
 
 <section class='section' id={id}>
@@ -44,35 +70,27 @@ const sourceHref = source
     <header class='showcase__head'>
       <p class='showcase__head-title'>{title}</p>
       <p class='showcase__head-meta'>preview</p>
-      <a class='showcase__source showcase__api' href={`/api/${id}`}>
-        <span>View API</span>
-        <span aria-hidden='true'>→</span>
+      <a
+        class='showcase__source'
+        href={sourceHref}
+        target='_blank'
+        rel='noreferrer noopener'
+      >
+        <span>source</span>
+        <svg
+          width='13'
+          height='13'
+          viewBox='0 0 24 24'
+          fill='none'
+          stroke='currentColor'
+          stroke-width='2'
+          stroke-linecap='round'
+          stroke-linejoin='round'
+          data-icon='external-link'
+          aria-hidden='true'
+          set:html={icons['external-link']}
+        />
       </a>
-      {
-        sourceHref && (
-          <a
-            class='showcase__source'
-            href={sourceHref}
-            target='_blank'
-            rel='noreferrer noopener'
-          >
-            <span>source</span>
-            <svg
-              width='13'
-              height='13'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              data-icon='external-link'
-              aria-hidden='true'
-              set:html={icons['external-link']}
-            />
-          </a>
-        )
-      }
     </header>
 
     <div class={previewClass}>
@@ -160,5 +178,59 @@ const sourceHref = source
         </slot>
       </div>
     </div>
+
+    {
+      hasAnatomy && (
+        <details class='showcase__anatomy' open={defaultOpen || undefined}>
+          <summary>Anatomy</summary>
+          <dl class='showcase__anatomy-list'>
+            {status && (
+              <>
+                <dt>Status</dt>
+                <dd>{status}</dd>
+              </>
+            )}
+            {since && (
+              <>
+                <dt>Since</dt>
+                <dd>{since}</dd>
+              </>
+            )}
+            {tokens && tokens.length > 0 && (
+              <>
+                <dt>Tokens</dt>
+                <dd>
+                  <ul class='showcase__token-list'>
+                    {tokens.map(token => (
+                      <li>
+                        <code>{token}</code>
+                      </li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )}
+            {a11yPattern && (
+              <>
+                <dt>A11y pattern</dt>
+                <dd>
+                  {a11yPattern.startsWith('http') ? (
+                    <a
+                      href={a11yPattern}
+                      target='_blank'
+                      rel='noreferrer noopener'
+                    >
+                      {a11yPattern}
+                    </a>
+                  ) : (
+                    a11yPattern
+                  )}
+                </dd>
+              </>
+            )}
+          </dl>
+        </details>
+      )
+    }
   </div>
 </section>

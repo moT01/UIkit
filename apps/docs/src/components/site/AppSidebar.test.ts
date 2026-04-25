@@ -5,27 +5,31 @@ import { createElement } from 'react';
 import type { NavSection } from '../../data/nav.ts';
 import { AppSidebar } from './AppSidebar.tsx';
 
+// Wave 6 — component nav hrefs are anchor links on `/` (`/#<slug>`).
+// Wave 7 P2 — active state is now hash-aware: `currentPath` is the
+// pathname only and `currentHash` is the URL fragment. The fixture
+// mirrors that shape so the active-state assertion proves the
+// sidebar tracks the current playground anchor.
 const FIXTURE: readonly NavSection[] = [
-  {
-    id: 'guides',
-    label: 'Guides',
-    items: [{ id: 'guides', label: 'Overview', href: '/guides' }]
-  },
   {
     id: 'primitives',
     label: 'Primitives',
-    items: [{ id: 'cmp-text', label: 'Text', href: '/api/text' }]
+    items: [{ id: 'cmp-text', label: 'Text', href: '/#text' }]
   },
   {
     id: 'forms',
     label: 'Forms',
-    items: [{ id: 'cmp-input', label: 'Input', href: '/api/input' }]
+    items: [{ id: 'cmp-input', label: 'Input', href: '/#input' }]
   }
 ];
 
 test('AppSidebar renders a <Sidebar> with a section per nav entry', () => {
   const html = renderToStaticMarkup(
-    createElement(AppSidebar, { nav: FIXTURE, currentPath: '/api/text' })
+    createElement(AppSidebar, {
+      nav: FIXTURE,
+      currentPath: '/',
+      currentHash: '#text'
+    })
   );
   assert.match(html, /<aside[^>]*class="sidebar"/);
   assert.match(html, /sidebar__intro-kicker/);
@@ -40,12 +44,51 @@ test('AppSidebar renders a <Sidebar> with a section per nav entry', () => {
 
 test('AppSidebar marks the current item with data-active="true"', () => {
   const html = renderToStaticMarkup(
-    createElement(AppSidebar, { nav: FIXTURE, currentPath: '/api/text' })
+    createElement(AppSidebar, {
+      nav: FIXTURE,
+      currentPath: '/',
+      currentHash: '#text'
+    })
   );
-  const activeAnchor = html.match(/<a[^>]*href="\/api\/text"[^>]*>/)?.[0] ?? '';
+  const activeAnchor = html.match(/<a[^>]*href="\/#text"[^>]*>/)?.[0] ?? '';
   assert.match(activeAnchor, /data-active="true"/);
   assert.match(activeAnchor, /aria-current="page"/);
-  const inactiveAnchor =
-    html.match(/<a[^>]*href="\/api\/input"[^>]*>/)?.[0] ?? '';
+  const inactiveAnchor = html.match(/<a[^>]*href="\/#input"[^>]*>/)?.[0] ?? '';
   assert.doesNotMatch(inactiveAnchor, /data-active/);
+});
+
+test('Wave 7 P2 — bare path on `/` no longer marks every cmp-* item active', () => {
+  // Regression guard. Pre-P2 the sidebar lit up nothing, OR with the
+  // pre-Wave-6 fixture it lit up everything. Page-load default is
+  // pathname=/ + no hash; no item should carry data-active.
+  const html = renderToStaticMarkup(
+    createElement(AppSidebar, {
+      nav: FIXTURE,
+      currentPath: '/',
+      currentHash: ''
+    })
+  );
+  const matches = html.match(/data-active="true"/g) ?? [];
+  assert.equal(
+    matches.length,
+    0,
+    'no anchor should be active when no hash is set'
+  );
+});
+
+test('Wave 7 P2 — anchor items carry data-sidebar-link + data-target for scroll-spy', () => {
+  const html = renderToStaticMarkup(
+    createElement(AppSidebar, {
+      nav: FIXTURE,
+      currentPath: '/',
+      currentHash: ''
+    })
+  );
+  // Both items have hash hrefs; both must be tagged for the spy.
+  const textAnchor = html.match(/<a[^>]*href="\/#text"[^>]*>/)?.[0] ?? '';
+  assert.match(textAnchor, /data-sidebar-link/);
+  assert.match(textAnchor, /data-target="text"/);
+  const inputAnchor = html.match(/<a[^>]*href="\/#input"[^>]*>/)?.[0] ?? '';
+  assert.match(inputAnchor, /data-sidebar-link/);
+  assert.match(inputAnchor, /data-target="input"/);
 });

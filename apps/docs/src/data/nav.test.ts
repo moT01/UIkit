@@ -71,30 +71,37 @@ test('nav includes every layered component section', () => {
   }
 });
 
-test('no nav item has an anchor-only href', () => {
-  for (const entry of flatNav) {
+test('every cmp-* item points to /#<slug> with a known slug', () => {
+  // Wave 6 — `/api/*` retired. Component nav entries are anchor-links
+  // on the playground (`/`), so hrefs are of the form `/#<slug>`.
+  const componentEntries = flatNav.filter(i => i.id.startsWith('cmp-'));
+  assert.equal(
+    componentEntries.length,
+    knownComponentSlugs.size,
+    `nav must have one cmp-* entry per known component (expected ${knownComponentSlugs.size}, got ${componentEntries.length})`
+  );
+  for (const entry of componentEntries) {
     assert.ok(
-      !entry.href.startsWith('/#'),
-      `${entry.id} still uses anchor-only href ${entry.href}`
+      entry.href.startsWith('/#'),
+      `${entry.id} href ${entry.href} must start with /# (Wave 6 — /api retired)`
+    );
+    const slug = entry.href.slice('/#'.length);
+    assert.ok(
+      knownComponentSlugs.has(slug),
+      `${entry.id} points at unknown slug ${slug}`
     );
   }
 });
 
-test('every cmp-* item points to /api/<slug> with a known slug', () => {
-  const componentEntries = flatNav.filter(i => i.id.startsWith('cmp-'));
-  assert.ok(
-    componentEntries.length >= 40,
-    `expected 40+ component entries, got ${componentEntries.length}`
-  );
-  for (const entry of componentEntries) {
+test('non-component nav entries still use absolute, non-anchor hrefs', () => {
+  // Anchor-only hrefs (`/#…`) are reserved for component playground
+  // links. Everything else (guides, handbook, foundations) gets a
+  // real route so search engines can index it.
+  for (const entry of flatNav) {
+    if (entry.id.startsWith('cmp-')) continue;
     assert.ok(
-      entry.href.startsWith('/api/'),
-      `${entry.id} href ${entry.href} must start with /api/`
-    );
-    const slug = entry.href.slice('/api/'.length);
-    assert.ok(
-      knownComponentSlugs.has(slug),
-      `${entry.id} points at unknown slug ${slug}`
+      !entry.href.startsWith('/#'),
+      `${entry.id} non-component item should have a real route (got ${entry.href})`
     );
   }
 });

@@ -22,7 +22,7 @@ export function AppHeader(): JSX.Element {
     <nav className='site-header__nav' aria-label='Primary'>
       <a href='/'>Playground</a>
       <a href='/handbook'>Handbook</a>
-      <a href='/api'>API ref</a>
+      <a href='/guides/install'>Guides</a>
       <a
         href='https://github.com/freeCodeCamp/ui'
         target='_blank'

@@ -1,0 +1,19 @@
+# Wave 6 — /api/<slug> retirement.
+#
+# Astro's `redirects` map can't add a URL fragment to a redirect
+# destination (`/#[slug]` is not an Astro route, so the build fails).
+# Netlify reads this file at the edge and rewrites with `:splat`,
+# preserving the path segment as the new anchor on `/`.
+#
+# Order matters — Netlify uses the first matching rule. The bare
+# `/api` and `/components` index routes are also handled by Astro's
+# `redirects` map (see `astro.config.mjs`); the wildcard rules below
+# cover the per-slug case that Astro can't express.
+
+/api/*         /#:splat   301!
+/components/*  /#:splat   301!
+
+# Wave 4 · 4.7 — `/foundations/*` and `/guides/<slug>` deep links
+# fold into `/handbook` anchors. The handful of static cases live in
+# `astro.config.mjs`; this catches everything else.
+/foundations/*  /handbook  301
