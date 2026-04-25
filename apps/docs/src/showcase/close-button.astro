@@ -1,0 +1,33 @@
+---
+// Wave 6 — extracted from pages/index.astro lines 384-405.
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { CloseButton } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='close-button'
+  slug='CloseButton'
+  title='Close button'
+  description='Inline dismiss affordance — modals, alerts, drawers.'
+  source='primitives/CloseButton.tsx'
+  status='stable'
+  since='1.0.0'
+  a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+>
+  <Fragment slot='preview'>
+    <CloseButton aria-label='Dismiss' />
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { CloseButton } from '@freecodecamp/uikit';
+
+<CloseButton onClick={onDismiss} aria-label="Dismiss" />`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<button class="close-btn" aria-label="Dismiss">×</button>`}
+  />
+</PlaygroundCard>

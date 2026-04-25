@@ -1,0 +1,84 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Card, Link } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='card'
+  slug='Card'
+  title='Card'
+  previewStacked
+  description='Flat bordered container. Grid-friendly. No shadow, no hover lift.'
+  source='data-display/Card.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <Card style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <Card.Header>
+        <span class='card__dot card__dot--purple' aria-hidden='true'></span>
+        <p class='card__hours'>300 HOURS</p>
+      </Card.Header>
+      <Card.Title>Responsive Web Design</Card.Title>
+      <Card.Body>
+        Build five certification projects using HTML, CSS, flexbox, grid, and
+        accessibility primitives.
+      </Card.Body>
+      <div class='progress'>
+        <div class='progress__bar progress__bar--purple' style='width:62%'>
+        </div>
+      </div>
+      <Card.Footer>
+        <span>62% complete</span>
+        <Link href='#button'>Resume →</Link>
+      </Card.Footer>
+    </Card>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Card, Link } from '@freecodecamp/uikit';
+
+<Card>
+  <Card.Header>
+    <span className="card__dot card__dot--purple" aria-hidden="true" />
+    <p className="card__hours">300 HOURS</p>
+  </Card.Header>
+  <Card.Title>Responsive Web Design</Card.Title>
+  <Card.Body>Build five certification projects...</Card.Body>
+  <div className="progress">
+    <div className="progress__bar progress__bar--purple" style={{ width: '62%' }} />
+  </div>
+  <Card.Footer>
+    <span>62% complete</span>
+    <Link href="/learn/rwd">Resume →</Link>
+  </Card.Footer>
+</Card>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<article class="card">
+  <header class="card__header">
+    <span class="card__dot card__dot--purple"></span>
+    <p class="card__hours">300 HOURS</p>
+  </header>
+  <h3 class="card__title">Responsive Web Design</h3>
+  <p class="card__body">Build five certification projects...</p>
+  <div class="progress"><div class="progress__bar progress__bar--purple" style="width:62%"></div></div>
+</article>`}
+  />
+  <Code
+    slot='tailwind'
+    lang='html'
+    code={`<article class="p-6 bg-[color:var(--background-secondary)] border border-[color:var(--foreground-quaternary)]">
+  <header class="flex items-center gap-3 mb-3">
+    <span class="w-2 h-2 rounded-full bg-[color:var(--purple-color)]"></span>
+    <p class="m-0 font-mono text-xs uppercase tracking-wider text-[color:var(--foreground-muted)]">300 HOURS</p>
+  </header>
+  <h3 class="m-0 mb-2 text-lg font-bold text-[color:var(--foreground-primary)]">Responsive Web Design</h3>
+  <p class="text-[color:var(--foreground-secondary)]">Build five certification projects...</p>
+</article>`}
+  />
+</PlaygroundCard>

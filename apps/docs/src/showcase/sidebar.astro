@@ -1,0 +1,62 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Sidebar, SidebarSection, SidebarItem } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='sidebar'
+  slug='Sidebar'
+  title='Sidebar'
+  previewStacked
+  previewPlain
+  description='Left rail — sections + items, optional collapsible groups.'
+  source='navigation/Sidebar.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <Sidebar
+      style={{
+        maxWidth: '280px',
+        margin: '0 auto',
+        height: 'auto',
+        background: 'var(--background-secondary)'
+      }}
+    >
+      <div class='sidebar__intro'>
+        <p class='sidebar__intro-kicker'>UIKit</p>
+        <p class='sidebar__intro-title'>Components</p>
+      </div>
+      <SidebarSection label='Primitives'>
+        <SidebarItem href='#text'>Text</SidebarItem>
+        <SidebarItem href='#heading'>Heading</SidebarItem>
+        <SidebarItem href='#button' active>Button</SidebarItem>
+      </SidebarSection>
+    </Sidebar>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Sidebar } from '@freecodecamp/uikit';
+
+<Sidebar
+  sections={[
+    { id: 'primitives', label: 'Primitives', items: [
+      { id: 'text', label: 'Text', href: '#text' },
+      { id: 'button', label: 'Button', href: '#button', current: true }
+    ]}
+  ]}
+/>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<aside class="sidebar">
+  <div class="sidebar__section">
+    <p class="sidebar__eyebrow">Primitives</p>
+    <a class="sidebar__item" href="#button" aria-current="true">Button</a>
+  </div>
+</aside>`}
+  />
+</PlaygroundCard>

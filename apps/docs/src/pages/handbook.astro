@@ -25,14 +25,22 @@ async function loadFoundation(slug: string) {
   return render(entry);
 }
 
+const { Content: Overview } = await loadFoundation('overview');
 const { Content: Palette } = await loadFoundation('colors');
 const { Content: Typography } = await loadFoundation('typography');
 const { Content: Spacing } = await loadFoundation('spacing');
 const { Content: Iconography } = await loadFoundation('iconography');
 const { Content: Motion } = await loadFoundation('motion');
 const { Content: Voice } = await loadFoundation('voice');
+const { Content: BrandGuidelines } = await loadFoundation('brand');
+const { Content: DoDonts } = await loadFoundation('do-donts');
 
+// Wave 7 P7 — TOC reflects the brand-handbook expansion. Overview leads,
+// the foundations follow in palette → motion order, then Brand (logo +
+// wordmark + co-branding), then the cross-cutting Do / Don't gallery,
+// then Install / CDN / Contributing for kit-onboarding hand-off.
 const tocLinks: readonly { id: string; label: string }[] = [
+  { id: 'overview', label: 'Overview' },
   { id: 'palette', label: 'Palette' },
   { id: 'typography', label: 'Typography' },
   { id: 'spacing', label: 'Spacing' },
@@ -40,9 +48,9 @@ const tocLinks: readonly { id: string; label: string }[] = [
   { id: 'motion', label: 'Motion' },
   { id: 'voice', label: 'Voice' },
   { id: 'brand', label: 'Brand' },
+  { id: 'do-donts', label: "Do / Don't" },
   { id: 'install', label: 'Install' },
   { id: 'cdn', label: 'CDN' },
-  { id: 'overview', label: 'Overview' },
   { id: 'contributing', label: 'Contributing' }
 ];
 ---
@@ -81,6 +89,14 @@ const tocLinks: readonly { id: string; label: string }[] = [
               ))
             }
           </nav>
+
+          <section class='section handbook-section' id='overview'>
+            <p class='section__eyebrow'>Foundation · 00</p>
+            <h2 class='section__title'>Overview</h2>
+            <div class='foundations'>
+              <Overview />
+            </div>
+          </section>
 
           <section class='section handbook-section' id='palette'>
             <p class='section__eyebrow'>Foundation · 01</p>
@@ -131,12 +147,23 @@ const tocLinks: readonly { id: string; label: string }[] = [
           </section>
 
           <section class='section handbook-section' id='brand'>
-            <p class='section__eyebrow'>Brand</p>
+            <p class='section__eyebrow'>Foundation · 08</p>
             <h2 class='section__title'>Brand</h2>
             <p class='section__lede'>
               Marks, clear-space, misuse, wordmark usage, and the asset kit.
             </p>
+            <div class='foundations'>
+              <BrandGuidelines />
+            </div>
             <Brand />
+          </section>
+
+          <section class='section handbook-section' id='do-donts'>
+            <p class='section__eyebrow'>Foundation · 09</p>
+            <h2 class='section__title'>Do / Don't</h2>
+            <div class='foundations'>
+              <DoDonts />
+            </div>
           </section>
 
           <section class='section handbook-section' id='install'>
@@ -196,37 +223,6 @@ const tocLinks: readonly { id: string; label: string }[] = [
               <code>https://cdn.freecodecamp.org/uikit/v1.0.0/</code>. The
               un-versioned URL always serves <code>latest</code>.
             </p>
-          </section>
-
-          <section class='section handbook-section' id='overview'>
-            <p class='section__eyebrow'>Overview</p>
-            <h2 class='section__title'>What you always get</h2>
-            <ul class='guide-list'>
-              <li>
-                <strong>Flat, square, dark-first.</strong> No shadows, no rounded
-                corners, AA+ contrast.
-              </li>
-              <li>
-                <strong>CSS variables own the palette.</strong> Toggle
-                <code>.light-palette</code> on <code>&lt;html&gt;</code> to recolour
-                the whole surface without touching components.
-              </li>
-              <li>
-                <strong>Three layers.</strong> CSS primitives, vanilla-JS adapters
-                that mount off
-                <code>data-uikit-*</code>, and React components that render the
-                same class names.
-              </li>
-              <li>
-                <strong>SSR-first.</strong> Every React component renders as pure
-                HTML first. Hydration only kicks in where a component needs state.
-              </li>
-              <li>
-                <strong>One icon sprite.</strong> React and vanilla consumers both
-                reference the same SVG symbol set via
-                <code>&lt;use href='#slug' /&gt;</code>.
-              </li>
-            </ul>
           </section>
 
           <section class='section handbook-section' id='contributing'>
@@ -373,6 +369,20 @@ pnpm --filter @freecodecamp/uikit-docs test:visual`}</code></pre>
   .foundations h3 {
     margin: 12px 0 6px;
     font-size: var(--fs-lg);
+  }
+  /* rehype-autolink-headings appends a `#` anchor after each heading.
+     Keep it discreet — visible on hover, low-opacity by default, no
+     underline. Anchors stay focusable for keyboard users. */
+  .foundations :is(h1, h2, h3, h4, h5, h6) .heading-anchor {
+    color: var(--foreground-muted);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 120ms ease;
+    margin-left: 6px;
+  }
+  .foundations :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
+  .foundations :is(h1, h2, h3, h4, h5, h6) .heading-anchor:focus-visible {
+    opacity: 1;
   }
   .foundations p {
     margin: 0;

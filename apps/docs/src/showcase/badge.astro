@@ -1,0 +1,48 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Badge } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='badge'
+  slug='Badge'
+  title='Badge'
+  description='Inline status chip — sparingly. Max 2 per row.'
+  source='primitives/Badge.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <Badge>Default</Badge>
+    <Badge variant='success'>Passed</Badge>
+    <Badge variant='warning'>In review</Badge>
+    <Badge variant='danger'>Failed</Badge>
+    <Badge variant='info'>Preview</Badge>
+    <Badge variant='purple'>New</Badge>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Badge } from '@freecodecamp/uikit';
+
+<Badge>Default</Badge>
+<Badge variant="success">Passed</Badge>
+<Badge variant="warning">In review</Badge>
+<Badge variant="danger">Failed</Badge>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<span class="badge badge--success">Passed</span>
+<span class="badge badge--warning">In review</span>
+<span class="badge badge--danger">Failed</span>`}
+  />
+  <Code
+    slot='tailwind'
+    lang='html'
+    code={`<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--success-foreground)] bg-[color:var(--success-background)]">Passed</span>
+<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--warning-foreground)] bg-[color:var(--warning-background)]">In review</span>
+<span class="inline-flex items-center h-5 px-2 text-[11px] uppercase tracking-wider font-mono text-[color:var(--danger-foreground)] bg-[color:var(--danger-background)]">Failed</span>`}
+  />
+</PlaygroundCard>

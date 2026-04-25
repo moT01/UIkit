@@ -146,6 +146,15 @@
   grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
   min-height: 0;
 }
+/* Wave 7 P9 hot-fix — `/guides/*` and other prose routes don't render
+   the AppSidebar component. The 2-column grid would still allocate
+   288px for an empty sidebar column, leaving `<main>` in column 1
+   (288px wide) and the content squashed to ~30 chars/line. The
+   `--single` modifier collapses to 1fr so prose routes use the full
+   width minus AppHeader chrome. */
+.app__body--single {
+  grid-template-columns: minmax(0, 1fr);
+}
 @media (max-width: 900px) {
   .app__body {
     grid-template-columns: 1fr;

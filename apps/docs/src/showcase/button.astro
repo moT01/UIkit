@@ -1,0 +1,60 @@
+---
+// Wave 6 — extracted from pages/index.astro lines 291-341.
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Button } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='button'
+  slug='Button'
+  title='Button'
+  description='The workhorse. 3px square border, inverted fill on primary, no shadow.'
+  source='primitives/Button.tsx'
+  status='stable'
+  since='1.0.0'
+  tokens={['--cta-background', '--cta-foreground', '--foreground-primary']}
+  a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
+  defaultOpen
+>
+  <Fragment slot='preview'>
+    <Button variant='cta'>Start curriculum</Button>
+    <Button>Secondary</Button>
+    <Button variant='danger'>Dangerous</Button>
+    <Button variant='ghost'>Ghost</Button>
+    <Button size='sm'>Small</Button>
+    <Button size='lg'>Large</Button>
+    <Button disabled>Disabled</Button>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Button } from '@freecodecamp/uikit';
+
+export function Actions() {
+  return (
+    <div style={{ display: 'flex', gap: 12 }}>
+      <Button variant="cta">Start curriculum</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="danger">Dangerous</Button>
+      <Button variant="ghost">Ghost</Button>
+    </div>
+  );
+}`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<button class="btn btn--cta">Start curriculum</button>
+<button class="btn">Secondary</button>
+<button class="btn btn--danger">Dangerous</button>
+<button class="btn btn--ghost">Ghost</button>`}
+  />
+  <Code
+    slot='tailwind'
+    lang='html'
+    code={`<button class="inline-flex items-center gap-2 h-10 px-4 font-bold text-[color:var(--cta-foreground)] bg-[color:var(--cta-background)] border-[3px] border-[color:var(--cta-background)] rounded-none">Start curriculum</button>
+<button class="inline-flex items-center gap-2 h-10 px-4 font-semibold text-[color:var(--foreground-primary)] bg-transparent border-[3px] border-[color:var(--foreground-primary)] rounded-none">Secondary</button>
+<button class="inline-flex items-center gap-2 h-10 px-4 font-semibold text-[color:var(--danger-foreground)] bg-transparent border-[3px] border-[color:var(--danger-background)] rounded-none">Dangerous</button>`}
+  />
+</PlaygroundCard>

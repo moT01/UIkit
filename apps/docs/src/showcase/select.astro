@@ -1,0 +1,47 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { FormGroup, Select } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='select'
+  slug='Select'
+  title='Select'
+  previewStacked
+  description='Native select wrapper — square chevron, matching height with Input.'
+  source='forms/Select.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <FormGroup style={{ maxWidth: '360px', margin: '0 auto' }}>
+      <label class='form-label' for='difficulty-demo'>Difficulty</label>
+      <Select id='difficulty-demo' defaultValue='intermediate'>
+        <option value='beginner'>Beginner</option>
+        <option value='intermediate'>Intermediate</option>
+        <option value='advanced'>Advanced</option>
+      </Select>
+    </FormGroup>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Select } from '@freecodecamp/uikit';
+
+<Select id="difficulty" defaultValue="intermediate">
+  <option value="beginner">Beginner</option>
+  <option value="intermediate">Intermediate</option>
+  <option value="advanced">Advanced</option>
+</Select>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<select class="select" id="difficulty">
+  <option>Beginner</option>
+  <option selected>Intermediate</option>
+  <option>Advanced</option>
+</select>`}
+  />
+</PlaygroundCard>

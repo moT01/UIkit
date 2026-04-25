@@ -1,0 +1,40 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Skeleton } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='skeleton'
+  slug='Skeleton'
+  title='Skeleton'
+  previewStacked
+  description='Placeholder bars during data fetch — reduced-motion aware shimmer.'
+  source='data-display/Skeleton.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <div style='max-width:480px;margin:0 auto;display:grid;gap:14px;'>
+      <Skeleton variant='circle' width={48} height={48} />
+      <Skeleton variant='text' width='80%' />
+      <Skeleton variant='text' width='60%' />
+      <Skeleton />
+    </div>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Skeleton } from '@freecodecamp/uikit';
+
+<Skeleton variant="circle" size={48} />
+<Skeleton variant="text" width="80%" />
+<Skeleton variant="text" width="60%" />`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<span class="skeleton skeleton--circle"></span>
+<span class="skeleton skeleton--text" style="width:80%"></span>`}
+  />
+</PlaygroundCard>

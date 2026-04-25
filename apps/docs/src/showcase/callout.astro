@@ -1,0 +1,50 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Callout } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='callout'
+  slug='Callout'
+  title='Callout'
+  previewStacked
+  description='Inline sidebar for curriculum notes, tips, and cautions.'
+  source='data-display/Callout.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <Callout variant='tip'>
+      You can open the code editor fullscreen with <kbd class='kbd'>F11</kbd>.
+    </Callout>
+    <Callout variant='warning'>
+      Running this reset removes local progress for the active challenge.
+    </Callout>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Callout } from '@freecodecamp/uikit';
+
+<Callout variant="tip" label="Tip">
+  Open the editor fullscreen with <kbd>F11</kbd>.
+</Callout>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<aside class="callout callout--tip">
+  <p class="callout__label">Tip</p>
+  <p class="callout__body">Open the editor fullscreen with <kbd>F11</kbd>.</p>
+</aside>`}
+  />
+  <Code
+    slot='tailwind'
+    lang='html'
+    code={`<aside class="relative pl-4 py-3 pr-4 bg-[color:var(--background-secondary)] border-l-4 border-[color:var(--highlight-background)]">
+  <p class="m-0 font-mono text-[11px] uppercase tracking-wider text-[color:var(--highlight-foreground)]">Tip</p>
+  <p class="mt-1 text-[color:var(--foreground-primary)]">Open the editor fullscreen with <kbd class="font-mono border border-[color:var(--foreground-quaternary)] px-1">F11</kbd>.</p>
+</aside>`}
+  />
+</PlaygroundCard>

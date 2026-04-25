@@ -1,0 +1,61 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { AuthLayout, FormGroup, Input, Button } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='auth-layout'
+  slug='AuthLayout'
+  title='Auth layout'
+  previewStacked
+  previewPlain
+  description='Centered card on a tile-pattern backdrop — sign-in, sign-up, password reset.'
+  source='layouts/AuthLayout.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <AuthLayout
+      brand='freeCodeCamp'
+      footer='Forgot your password?'
+      pattern
+      style={{
+        maxWidth: '680px',
+        margin: '0 auto',
+        border: '1px solid var(--border-strong)'
+      }}
+    >
+      <FormGroup>
+        <label class='form-label' for='auth-demo-email'>Email</label>
+        <Input
+          id='auth-demo-email'
+          type='email'
+          placeholder='camper@example.com'
+        />
+      </FormGroup>
+      <Button variant='cta' block>Continue</Button>
+    </AuthLayout>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { AuthLayout, Input, Button } from '@freecodecamp/uikit';
+
+<AuthLayout brand="freeCodeCamp" footer={<Link href="/forgot">Forgot your password?</Link>}>
+  <Input label="Email" type="email" />
+  <Button variant="cta" block>Continue</Button>
+</AuthLayout>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<div class="auth-layout auth-layout--pattern">
+  <div class="auth-layout__card">
+    <p class="auth-layout__brand">freeCodeCamp</p>
+    <button class="btn btn--cta btn--block">Continue</button>
+    <p class="auth-layout__footer"><a class="fcc-link">Forgot?</a></p>
+  </div>
+</div>`}
+  />
+</PlaygroundCard>

@@ -1,0 +1,44 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Text } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='text'
+  slug='Text'
+  title='Text'
+  previewStacked
+  description='Body-text primitive — semantic-tag agnostic, size + weight + tone variants.'
+  source='primitives/Text.tsx'
+  status='stable'
+  since='1.0.0'
+  tokens={['--fs-body', '--fs-sm', '--fs-lg', '--foreground-secondary']}
+>
+  <Fragment slot='preview'>
+    <div style='max-width:520px;margin:0 auto;display:grid;gap:8px;'>
+      <Text size='lg'>Large body — section ledes and emphasis.</Text>
+      <Text>Default body — eighteen pixels minimum.</Text>
+      <Text size='sm' tone='muted'
+        >Caption — annotations, metadata, footnotes.</Text
+      >
+      <Text weight='bold'>Bold — single-word emphasis only.</Text>
+    </div>
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Text } from '@freecodecamp/uikit';
+
+<Text size="lg">Large body — section ledes and emphasis.</Text>
+<Text>Default body — eighteen pixels minimum.</Text>
+<Text size="sm" tone="muted">Caption — annotations, metadata, footnotes.</Text>`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<p class="text text--lg">Large body</p>
+<p class="text">Default body</p>
+<p class="text text--sm text--muted">Caption</p>`}
+  />
+</PlaygroundCard>

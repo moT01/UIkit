@@ -24,32 +24,21 @@ test.beforeEach(async ({ page }) => {
  * diffed PNGs as part of the same commit.
  */
 
-// Astro-authored surfaces — the "chrome" of the site. `/` stays
-// excluded (18 000 px gallery) until the playground splits into
-// per-island screenshots; every other shipped route gets a baseline
-// after the Wave 4 IA settled.
-const surfaces: readonly string[] = ['/handbook', '/api'];
-
-// Full component MDX pages — every shipped slug carries a PropTable,
-// Keyboard notes, Accessibility notes, Tokens, and a Do/Don't grid.
-// Paths follow the Wave 4 · 4.4 IA (`/api/<slug>`).
-const fullComponentPages: readonly string[] = [
-  '/api/button',
-  '/api/text',
-  '/api/heading',
-  '/api/badge',
-  '/api/alert',
-  '/api/callout',
-  '/api/card',
-  '/api/panel',
-  '/api/input',
-  '/api/checkbox',
-  '/api/switch',
-  '/api/modal',
-  '/api/tooltip'
+// Wave 7 P0 retired the per-component `/api/<slug>` route in favor of
+// per-component sections on `/`. P9 keeps the chrome surfaces (handbook +
+// guides) under route-level visual regression; per-component visual
+// coverage moves to `playground-card.spec.ts`.
+const surfaces: readonly string[] = [
+  '/handbook',
+  '/guides/install',
+  '/guides/cdn',
+  '/guides/copy-paste',
+  '/guides/migrate-v1',
+  '/guides/recipes',
+  '/guides/tailwind'
 ];
 
-const routes = [...surfaces, ...fullComponentPages];
+const routes = [...surfaces];
 
 for (const path of routes) {
   const label =

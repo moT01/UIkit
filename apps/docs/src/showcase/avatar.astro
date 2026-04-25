@@ -1,0 +1,38 @@
+---
+import PlaygroundCard from '../components/site/PlaygroundCard.astro';
+import { Code } from 'astro/components';
+import { Avatar } from '@freecodecamp/uikit';
+---
+
+<PlaygroundCard
+  id='avatar'
+  slug='Avatar'
+  title='Avatar'
+  description='User mark — image, initials fallback, optional online/away status dot.'
+  source='primitives/Avatar.tsx'
+  status='stable'
+  since='1.0.0'
+>
+  <Fragment slot='preview'>
+    <Avatar size='sm' name='Roman Wright' />
+    <Avatar size='md' name='Quincy Crew' status='online' />
+    <Avatar size='lg' name='Free Camp' status='away' />
+  </Fragment>
+  <Code
+    slot='react'
+    lang='tsx'
+    code={`import { Avatar } from '@freecodecamp/uikit';
+
+<Avatar size="sm" initials="RW" />
+<Avatar size="md" initials="QC" status="online" />
+<Avatar size="lg" src="/u/quincy.jpg" alt="Quincy Larson" status="away" />`}
+  />
+  <Code
+    slot='html'
+    lang='html'
+    code={`<span class="avatar avatar--md">
+  <span class="avatar__initials">QC</span>
+  <span class="avatar__status avatar__status--online"></span>
+</span>`}
+  />
+</PlaygroundCard>
