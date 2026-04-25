@@ -16,8 +16,11 @@ import { ToggleButton } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
 >
   <Fragment slot='preview'>
-    <ToggleButton defaultPressed={false}>Not pressed</ToggleButton>
-    <ToggleButton defaultPressed={true}>Keyboard on</ToggleButton>
+    <ToggleButton defaultPressed={false} client:visible
+      >Not pressed</ToggleButton
+    >
+    <ToggleButton defaultPressed={true} client:visible>Keyboard on</ToggleButton
+    >
   </Fragment>
   <Code
     slot='react'

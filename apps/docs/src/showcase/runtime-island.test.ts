@@ -15,7 +15,9 @@ const STATEFUL: ReadonlyArray<{
   slug: string;
   hydration: 'load' | 'visible' | 'idle';
 }> = [
-  { slug: 'combobox', hydration: 'visible' },
+  // Wave 9 P6.3 — promoted to `client:load` so the input hydrates
+  // before the user can race past the visibility threshold.
+  { slug: 'combobox', hydration: 'load' },
   { slug: 'command-palette', hydration: 'visible' },
   { slug: 'dropdown', hydration: 'visible' },
   { slug: 'form-stepper', hydration: 'visible' },
@@ -29,6 +31,10 @@ const STATEFUL: ReadonlyArray<{
   { slug: 'switch', hydration: 'idle' },
   { slug: 'tabs', hydration: 'visible' },
   { slug: 'toast', hydration: 'load' },
+  // Wave 9 P6.1 — promote toggle-button to a hydrated island so its
+  // behavioural contract (click flips aria-pressed) is provable. Was
+  // SSR-only in Wave 7.
+  { slug: 'toggle-button', hydration: 'visible' },
   { slug: 'tooltip', hydration: 'idle' }
 ];
 

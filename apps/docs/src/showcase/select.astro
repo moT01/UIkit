@@ -17,9 +17,9 @@ import { FormGroup, Select } from '@freecodecamp/uikit';
   <Fragment slot='preview'>
     <FormGroup style={{ maxWidth: '360px', margin: '0 auto' }}>
       <label class='form-label' for='difficulty-demo'>Difficulty</label>
-      <Select id='difficulty-demo' defaultValue='intermediate'>
+      <Select id='difficulty-demo'>
         <option value='beginner'>Beginner</option>
-        <option value='intermediate'>Intermediate</option>
+        <option value='intermediate' selected>Intermediate</option>
         <option value='advanced'>Advanced</option>
       </Select>
     </FormGroup>
