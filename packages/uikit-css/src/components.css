@@ -871,22 +871,30 @@
   margin: 0 0 0.75rem;
   letter-spacing: -0.01em;
 }
+/* Wave 7 P3 — heading sizes bound to declared tokens. Pre-Wave-7
+   each variant carried a hand-typed rem; `--fs-2xl` (42px) was
+   declared but never used. The mapping now matches `tokens.css`
+   1:1 — change a token, change every heading. */
 .heading--display {
-  font-size: clamp(2.5rem, 5vw, 3.75rem);
-  line-height: 1.05;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight, 1.05);
 }
 .heading--xl {
-  font-size: 2.25rem;
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
 }
 .heading--lg {
-  font-size: 1.75rem;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-tight);
 }
 .heading--md {
-  font-size: 1.375rem;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-snug);
 }
 .heading--sm {
-  font-size: 1.125rem;
+  font-size: var(--fs-md);
   letter-spacing: 0;
+  line-height: var(--lh-base);
 }
 
 /* ---------- Divider ---------- */

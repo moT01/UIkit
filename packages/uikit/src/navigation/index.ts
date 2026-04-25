@@ -8,7 +8,13 @@ export type {
 export { Listbox } from './Listbox';
 export { Navbar } from './Navbar';
 export type { NavbarProps } from './Navbar';
-export { Sidebar, SidebarSection, SidebarItem, isActiveHref } from './Sidebar';
+export {
+  Sidebar,
+  SidebarSection,
+  SidebarItem,
+  isActiveHref,
+  isActiveHrefWithHash
+} from './Sidebar';
 export type {
   SidebarProps,
   SidebarSectionProps,

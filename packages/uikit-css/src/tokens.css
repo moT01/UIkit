@@ -127,12 +127,16 @@
     'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'Hack-ZeroSlash', 'Fira Mono', Menlo, Consolas, monospace;
 
+  --fs-base: 18px;
   --fs-sm: 16px;
   --fs-md: 18px;
   --fs-lg: 24px;
   --fs-xl: 32px;
   --fs-2xl: 42px;
   --fs-3xl: 56px;
+  /* Fluid display size — used by `.heading--display` and the
+     hero/page title at the top of `/` and `/handbook`. */
+  --fs-display: clamp(2.5rem, 5vw, 3.75rem);
 
   --lh-tight: 1.2;
   --lh-snug: 1.33;

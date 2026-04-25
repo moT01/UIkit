@@ -163,3 +163,39 @@ export function isActiveHref(
   if (h === '/') return true;
   return p.startsWith(h + '/');
 }
+
+/**
+ * Hash-aware variant for nav entries that target an in-page anchor
+ * (`/#button`, `/handbook#palette`). Required when a single route hosts
+ * multiple addressable sections — e.g. the docs `/` Playground listing
+ * 45 components as `/#<slug>` anchors.
+ *
+ * Match rules:
+ * - If `href` contains no `#`, defer to {@link isActiveHref}.
+ * - If `href` contains a `#`, split into `[path, hash]` and require the
+ *   current `path` to match `path` AND the current `hash` to match
+ *   `'#' + hash` exactly. An empty `currentHash` never matches a hash
+ *   target — so the page-load default of `/` never lights up `/#button`.
+ *
+ * @param currentPath - `window.location.pathname` (or `Astro.url.pathname`).
+ * @param currentHash - `window.location.hash` including the leading `#`,
+ *                      or `''` when no fragment.
+ * @param href        - The nav item's href.
+ */
+export function isActiveHrefWithHash(
+  currentPath: string,
+  currentHash: string,
+  href: string
+): boolean {
+  const hashIdx = href.indexOf('#');
+  if (hashIdx === -1) return isActiveHref(currentPath, href);
+
+  const targetPath = hashIdx === 0 ? currentPath : href.slice(0, hashIdx);
+  const targetHash = '#' + href.slice(hashIdx + 1);
+
+  // A bare `#frag` href is treated as same-route fragment.
+  const path = normalisePath(targetPath);
+  const cur = normalisePath(currentPath);
+  if (path !== cur) return false;
+  return currentHash === targetHash;
+}

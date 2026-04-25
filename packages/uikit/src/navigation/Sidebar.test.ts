@@ -6,7 +6,8 @@ import {
   Sidebar,
   SidebarSection,
   SidebarItem,
-  isActiveHref
+  isActiveHref,
+  isActiveHrefWithHash
 } from './Sidebar.tsx';
 
 test('Sidebar renders <aside> with base class and role=navigation', () => {
@@ -146,4 +147,37 @@ test('isActiveHref with exact:false matches descendants', () => {
 
 test('isActiveHref default is exact — descendant paths do not match', () => {
   assert.equal(isActiveHref('/components/button', '/components'), false);
+});
+
+test('isActiveHrefWithHash matches when path AND hash both align', () => {
+  assert.equal(isActiveHrefWithHash('/', '#button', '/#button'), true);
+  assert.equal(
+    isActiveHrefWithHash('/handbook', '#palette', '/handbook#palette'),
+    true
+  );
+});
+
+test('isActiveHrefWithHash falls back to isActiveHref for hash-less hrefs', () => {
+  assert.equal(isActiveHrefWithHash('/handbook', '', '/handbook'), true);
+  assert.equal(isActiveHrefWithHash('/handbook/', '', '/handbook'), true);
+});
+
+test('isActiveHrefWithHash never matches a hash href when no hash present', () => {
+  // Page-load default: pathname is `/`, hash is `''`. The Wave 6 bug
+  // — every cmp-* nav item lighting up because `/` matched normalised
+  // `/` ignoring the hash — must not regress.
+  assert.equal(isActiveHrefWithHash('/', '', '/#button'), false);
+  assert.equal(isActiveHrefWithHash('/', '', '/#card'), false);
+});
+
+test('isActiveHrefWithHash requires the hash to match exactly', () => {
+  assert.equal(isActiveHrefWithHash('/', '#button', '/#card'), false);
+  assert.equal(isActiveHrefWithHash('/', '#card', '/#card'), true);
+});
+
+test('isActiveHrefWithHash treats bare `#frag` href as same-route fragment', () => {
+  // `href='#button'` (no leading path) should activate when on any
+  // path with the matching hash. This pattern is rare but ergonomic.
+  assert.equal(isActiveHrefWithHash('/', '#button', '#button'), true);
+  assert.equal(isActiveHrefWithHash('/handbook', '#button', '#button'), true);
 });
