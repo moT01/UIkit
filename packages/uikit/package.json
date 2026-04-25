@@ -2,10 +2,11 @@
   "name": "@freecodecamp/uikit",
   "version": "0.1.0",
   "scripts": {
-    "test": "tsx --test --test-reporter=spec 'src/**/*.test.ts' 'scripts/**/*.test.mjs'",
-    "test:watch": "tsx --test --watch --test-reporter=spec 'src/**/*.test.ts'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build": "tsup && node scripts/gen-props.mjs",
-    "dev": "tsx --test --watch --test-reporter=spec 'src/**/*.test.ts'",
+    "dev": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },

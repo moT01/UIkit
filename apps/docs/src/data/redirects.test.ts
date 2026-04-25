@@ -4,7 +4,7 @@
 // the Astro redirect map is the single source of truth for that
 // promise. These tests parse `astro.config.mjs` as text so they don't
 // depend on the Astro config loader (unavailable in `node:test`).
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

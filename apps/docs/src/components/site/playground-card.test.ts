@@ -3,7 +3,7 @@
 // menu, scroll-spy). Wave 7 P0 deleted the Showcase.astro forwarder
 // (zero consumers post-migration) and the `apiLinkMode` prop along
 // with the `View API` link block; `source` is now required.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

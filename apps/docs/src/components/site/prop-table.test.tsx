@@ -10,7 +10,7 @@
 //   required props get a `data-required="true"` cell marker
 //   no rows when entry has zero props (caller skips render anyway,
 //   but the component must still render an empty <table>)
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
 import React from 'react';

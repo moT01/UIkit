@@ -15,7 +15,7 @@
 //   "x"    → minMatchCharLength gate fires
 //   "ico"  → Iconography in top 3
 //   "Button" (title) outranks  "button"-shaped summary
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import Fuse from 'fuse.js';
 

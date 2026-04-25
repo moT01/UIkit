@@ -6,7 +6,7 @@
 //   - `public/_redirects` wildcard (`/api/* /#:splat 301!`)
 //   - this test file + the changeset narrative documenting the
 //     retirement
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';
 import { resolve, dirname } from 'node:path';

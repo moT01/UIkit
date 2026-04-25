@@ -3,7 +3,7 @@
 // `src/pages/guides/[...slug].astro` and the index at
 // `src/pages/guides/index.astro` consume it. These checks lock the
 // six guides as a contract.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

@@ -1,7 +1,7 @@
 // Preset parity test: every --foreground-*, --background-*, and semantic
 // CSS custom property declared in tokens.css must have a Tailwind mapping
 // in the preset. Prevents silent drift when new tokens land.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';

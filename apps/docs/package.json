@@ -2,7 +2,9 @@
   "name": "@freecodecamp/uikit-docs",
   "version": "0.1.0",
   "scripts": {
-    "test": "tsx --test --test-reporter=spec 'src/**/*.test.ts' 'src/**/*.test.tsx' 'integrations/**/*.test.ts'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "predev": "node scripts/copy-sprite.mjs && node scripts/build-asset-kit.mjs && node scripts/ensure-uikit-built.mjs",

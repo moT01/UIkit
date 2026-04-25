@@ -3,7 +3,7 @@
 // Tier 4 demo pages (dialog, pagination, listbox, combobox) render as
 // inert markup. These are cheap string-level checks — see copy-sprite.mjs
 // for the build-time sprite plumbing they enforce.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

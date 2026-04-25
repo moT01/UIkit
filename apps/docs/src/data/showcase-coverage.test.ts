@@ -4,7 +4,7 @@
 // the nav doesn't know about. The home page glob-imports this dir
 // and indexes by `<slug>.astro`, so a missing file = a missing
 // component on `/`, and an orphan = a component the nav can't reach.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

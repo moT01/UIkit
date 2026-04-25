@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Visual-regression harness for the docs site.
+ * Visual + behavioural Playwright harness for the docs site.
  *
  * Strategy: serve the **built** Astro output via `astro preview` so the
  * test target matches production output (no HMR script injection, no dev
@@ -9,12 +9,24 @@ import { defineConfig, devices } from '@playwright/test';
  * server; local runs expect a pre-built `dist/` — if you're iterating,
  * run `pnpm build` before `pnpm test:visual`.
  *
+ * Tier layout:
+ *  - `./tests/visual/`        — pixel-baseline goldens, four projects
+ *                                (mobile, tablet, desktop, desktop-light).
+ *  - `./tests/behavioural/`   — Wave 9 P0 — interaction contracts for
+ *                                stateful primitives. Desktop-only;
+ *                                independent project so a flaky behaviour
+ *                                spec cannot cause visual goldens to
+ *                                re-snapshot.
+ *
  * Goldens live under `tests/visual/__snapshots__/` grouped by spec +
  * viewport. Update via `pnpm test:visual:update` after a deliberate
  * visual change, then diff the PNGs in code review.
  */
 export default defineConfig({
-  testDir: './tests/visual',
+  // Wave 9 P0 — broadened from `./tests/visual` so Playwright can also
+  // pick up `./tests/behavioural`. Each project pins its own `testDir`
+  // or `testMatch` so the two tiers do not cross-pollinate.
+  testDir: './tests',
   snapshotPathTemplate:
     '{testDir}/__snapshots__/{testFilePath}/{arg}-{projectName}{ext}',
   outputDir: './test-results',
@@ -41,14 +53,17 @@ export default defineConfig({
   projects: [
     {
       name: 'mobile',
+      testDir: './tests/visual',
       use: { viewport: { width: 375, height: 667 }, deviceScaleFactor: 2 }
     },
     {
       name: 'tablet',
+      testDir: './tests/visual',
       use: { viewport: { width: 768, height: 1024 }, deviceScaleFactor: 2 }
     },
     {
       name: 'desktop',
+      testDir: './tests/visual',
       use: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }
     },
     // Wave 8 P6 (W8-9) — dark + light parity. Re-runs the
@@ -61,6 +76,7 @@ export default defineConfig({
     // mode without touching `*.css` — every-PR gate is the contract.
     {
       name: 'desktop-light',
+      testDir: './tests/visual',
       testMatch: [
         '**/routes.spec.ts',
         '**/playground-card.spec.ts',
@@ -70,6 +86,16 @@ export default defineConfig({
         viewport: { width: 1440, height: 900 },
         deviceScaleFactor: 1
       }
+    },
+    // Wave 9 P0 — behavioural tier. Desktop viewport only; the
+    // primitives whose interaction contracts we lock here behave
+    // identically across viewports for the contracts we assert
+    // (click-to-toggle, type-to-filter, focus-to-show). Mobile/tablet
+    // touch-specific behaviour is out of scope for v1.0 GA.
+    {
+      name: 'behavioural-desktop',
+      testDir: './tests/behavioural',
+      use: { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 }
     }
   ],
   webServer: {

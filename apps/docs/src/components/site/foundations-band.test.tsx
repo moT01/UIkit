@@ -10,7 +10,7 @@
 //     useEffect never fires under `renderToStaticMarkup`, so we
 //     don't verify resolved values; that's covered by the visual
 //     snapshot in P6.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

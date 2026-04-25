@@ -3,7 +3,7 @@
 // means a consumer sees one icon via <Icon> and a different one via the
 // CSS sprite. Fail loud on any mismatch. Also pins the curated-subset
 // floor at 60 glyphs so Wave 2 icon-sprite expansion stays shipped.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync } from 'node:fs';
 import { resolve, dirname, basename, extname } from 'node:path';

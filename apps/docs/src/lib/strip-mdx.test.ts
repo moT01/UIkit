@@ -7,7 +7,7 @@
 // or paired), single-line and multi-line `import`/`export`, and
 // frontmatter, while preserving prose, links, code fences, and
 // inline code.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { stripMdx } from './strip-mdx.ts';
 

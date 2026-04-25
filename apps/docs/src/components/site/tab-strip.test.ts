@@ -3,7 +3,7 @@
 // menu item shipped placeholder copy on ~25 of 45 cards; cutting the
 // per-card surface keeps `@freecodecamp/uikit-tailwind` + the
 // `/guides/tailwind` page as the canonical Tailwind story.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

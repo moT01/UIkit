@@ -2,7 +2,9 @@
   "name": "@freecodecamp/uikit-cdn",
   "version": "0.1.0",
   "scripts": {
-    "test": "tsx --test --test-reporter=spec scripts/build.test.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build": "node scripts/build.mjs",
     "verify": "node scripts/verify.mjs"
   },

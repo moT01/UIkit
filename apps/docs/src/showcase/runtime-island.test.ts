@@ -1,7 +1,7 @@
 // Wave 7 P5 — runtime-island contract. Stateful components MUST mount
 // real React via a `client:` directive; their preview MUST NOT be a
 // static HTML mock. Wave 6 shipped 0 islands; Wave 7 P5 ships 11.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

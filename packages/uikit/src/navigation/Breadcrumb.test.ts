@@ -9,7 +9,7 @@
 //    instead of rendering `<a>`. Mitigates a stored-XSS surface
 //    where untrusted input lands in a Breadcrumb href.
 import { strict as assert } from 'node:assert';
-import { test } from 'node:test';
+import { test } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { createElement } from 'react';
 import { Breadcrumb } from './Breadcrumb.tsx';

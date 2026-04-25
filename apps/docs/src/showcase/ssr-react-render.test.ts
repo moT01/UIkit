@@ -11,7 +11,7 @@
 //   1. Frontmatter imports the component(s) from `@freecodecamp/uikit`.
 //   2. Preview slot contains at least one `<ComponentName ` JSX render.
 //   3. The rendered tag matches a uikit-exported name.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

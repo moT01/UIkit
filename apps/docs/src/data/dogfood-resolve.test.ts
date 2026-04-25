@@ -9,7 +9,7 @@
 //      reach outside `apps/docs/` into the monorepo source tree.
 //
 // `uikit-css` ships CSS-only via package `exports`; no TS path needed.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

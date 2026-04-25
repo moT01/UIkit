@@ -14,7 +14,7 @@
 //     compat marker.
 //  4. A `[gen-props] WARN` line is written to stderr for the
 //     generic-heavy stub case.
-import { test } from 'node:test';
+import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import {
   mkdtempSync,
