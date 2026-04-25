@@ -1,10 +1,3 @@
-// Wave 9 P2.5 (W9-B17) — Listbox behavioural contract.
-//
-// `<Listbox>` is a stateful single-select primitive. The demo island
-// (`_islands/ListboxDemo.tsx`) seeds value='frontend' (the first item)
-// across 4 items: frontend, backend, devops, design. Click on a
-// non-selected option MUST flip `aria-selected` on the underlying
-// `[role="option"]` <li> elements — the WAI-ARIA contract surface.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural listbox', () => {

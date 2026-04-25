@@ -1,14 +1,3 @@
-// Wave 9 P7.1 (W9-B13) — token discipline gate.
-//
-// `apps/docs/src/styles/showcase.css` declares chrome surfaces that
-// must paint correctly under both palettes. Hex literals break that
-// contract — a `light-palette` flip can't recolour `#b0b0bd`. The
-// audit (B13) flagged 4 lines; this gate fails until every chrome
-// colour reads from a CSS custom property (`var(--…)`).
-//
-// We allow hex inside `url(data:…)` payloads (none today, but keep
-// the carve-out so the contract reads narrowly), and inside
-// comments. Everything else must be a token.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

@@ -1,18 +1,3 @@
-// Wave 9 P6.4 (W9-Phase 6) — DataTable behavioural contract.
-//
-// The DataTable showcase paints a static SSR snapshot — the demo
-// does not wire `onSortChange`/`sortBy` props, so the sort button
-// is inert end-to-end. The interactive sort cycle is locked in the
-// L1 unit test (`packages/uikit/src/data-display/DataTable.dom.test.tsx`
-// → "clicking a sortable header cycles asc → desc → null").
-//
-// What we lock here is the rendered chrome contract every consumer
-// observes when DataTable boots:
-//
-//   1. <table> with the right column headers + 2 rows.
-//   2. The sortable column ('Cert') paints with `aria-sort` + a
-//      `<button class="data-table__sort-btn">` for keyboard sort.
-//   3. Cell alignment classes (right / center) are emitted.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural data-table', () => {

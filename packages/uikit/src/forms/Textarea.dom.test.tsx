@@ -1,10 +1,3 @@
-// Wave 9 P5.1 — DOM-side coverage for <Textarea>.
-//
-// The pure SSR tests (Textarea.test.ts) already lock the static
-// markup contract. The autoResize behaviour requires real DOM
-// (jsdom) plus measurable scrollHeight, plus the `useEffect` hook
-// + `onInput` handler. These tests cover lines 17-19 (`fit()`),
-// 37-38 (effect), and 54-55 (onInput resize) of Textarea.tsx.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { useRef } from 'react';

@@ -1,27 +1,10 @@
-// Wave 9 P4.3 (W9-B8.3) — site breadcrumb sub-bar.
-//
-// Design contract (`comp-header` card → `.crumb` block in
-// `~/Downloads/freeCodeCamp Design System.html`): every route
-// except home renders a 32px tall mono breadcrumb rail under the
-// site header, with `›` separators between segments and the
-// current leaf bolded.
-//
-// Surface implemented here:
-//   - `crumbsForPath(pathname)` — pure helper, locked by unit
-//     test; emits a list of `{ href?, label }` items, or null on
-//     home where no breadcrumb should paint.
-//   - `<AppBreadcrumb pathname>` — SSR React component that wraps
-//     uikit's `<Breadcrumb>` with the resolved items; returns
-//     null on `/` so the chrome stays compact.
-//
-// `<Breadcrumb>` already maps the last item without an `href` to
-// `aria-current="page"`, so we leave the leaf's `href` undefined
-// to opt into that contract automatically.
+// Site breadcrumb sub-bar: 32px mono rail under the header on every non-home route.
+// Leaf href is omitted so uikit `<Breadcrumb.Item>` flips it to `aria-current="page"`.
 import type { JSX } from 'react';
 import { Breadcrumb } from '@freecodecamp/uikit/navigation';
 
 export interface BreadcrumbCrumb {
-  /** Omitted on the leaf so the component flips it to aria-current. */
+  /** Omit on leaf → `<Breadcrumb.Item>` paints aria-current="page". */
   href?: string;
   label: string;
 }
@@ -40,8 +23,6 @@ function humanise(slug: string): string {
 }
 
 export function crumbsForPath(pathname: string): BreadcrumbCrumb[] | null {
-  // Home — no breadcrumb. The header alone is enough orientation
-  // when the user is at `/`.
   if (pathname === '/' || pathname === '') return null;
   const segments = pathname.split('/').filter(Boolean);
   if (segments.length === 0) return null;
@@ -52,13 +33,9 @@ export function crumbsForPath(pathname: string): BreadcrumbCrumb[] | null {
     const isLeaf = i === segments.length - 1;
     const label = SECTION_LABELS[seg] ?? humanise(seg);
     if (isLeaf) {
-      // Leaf — no href so `<Breadcrumb.Item>` paints it as the
-      // aria-current="page" leaf per its compound API.
       crumbs.push({ label });
     } else {
-      // Section index. For known sections we link to the section
-      // entry-point (e.g. `/guides/install` is the Guides root in
-      // the primary nav). Others link to their cumulative path.
+      // `/guides/install` is the section entry in primary nav; other sections link to cumulative.
       const href = seg === 'guides' ? '/guides/install' : cumulative;
       crumbs.push({ href, label });
     }

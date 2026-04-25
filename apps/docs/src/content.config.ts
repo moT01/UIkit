@@ -35,9 +35,6 @@ const components = defineCollection({
   })
 });
 
-// Wave 6 — `/guides/*`. Per-package install + recipe content with a
-// table of contents. Distinct from `components/` (per-component
-// reference) and `foundations/` (philosophy, tokens, brand).
 const guides = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/guides' }),
   schema: z.object({

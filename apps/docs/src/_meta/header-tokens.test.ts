@@ -1,15 +1,3 @@
-// Wave 9 P4.4 (W9-B8.4) — header-chrome tokens must be pinned.
-//
-// Design contract pegs the header at `var(--header-height)` and the
-// breadcrumb sub-bar at `var(--breadcrumbs-height)`. Wave 9 P4.3
-// landed the breadcrumb rail using a `32px` fallback (`var(--…, 32px)`)
-// because the token did not yet exist. This gate fails until both
-// tokens are defined in `packages/uikit-css/src/tokens.css` so no
-// inline pixel value squats in the chrome (`feedback_no_slop_infra`).
-//
-// We also assert no consumer in `apps/docs/src/styles/` declares a
-// hard-coded header / breadcrumb height — anything that needs to
-// know either dimension must reach for the token.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync, statSync } from 'node:fs';

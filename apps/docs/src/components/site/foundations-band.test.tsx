@@ -1,15 +1,3 @@
-// Wave 8 P3 (W8-1) — FoundationsBand contract.
-//
-// Twin tests:
-//  1. Source-level: the file declares EXACTLY one `new
-//     MutationObserver(...)` instance. We replaced N per-swatch
-//     observers (12 on `/` pre-Wave-8) with one band-wide observer
-//     so palette swaps trigger one re-render, not N.
-//  2. SSR markup: renders one outer <section>, three subgroups
-//     (gray ramp, accents, semantic), and N cells. SSR-only — the
-//     useEffect never fires under `renderToStaticMarkup`, so we
-//     don't verify resolved values; that's covered by the visual
-//     snapshot in P6.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

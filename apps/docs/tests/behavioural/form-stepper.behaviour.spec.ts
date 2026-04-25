@@ -1,16 +1,3 @@
-// Wave 9 P2.10 (W9-B17) — FormStepper behavioural contract.
-//
-// `<FormStepper>` is a stateful flow primitive. The demo island
-// (`_islands/FormStepperDemo.tsx`) seeds current='profile' (step 2
-// of 4) so the showcase paints with progress already in flight. The
-// contract surface this spec locks:
-//
-//   1. Exactly one step button advertises `aria-current="step"`,
-//      and on the seed render that step is "Profile".
-//   2. Backwards navigation works — clicking the prior step's
-//      button moves `aria-current` to it.
-//   3. Forward gating works — upcoming steps are `disabled`, so
-//      the user cannot leap-frog past the current one.
 import { test, expect } from '@playwright/test';
 
 const PROGRESS = '.form-stepper__progress';

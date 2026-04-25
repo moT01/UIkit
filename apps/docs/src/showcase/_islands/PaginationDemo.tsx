@@ -1,4 +1,3 @@
-// Wave 7 P5 — Pagination showcase island. Page state + count.
 import { useState } from 'react';
 import { Pagination } from '@freecodecamp/uikit';
 

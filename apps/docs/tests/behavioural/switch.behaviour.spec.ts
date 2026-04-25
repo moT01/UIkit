@@ -1,12 +1,3 @@
-// Wave 9 P6.1 (W9-Phase 6) — Switch behavioural contract.
-//
-// Switch is a styled `<input type='checkbox'>` wrapped in a label
-// with a track + thumb skin. Browser owns the toggle. The showcase
-// hydrates each `<Switch>` with `client:idle`, mostly to keep the
-// `defaultChecked` SSR/hydration boundary clean. Two switches:
-//
-//   1. defaultChecked — "Keyboard shortcuts".
-//   2. unchecked      — "Sound effects".
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural switch', () => {

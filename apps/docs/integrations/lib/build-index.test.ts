@@ -1,9 +1,3 @@
-// Wave 8 P2 (W8-2) — build-index contract.
-//
-// Drives the search-index integration end. The Astro integration is
-// thin glue around this builder; the contract here is what we test.
-// The integration's runtime behavior (middleware, build write) is
-// covered by the visual + dev-curl checks in the resume cues.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';

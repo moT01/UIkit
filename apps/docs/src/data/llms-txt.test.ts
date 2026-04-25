@@ -1,8 +1,3 @@
-// Wave 6 P5/P6 — agent endpoints contract. The `.md` and `.txt`
-// siblings are the source of truth for any LLM consumer; the build
-// must always emit them. These tests parse the route files at the
-// source level so they don't depend on a built dist (CI runs them
-// before `astro build`).
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';

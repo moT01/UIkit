@@ -1,14 +1,3 @@
-// Wave 9 P2.3 (W9-B17) — Tabs behavioural contract.
-//
-// `<Tabs>` wraps @ark-ui/react/tabs. ark-ui exposes selection state
-// via the WAI-ARIA-standard `aria-selected="true|false"` attribute
-// on each `[role="tab"]` button (plus a non-standard `data-selected`
-// presence flag the stylesheet may use). We assert on
-// `aria-selected` because it is the cross-vendor contract surface.
-//
-// Agent B's audit-time probe reported "clicking second tab does not
-// flip aria-selected" — re-running here as a permanent gate locks
-// the contract going forward.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural tabs', () => {

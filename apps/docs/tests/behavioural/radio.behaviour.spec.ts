@@ -1,14 +1,3 @@
-// Wave 9 P2.2 (W9-B18) — radio behavioural contract.
-//
-// `<RadioGroup defaultValue="dark">` on `/#radio` MUST render the
-// matching `<Radio>` pre-selected on first paint. The audit
-// (LANDING-AUDIT.md B6/B18) caught the showcase shipping unchecked
-// in every browser run because the React island never hydrated AND
-// the uikit RadioGroup did not honour `defaultValue`.
-//
-// Phase 2.1 fixed the uikit primitive (defaultValue → context value).
-// Phase 2.2 wires the showcase to hydrate (`client:idle`). This spec
-// asserts the post-hydration state directly via the live preview.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural radio', () => {

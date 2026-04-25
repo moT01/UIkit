@@ -1,8 +1,3 @@
-// Wave 9 P5.8 — DOM-side coverage for <Toast> + dismissible behaviour.
-//
-// SSR tests cover the static markup. This suite covers the dismiss
-// callback path (`onDismiss`) plus the createToaster + <Toaster>
-// imperative surface.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { Toast, createToaster, Toaster } from './Toast';

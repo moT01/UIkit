@@ -1,8 +1,3 @@
-// Wave 9 P6.1 (W9-Phase 6) — ToggleButton behavioural contract.
-//
-// Two ToggleButtons in the showcase: the first seeds `defaultPressed=false`,
-// the second seeds `defaultPressed=true`. Clicking each must flip
-// `aria-pressed` (the WAI-ARIA contract surface).
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural toggle-button', () => {

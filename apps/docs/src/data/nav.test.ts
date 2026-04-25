@@ -40,12 +40,10 @@ test('every nav item carries an href', () => {
 });
 
 test('Primitives section lives at the top of the nav', () => {
-  // Wave 4 · 4.7 pruned `guides` + `foundations` from the nav. The
-  // first section is now the component layer.
   assert.equal(nav[0]?.id, 'primitives');
 });
 
-test('guides and foundations sections are gone post Wave 4 · 4.7', () => {
+test('guides and foundations sections are gone post · 4.7', () => {
   const ids = nav.map(s => s.id);
   assert.ok(!ids.includes('guides'), 'guides should redirect to /handbook');
   assert.ok(
@@ -72,8 +70,6 @@ test('nav includes every layered component section', () => {
 });
 
 test('every cmp-* item points to /#<slug> with a known slug', () => {
-  // Wave 6 — `/api/*` retired. Component nav entries are anchor-links
-  // on the playground (`/`), so hrefs are of the form `/#<slug>`.
   const componentEntries = flatNav.filter(i => i.id.startsWith('cmp-'));
   assert.equal(
     componentEntries.length,
@@ -83,7 +79,7 @@ test('every cmp-* item points to /#<slug> with a known slug', () => {
   for (const entry of componentEntries) {
     assert.ok(
       entry.href.startsWith('/#'),
-      `${entry.id} href ${entry.href} must start with /# (Wave 6 — /api retired)`
+      `${entry.id} href ${entry.href} must start with /# (/api retired)`
     );
     const slug = entry.href.slice('/#'.length);
     assert.ok(

@@ -1,9 +1,3 @@
-// Wave 9 P5.2 — DOM-side coverage for <DataTable>.
-//
-// `DataTable.test.ts` already locks the SSR markup contract. This
-// suite covers the interaction surfaces that only run inside a real
-// React tree: sort cycling (asc → desc → null), select-all + per-row
-// toggle, indeterminate checkbox state, caption + width plumbing.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { useState } from 'react';

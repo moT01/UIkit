@@ -1,14 +1,3 @@
-// Wave 6 P0 — sibling-source dogfood resolution. The docs site must
-// resolve `@freecodecamp/uikit` and friends to `packages/<name>/src/`
-// so HMR fires on raw source edits without a publish/link cycle.
-//
-// Two surfaces enforce the contract:
-//   1. tsconfig.json `paths` → IDE + `astro check` see the right files.
-//   2. astro.config.mjs `vite.resolve.alias` → runtime + bundler see the
-//      right files. Plus `vite.server.fs.allow` so Vite is allowed to
-//      reach outside `apps/docs/` into the monorepo source tree.
-//
-// `uikit-css` ships CSS-only via package `exports`; no TS path needed.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';

@@ -1,8 +1,3 @@
-// Wave 8 P0 (W8-11) — per-card Tailwind tab strip cut. PlaygroundCard
-// must expose REACT | HTML only. The Tailwind tab + panel + copy-as
-// menu item shipped placeholder copy on ~25 of 45 cards; cutting the
-// per-card surface keeps `@freecodecamp/uikit-tailwind` + the
-// `/guides/tailwind` page as the canonical Tailwind story.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';

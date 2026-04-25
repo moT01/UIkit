@@ -1,7 +1,3 @@
-// Wave 7 P1 — TokenSwatch contract. Structural test: the file must
-// resolve at runtime via `getComputedStyle(:root)` (not a hand-typed
-// hex), and must re-read on palette swap. Behavioural validation via
-// the P9 Playwright snapshot once islands hydrate.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';

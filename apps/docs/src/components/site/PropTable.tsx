@@ -1,13 +1,4 @@
-// Wave 8 P1 (W8-3) — PropTable. Server-rendered React island that
-// reads a per-component entry from `@freecodecamp/uikit/props.json`
-// and renders an HTML <table> inside the showcase anatomy <details>
-// block. No `client:` directive — this is plain SSR markup, no
-// runtime cost.
-//
-// Generic-heavy components (DataTable<TRow>, FormStepper) may surface
-// with `_extractionFailed: true` from the generator (R1, styleguidist
-// #203). When that flag is set, we render a fallback note instead of
-// an empty table.
+// SSR `<table>` from a `props.json` entry. Generic components (`_extractionFailed: true`) get a fallback note.
 import React from 'react';
 
 export interface PropEntryProp {
@@ -30,9 +21,7 @@ export interface PropTableProps {
 
 function defaultDisplay(value: string | null): string {
   if (value == null) return '—';
-  // Collapse multi-line default values (DataTable's `defaultRowId`
-  // ships a stringified arrow function). Show the first line; full
-  // signature lives in source.
+  // Stringified arrow functions can be multi-line; show the first line truncated.
   const first = value.split('\n')[0].trim();
   return first.length > 60 ? `${first.slice(0, 60)}…` : first;
 }

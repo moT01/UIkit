@@ -1,21 +1,7 @@
-// Wave 8 P2 (W8-2) — client-side search wiring for Search.astro.
-//
-// Lazy-imports `fuse.js` on first focus of the search input, fetches
-// the static `/search-index.json` (served by the integration in dev,
-// emitted to dist in prod), and renders results into the search
-// dialog's `<ul data-search-results>` list.
-//
-// Security (D-spec § P2):
-//
-//  - All text rendered from the index goes through `textContent`.
-//    Index entries can in principle contain `<script>`-like strings
-//    if MDX frontmatter ever changes shape; never `innerHTML`.
-//  - `href` is scheme-allowlisted (`http:`, `https:`, leading `/`,
-//    leading `#`, `mailto:`, `tel:`). Anything else is rejected with
-//    a console warning.
-//
-// Debug: `?fuse_debug=1` URL flag logs scores. Gated on `import.meta
-// .env.DEV` so production bundles ship zero extra bytes.
+// Search wiring for Search.astro: lazy-imports fuse.js on first focus, fetches `/search-index.json`,
+// renders into `<ul data-search-results>`.
+// Security: all output uses textContent (never innerHTML); href is scheme-allowlisted.
+// Debug: `?fuse_debug=1` URL flag logs scores; gated on `import.meta.env.DEV`.
 import type Fuse from 'fuse.js';
 
 interface IndexEntry {
@@ -119,7 +105,6 @@ export async function wireSearch(
     typeof window !== 'undefined' &&
     typeof URLSearchParams !== 'undefined' &&
     new URLSearchParams(window.location.search).get('fuse_debug') === '1' &&
-    // Gate on dev mode so prod ships zero bytes.
     Boolean(import.meta.env?.DEV);
   const indexUrl = options.indexUrl ?? '/search-index.json';
 
@@ -183,7 +168,6 @@ export async function wireSearch(
   });
 }
 
-// Auto-wire when imported as a module from Search.astro.
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     const input = document.querySelector<HTMLInputElement>(

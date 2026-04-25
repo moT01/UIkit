@@ -1,16 +1,3 @@
-// Wave 9 P2.6 (W9-B17) — CommandPalette behavioural contract.
-//
-// `<CommandPalette>` is a stateful overlay primitive. The demo island
-// (`_islands/CommandPaletteDemo.tsx`) keeps it closed until the user
-// clicks "Open command palette" — same trigger pattern as ModalDemo,
-// so the fixed-position backdrop never masks the docs hero on paint
-// (Wave 7 P9 fix). This spec locks three contract surfaces:
-//
-//   1. Trigger reveals `[role="dialog"][aria-modal="true"]`.
-//   2. Typing filters the `[role="option"]` list.
-//   3. Escape closes the palette (keydown handler).
-//
-// All assertions key off WAI-ARIA primitives — no class-name coupling.
 import { test, expect } from '@playwright/test';
 
 const TRIGGER = 'button:has-text("Open command palette")';

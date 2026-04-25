@@ -1,8 +1,3 @@
-// Wave 2 dogfood invariants. Docs site must consume its own vanilla JS
-// bundle and ship the icon sprite at the canonical `/uikit/` route, or
-// Tier 4 demo pages (dialog, pagination, listbox, combobox) render as
-// inert markup. These are cheap string-level checks — see copy-sprite.mjs
-// for the build-time sprite plumbing they enforce.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

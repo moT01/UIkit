@@ -1,12 +1,3 @@
-// Wave 9 P6.4 (W9-Phase 6) — Tooltip behavioural contract.
-//
-// `<Tooltip>` is a CSS-driven affordance: the bubble (`role=tooltip`)
-// is always in the DOM but hidden via `opacity: 0` until the
-// wrapping `.tip` element is hovered or focused. This spec locks:
-//
-//   1. `role="tooltip"` is rendered with the seeded content.
-//   2. Wrapper has `tabindex="0"` so the tooltip is keyboard-accessible.
-//   3. Hovering the wrapper makes the bubble visible (opacity > 0).
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural tooltip', () => {

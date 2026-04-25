@@ -1,23 +1,3 @@
-// Wave 9 P4.1 (W9-B8.1) — header active-link visual contract.
-//
-// Design contract (`comp-header` card in the freeCodeCamp Design
-// System export, captured in LANDING-AUDIT.md `## B8`):
-//
-//   .bar nav a[aria-current] {
-//     color: var(--foreground-primary);
-//     border-bottom-color: var(--yellow-gold);
-//     font-weight: 700;
-//   }
-//
-// `--yellow-gold` is `#ffbf00` (tokens.css L96), which Chromium's
-// computed-style serialiser returns as `rgb(255, 191, 0)`.
-//
-// P2.11 already wired `aria-current="page"` on the matching link.
-// This spec locks the *visual* surface of that contract: weight +
-// underline colour. We assert at the live `/handbook` route — the
-// Handbook link will carry `aria-current="page"`, the Playground
-// link will not, so the styled vs unstyled state is captured in
-// the same render.
 import { test, expect } from '@playwright/test';
 
 const YELLOW_GOLD = 'rgb(255, 191, 0)';

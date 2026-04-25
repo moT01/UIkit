@@ -1,15 +1,5 @@
-// Wave 8 P3 (W8-1) — foundations preamble band on `/`.
-//
-// One React island that surfaces the gray ramp + accents + semantic
-// colors above the components grid. Replaces the per-cell
-// `<TokenSwatch client:load>` loop (12 islands → 1 island) by
-// observing the `<html>` palette class once and re-reading every
-// custom property in a single pass.
-//
-// Pivoted from the brainstorm pattern (D5): the band IS the island,
-// the swatch is its internal cell. Drops `client:load` from
-// `TokenSwatch` and puts it on the band wrapper. One MutationObserver
-// + one `hydrateRoot` instead of N.
+// Single React island for the foundations band on `/`. Owns one MutationObserver on the `<html>`
+// palette class and pushes resolved values into `<TokenSwatch value={...}>` cells (no per-cell observers).
 import { useEffect, useState } from 'react';
 import { TokenSwatch } from './TokenSwatch.tsx';
 

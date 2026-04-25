@@ -1,8 +1,3 @@
-// Wave 6 P4 — `/guides/*` IA. The collection is the single source
-// of truth for the per-package surface; the renderer at
-// `src/pages/guides/[...slug].astro` and the index at
-// `src/pages/guides/index.astro` consume it. These checks lock the
-// six guides as a contract.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
@@ -19,7 +14,7 @@ const guideFiles = existsSync(guidesDir)
 
 const REQUIRED_FRONTMATTER = ['title', 'eyebrow', 'summary', 'order'] as const;
 
-test('Wave 6 ships at least six guides', () => {
+test('ships at least six guides', () => {
   assert.ok(
     guideFiles.length >= 6,
     `expected 6+ guides under content/guides/, got ${guideFiles.length}`
@@ -63,10 +58,6 @@ test('ProseLayout exists and is consumed by the guide renderer', () => {
 });
 
 test('every guide carries enough `## ` headings to populate a TOC', () => {
-  // Wave 7 P8 — ProseLayout's TOC harvests `<h2 id=...>`. With
-  // `rehype-slug` wired (`apps/docs/astro.config.mjs`), every `## `
-  // heading in MDX renders as `<h2 id=...>` in dist. So the source-
-  // level invariant is: each guide must have ≥2 `## ` headings.
   for (const file of guideFiles) {
     const src = readFileSync(resolve(guidesDir, file), 'utf8');
     const matches = src.match(/^## /gm);

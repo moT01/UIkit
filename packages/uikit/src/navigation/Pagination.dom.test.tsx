@@ -1,8 +1,3 @@
-// Wave 9 P5.6 — DOM-side coverage for <Pagination>.
-//
-// SSR tests cover paginationRange + markup. The interaction surface
-// (`go` guards + `onPageChange` callback paths) only fires under a
-// real React tree.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { Pagination } from './Pagination';

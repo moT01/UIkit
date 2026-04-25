@@ -1,11 +1,3 @@
-// Wave 7 P9 — minimal accessibility regression. Spec calls for
-// Lighthouse a11y ≥ 95 in CI; this spec ships the same shape as a
-// Playwright assertion suite so local + PR runs catch the obvious
-// drops without spinning Lighthouse on every push.
-//
-// Targets the contract Lighthouse audits hardest: a single `<h1>`
-// per page, every `<img>` has alt text, every interactive element
-// has an accessible name, every `<a>` has discernible text.
 import { test, expect } from '@playwright/test';
 
 const ROUTES: readonly string[] = [

@@ -1,18 +1,3 @@
-// Wave 9 P2.8 (W9-B17) — Dropdown behavioural contract.
-//
-// `<Dropdown>` is the in-house composition of Toggle/Menu/Item with
-// `useState` controlling open/closed. Demo island
-// (`_islands/DropdownDemo.tsx`) seeds open=false so the menu starts
-// hidden. The contract surface we lock here:
-//
-//   1. The toggle button advertises state via `aria-expanded` and
-//      flips it on click.
-//   2. `[role="menu"]` is conditionally rendered (Dropdown.Menu
-//      returns `null` when closed) so its presence is a clean
-//      open-state proxy.
-//   3. Clicking a `[role="menuitem"]` selects it and closes the
-//      menu (the item handler calls `setOpen(false)`).
-//   4. Escape key closes the menu (document keydown listener).
 import { test, expect } from '@playwright/test';
 
 const TOGGLE = 'button:has-text("Sort")';

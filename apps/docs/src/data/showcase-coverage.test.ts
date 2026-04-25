@@ -1,9 +1,3 @@
-// Wave 6 P2 — invariant. Every component in `knownComponentSlugs`
-// must have a per-slug showcase file under `apps/docs/src/showcase/`,
-// and the showcase directory must not contain orphan files for slugs
-// the nav doesn't know about. The home page glob-imports this dir
-// and indexes by `<slug>.astro`, so a missing file = a missing
-// component on `/`, and an orphan = a component the nav can't reach.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -37,7 +31,6 @@ test('showcase/ directory has no orphans not in knownComponentSlugs', () => {
 });
 
 test('exactly 46 showcase files (one per component)', () => {
-  // Wave 8 P4 — Breadcrumb (W8-5) shipped, 45 → 46.
   assert.equal(
     showcaseFiles.length,
     46,

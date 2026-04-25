@@ -1,10 +1,3 @@
-// Wave 6 P5 — root LLM-friendly index. Lists every visible URL on
-// the site with a one-line summary and the matching `.md` companion
-// for agent consumption. See `/llms-full.txt` for the concatenated
-// content dump.
-//
-// Output is plain `text/plain` markdown — no HTML, no frontmatter,
-// no Pagefind indexing (Pagefind ignores `.txt`).
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 

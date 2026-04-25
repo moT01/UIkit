@@ -1,17 +1,3 @@
-// Wave 9 P5.3 — DOM-side coverage for <CommandPalette>.
-//
-// `CommandPalette.test.ts` locks the SSR markup. This suite covers
-// the keyboard + filter + selection paths that only exist inside a
-// real React tree:
-//
-//   - typing the search input filters groups + items
-//   - ArrowDown / ArrowUp move `aria-selected` between options
-//   - Enter calls `onSelect` with the active item's id
-//   - Escape calls `onClose`
-//   - mouse-over an item sets it active
-//   - clicking an item calls `onSelect`
-//   - clicking the backdrop calls `onClose`
-//   - controlled value mode forwards typed input via `onValueChange`
 import { test, expect, afterEach, beforeAll } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { useState } from 'react';

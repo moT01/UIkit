@@ -1,12 +1,3 @@
-// Wave 9 P7.2 (W9-B14) — every `.showcase__tab` button must declare
-// `type='button'`.
-//
-// Defensive: HTML5 default `<button>` type is `submit`. The
-// PlaygroundCard tab strip is unlikely to ever live inside a form
-// today, but a future surface (e.g. an embedded "search across
-// docs" experience) could absent-mindedly nest one. Without an
-// explicit type, clicking a tab would submit the host form. Lock
-// the rule now.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

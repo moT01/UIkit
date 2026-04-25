@@ -1,12 +1,3 @@
-// Wave 7 P8 — strip-mdx hardening. The Wave 6 implementation
-// hardcoded a 6-name component blacklist. Runtime audit shows the
-// docs MDX uses 20+ JSX component names; every one not in the list
-// leaks into the `.md` agent endpoint as raw `<Component>` markup.
-//
-// Contract: stripMdx must remove ANY `<UpperCase>` tag (self-close
-// or paired), single-line and multi-line `import`/`export`, and
-// frontmatter, while preserving prose, links, code fences, and
-// inline code.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { stripMdx } from './strip-mdx.ts';
@@ -172,8 +163,6 @@ Closing prose.`;
 
 test('collapses 3+ blank lines to 2 (no run-on whitespace)', () => {
   const input = `A.
-
-
 
 B.`;
   const out = stripMdx(input);

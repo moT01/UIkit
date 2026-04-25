@@ -1,6 +1,3 @@
-// Wave 7 P5 — Dropdown showcase island. Member-access subcomponents
-// (Toggle/Menu/Item) require a fully-React subtree, so the entire
-// composition lives in this island.
 import { Dropdown } from '@freecodecamp/uikit';
 
 export function DropdownDemo(): JSX.Element {

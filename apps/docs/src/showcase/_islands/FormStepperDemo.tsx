@@ -1,4 +1,3 @@
-// Wave 7 P5 — FormStepper showcase island. 4-step demo with state.
 import { useState } from 'react';
 import { FormStepper } from '@freecodecamp/uikit';
 

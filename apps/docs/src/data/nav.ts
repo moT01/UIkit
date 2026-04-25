@@ -20,11 +20,7 @@ const c = (slug: string, label: string): NavItem => ({
   href: `/#${slug}`
 });
 
-// Wave 4 · 4.7 pruned guides + foundations from the nav (folded into
-// `/handbook`). Wave 6 + Wave 7 retired the legacy per-component
-// route — every component now lives at an anchor on the playground
-// (`/`), so nav hrefs are `/#<slug>`. Edge redirects in
-// `public/_redirects` keep external deep-links honest.
+// Components live at anchors on the playground (`/#<slug>`); deep-link redirects in public/_redirects.
 export const nav: readonly NavSection[] = [
   {
     id: 'primitives',

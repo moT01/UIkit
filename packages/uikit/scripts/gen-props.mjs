@@ -1,31 +1,7 @@
 #!/usr/bin/env node
-// Wave 8 P1 (W8-3) — props extraction.
-//
-// Reads every `*.tsx` (skip `.test.tsx`) under the package's `src/`,
-// runs `react-docgen-typescript` against the package tsconfig, and
-// emits a single `dist/props.json`:
-//
-//   {
-//     "$schemaVersion": "1.0.0",
-//     "Button":    { "displayName": "Button",   "description": "...", "props": { ... } },
-//     "DataTable": { "displayName": "DataTable", "description": "...", "props": {}, "_extractionFailed": true }
-//   }
-//
-// `react-docgen-typescript` (styleguidist#203) returns empty `props`
-// for generic components like `<TRow,>(...)`. The generator detects
-// the empty-result + `export const X = <` pattern and emits a stub
-// envelope with `_extractionFailed: true`, plus a WARN line on
-// stderr. Consumers (PlaygroundCard PropTable) render a fallback
-// "Prop signature unavailable" message in that case.
-//
-// Build sequence (D10): `tsup && node scripts/gen-props.mjs`. tsup
-// `clean: true` wipes `dist/`; the generator must run AFTER tsup so
-// its output isn't deleted.
-//
-// CLI flags (used by the test harness only — production callers run
-// without flags from `packages/uikit`):
-//   --root <dir>   Override package root (default: script's parent's
-//                  parent). Lets the test point at a synthetic fixture.
+// Extract React component prop signatures via react-docgen-typescript → dist/props.json.
+// Generic components (styleguidist#203) get a stub envelope with `_extractionFailed: true`.
+// Must run AFTER tsup (`clean: true` wipes dist/). CLI: --root <dir> for test harness.
 import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -69,19 +45,14 @@ function walkTsx(dir) {
   return out;
 }
 
-/** Detect `export const Name = <` style generic component signatures.
- *  styleguidist#203: react-docgen-typescript returns empty props for
- *  these. We use the regex hit to flag the stub envelope. */
+/** Generic component signature `export const Name = <T,>(...)` — flag for stub envelope. */
 const GENERIC_RE = /export\s+const\s+\w+\s*=\s*<\w+,?\s*>?\(/;
 
-/** Return the displayName a generic-heavy file is meant to expose.
- *  Falls back to the first `export const` identifier. */
 function guessDisplayName(source, sourceFile) {
   const explicit = source.match(/(\w+)\.displayName\s*=\s*['"](\w+)['"]/);
   if (explicit) return explicit[2];
   const decl = source.match(/export\s+const\s+(\w+)\s*=\s*</);
   if (decl) return decl[1];
-  // Fall back to the file basename.
   return dirname(sourceFile).endsWith('src')
     ? sourceFile
         .split('/')
@@ -97,10 +68,7 @@ const parser = docgen.withCustomConfig(tsconfigPath, {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
   shouldRemoveUndefinedFromOptional: true,
-  // Skip the kitchen-sink HTML-attribute spread react-docgen-typescript
-  // would otherwise inline for every `extends ButtonHTMLAttributes`
-  // interface — the docgen output would balloon to ~200 props per
-  // component.
+  // Drop node_modules-sourced props (HTMLAttributes spread) — would inline ~200 props per component.
   propFilter: prop => {
     if (prop.parent == null) return true;
     return !prop.parent.fileName.includes('node_modules');

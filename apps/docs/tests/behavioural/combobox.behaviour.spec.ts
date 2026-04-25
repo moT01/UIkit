@@ -1,16 +1,3 @@
-// Wave 9 P6.3 (W9-Phase 6) — Combobox behavioural contract.
-//
-// `<Combobox>` is a stateful filter widget. Demo island
-// (`_islands/ComboboxDemo.tsx`) holds query + selected value in
-// React state; typing filters the option list, clicking an option
-// commits it via `onValueChange`. Five seed certifications:
-//   rwd | js | fe | be | rdb.
-//
-// Lock the surface every consumer relies on:
-//
-//   1. Initial: 5 options visible, no selection.
-//   2. Typing 'java' filters to the JS option only.
-//   3. Clicking an option flips its `aria-selected` to true.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural combobox', () => {

@@ -1,13 +1,3 @@
-// Wave 9 P4.3 (W9-B8.3) — breadcrumb sub-bar live contract.
-//
-// Unit tests in `AppBreadcrumb.test.tsx` lock the SSR markup +
-// path-mapping. This spec locks the *site-level* contract once the
-// component is wired into AppHeader.astro:
-//
-//   1. `/`              — `.site-breadcrumb` is absent.
-//   2. `/handbook`      — `.site-breadcrumb` paints, with Home + Handbook.
-//   3. `/guides/install` — Home + Guides + Install paint, leaf has
-//                          `aria-current="page"`.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural breadcrumb-rail', () => {

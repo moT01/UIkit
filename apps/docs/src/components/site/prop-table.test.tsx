@@ -1,15 +1,3 @@
-// Wave 8 P1 (W8-3) — PropTable contract.
-//
-// Server-rendered prop table for the showcase anatomy block. Reads
-// the per-component entry from `@freecodecamp/uikit/props.json` and
-// renders a `<table>` with one row per declared prop.
-//
-// Render contract (SSR-only — no client directive in PlaygroundCard):
-//   columns: Prop · Type · Required · Default · Description
-//   one row per prop in the entry
-//   required props get a `data-required="true"` cell marker
-//   no rows when entry has zero props (caller skips render anyway,
-//   but the component must still render an empty <table>)
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';

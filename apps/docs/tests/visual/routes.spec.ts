@@ -9,9 +9,6 @@ test.beforeEach(async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     (window as unknown as { __NO_SPY__: boolean }).__NO_SPY__ = true;
   });
-  // Wave 8 P6 (W8-9) — the `desktop-light` project re-runs every
-  // spec under the light palette. Toggle the class before any user
-  // code runs so first-paint snapshots reflect the light surface.
   if (testInfo.project.name === 'desktop-light') {
     await page.addInitScript(() => {
       document.documentElement.classList.remove('dark-palette');
@@ -33,10 +30,6 @@ test.beforeEach(async ({ page }, testInfo) => {
  * diffed PNGs as part of the same commit.
  */
 
-// Wave 7 P0 retired the per-component `/api/<slug>` route in favor of
-// per-component sections on `/`. P9 keeps the chrome surfaces (handbook +
-// guides) under route-level visual regression; per-component visual
-// coverage moves to `playground-card.spec.ts`.
 const surfaces: readonly string[] = [
   '/handbook',
   '/guides/install',

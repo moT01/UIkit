@@ -4,9 +4,6 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-// Pins the publish contract: main/module/types + per-layer exports map.
-// Ensures the uikit npm entry wiring does not regress before the Wave 5 cut.
-
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgPath = join(here, '..', 'package.json');
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf8')) as {

@@ -1,16 +1,3 @@
-// Wave 7 P6 — SSR React render contract. Stateless showcases must
-// render the REAL uikit React component in the preview slot, not a
-// hand-rolled HTML mock. Wave 6 shipped 45 showcases where every
-// preview was a div-soup imitation; the snippet-audit (P4) caught
-// API drift between mocks and real components on Combobox + others.
-// P5 fixed the 11 stateful demos with `client:` directives. P6 fixes
-// the remaining 34 by inlining `<Component />` JSX (Astro SSRs React
-// without hydration, so no `client:` is needed for static previews).
-//
-// Contract per file:
-//   1. Frontmatter imports the component(s) from `@freecodecamp/uikit`.
-//   2. Preview slot contains at least one `<ComponentName ` JSX render.
-//   3. The rendered tag matches a uikit-exported name.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -19,10 +6,6 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-// Wave 7 P5 + Wave 9 P2.2 — these hydrate as client islands; covered
-// by runtime-island.test.ts. P6 covers everything else. Radio joined
-// the island set in W9-P2.2 (B18 fix) — its parent-child context
-// requires a single React boundary.
 const STATEFUL = new Set([
   'combobox',
   'command-palette',
@@ -35,8 +18,6 @@ const STATEFUL = new Set([
   'switch',
   'tabs',
   'toast',
-  // Wave 9 P6.1 — promoted from SSR-only to a hydrated island so the
-  // toggle-button click → aria-pressed flip is provable.
   'toggle-button',
   'tooltip'
 ]);
@@ -88,10 +69,7 @@ const files = readdirSync(here)
 
 const subjects = files.filter(slug => !STATEFUL.has(slug));
 
-test('Wave 7 P6 + Wave 8 P4 + Wave 9 P2.2 + P6.1 — 33 SSR-only showcases identified', () => {
-  // Wave 8 P4 — breadcrumb shipped, 34 → 35.
-  // Wave 9 P2.2 — radio promoted to stateful island (B18), 35 → 34.
-  // Wave 9 P6.1 — toggle-button promoted to stateful island, 34 → 33.
+test('+ + + P6.1 — 33 SSR-only showcases identified', () => {
   assert.equal(
     subjects.length,
     33,
@@ -103,7 +81,7 @@ test('every SSR-only slug has an EXPECTED entry', () => {
   for (const slug of subjects) {
     assert.ok(
       slug in EXPECTED,
-      `Wave 7 P6 — add ${slug} to EXPECTED in ssr-react-render.test.ts`
+      `add ${slug} to EXPECTED in ssr-react-render.test.ts`
     );
   }
 });

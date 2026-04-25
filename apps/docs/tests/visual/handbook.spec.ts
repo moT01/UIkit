@@ -1,18 +1,9 @@
-// Wave 7 P9 — `/handbook` regression. Wave 7 P7 expanded the
-// foundations collection from 6 to 9 entries (+ Overview + Brand +
-// Do/Don't) and rewired the TOC. This spec locks the multi-viewport
-// look at desktop / tablet / mobile, plus a per-section anchor
-// snapshot for the new content blocks so a future MDX edit that
-// silently breaks layout is caught.
 import { test, expect } from '@playwright/test';
 
 test.beforeEach(async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     (window as unknown as { __NO_SPY__: boolean }).__NO_SPY__ = true;
   });
-  // Wave 8 P6 (W8-9) — `desktop-light` project flips the palette
-  // class before any user code runs so first-paint snapshots
-  // reflect the light surface.
   if (testInfo.project.name === 'desktop-light') {
     await page.addInitScript(() => {
       document.documentElement.classList.remove('dark-palette');

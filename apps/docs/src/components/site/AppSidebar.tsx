@@ -1,14 +1,5 @@
-// Dogfood chrome: docs site sidebar built on @freecodecamp/uikit's
-// <Sidebar> + <SidebarSection> + <SidebarItem>. Wave 7 P2 — switched
-// from `isActiveHref` to `isActiveHrefWithHash` so the 45 component
-// nav entries (`/#<slug>`) get correct active state on the Playground.
-// `currentHash` is threaded in from `Astro.url.hash`; client-side
-// scroll-spy keeps it in sync as the user scrolls.
-//
-// Wave 4 · 4.6 dropped the `shouldOpenSection` / `DEFAULT_OPEN` dance.
-// After the IA flattened (/ as Playground + /handbook as reference),
-// the sidebar renders on exactly two routes and serves as a shallow
-// jump-list — every section ships expanded.
+// Docs sidebar on uikit primitives. `currentHash` threads `Astro.url.hash` for hash-anchor active state;
+// `showcase-spy.client.ts` keeps it in sync on scroll. Sections ship expanded (sidebar = shallow jump-list).
 import type { JSX } from 'react';
 import {
   Sidebar,
@@ -39,11 +30,7 @@ export function AppSidebar({
       {nav.map(section => (
         <SidebarSection key={section.id} label={section.label}>
           {section.items.map(item => {
-            // Anchor hrefs (`/#<slug>`, `#frag`) are scroll-spied
-            // client-side via `showcase-spy.client.ts`. Tag them with
-            // `data-sidebar-link` + `data-target` so the spy can find
-            // and re-mark them as the user scrolls. Route-based hrefs
-            // (e.g. `/handbook`) get static `active` from SSR only.
+            // Anchor hrefs get `data-sidebar-link` + `data-target` for scroll-spy. Route hrefs use SSR active only.
             const hashIdx = item.href.indexOf('#');
             const target = hashIdx === -1 ? null : item.href.slice(hashIdx + 1);
             const spyProps = target

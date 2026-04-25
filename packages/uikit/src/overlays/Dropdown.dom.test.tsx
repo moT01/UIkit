@@ -1,16 +1,3 @@
-// Wave 9 P5.4 — DOM-side coverage for <Dropdown>.
-//
-// Existing tests stop at SSR markup. This suite covers the
-// Toggle/Menu/Item interactions plus the document-level outside-click
-// + Escape close paths that only run in jsdom:
-//
-//   - clicking the toggle opens + closes the menu
-//   - aria-expanded mirrors `open` on the toggle
-//   - clicking an item closes the menu and calls onSelect
-//   - clicking outside the dropdown root closes the menu
-//   - Escape closes the menu
-//   - `as="button"` item renders a <button role="menuitem">
-//   - active item carries aria-current="true"
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { Dropdown } from './Dropdown';

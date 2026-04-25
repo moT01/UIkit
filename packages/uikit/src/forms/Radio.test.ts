@@ -80,11 +80,6 @@ test('Radio label composes with labelClassName', () => {
   assert.match(html, /class="radio extra"/);
 });
 
-// Wave 9 P2.1 (W9-B18) — `RadioGroup` must honour `defaultValue` for
-// uncontrolled mode. Closes audit B6 / B18 (Radio default-value
-// regression). The audit caught the docs `radio.astro` showcase
-// shipping `<RadioGroup defaultValue="dark">` and rendering with no
-// pre-selection because the prop fell through to `...rest`.
 test('RadioGroup defaultValue marks the matching Radio as checked (uncontrolled)', () => {
   const html = renderToStaticMarkup(
     createElement(

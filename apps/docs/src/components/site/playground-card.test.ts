@@ -1,8 +1,3 @@
-// Wave 6 P1 / Wave 7 P0 — PlaygroundCard structural contract. The
-// data-attribute set drives showcase.client.ts (tab switching, copy
-// menu, scroll-spy). Wave 7 P0 deleted the Showcase.astro forwarder
-// (zero consumers post-migration) and the `apiLinkMode` prop along
-// with the `View API` link block; `source` is now required.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -41,7 +36,6 @@ test('PlaygroundCard preserves the showcase.client.ts data-attribute contract', 
 });
 
 test('PlaygroundCard exposes preview, react, html slots only', () => {
-  // Wave 8 P0 (W8-11) — tailwind slot deleted with the per-card tab.
   const src = readFileSync(cardPath, 'utf8');
   for (const name of ['preview', 'react', 'html']) {
     assert.match(
@@ -53,11 +47,11 @@ test('PlaygroundCard exposes preview, react, html slots only', () => {
   assert.doesNotMatch(
     src,
     /<slot\s+name=['"]tailwind['"]/,
-    'tailwind slot must be removed (Wave 8 P0)'
+    'tailwind slot must be removed'
   );
 });
 
-test('PlaygroundCard accepts the Wave 6 metadata props', () => {
+test('PlaygroundCard accepts the metadata props', () => {
   const src = readFileSync(cardPath, 'utf8');
   for (const prop of ['status', 'since', 'tokens', 'a11yPattern']) {
     assert.match(
@@ -68,7 +62,7 @@ test('PlaygroundCard accepts the Wave 6 metadata props', () => {
   }
 });
 
-test('apiLinkMode prop deleted — Wave 7 P0 fully retired /api references', () => {
+test('apiLinkMode prop deleted — fully retired /api references', () => {
   const src = readFileSync(cardPath, 'utf8');
   assert.doesNotMatch(
     src,
@@ -114,9 +108,6 @@ test('PlaygroundCard supports defaultOpen for the first ANATOMY block', () => {
 });
 
 test('astro.config.mjs pins Shiki theme to github-dark', () => {
-  // Wave 7 P3 — every <Code> block + MDX fence must emit
-  // `astro-code github-dark`. Pinning prevents an upstream theme
-  // default change from silently re-theming the docs.
   const cfgPath = resolve(here, '..', '..', '..', 'astro.config.mjs');
   const cfg = readFileSync(cfgPath, 'utf8');
   assert.match(

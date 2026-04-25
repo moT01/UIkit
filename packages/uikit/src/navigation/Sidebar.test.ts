@@ -163,9 +163,6 @@ test('isActiveHrefWithHash falls back to isActiveHref for hash-less hrefs', () =
 });
 
 test('isActiveHrefWithHash never matches a hash href when no hash present', () => {
-  // Page-load default: pathname is `/`, hash is `''`. The Wave 6 bug
-  // — every cmp-* nav item lighting up because `/` matched normalised
-  // `/` ignoring the hash — must not regress.
   assert.equal(isActiveHrefWithHash('/', '', '/#button'), false);
   assert.equal(isActiveHrefWithHash('/', '', '/#card'), false);
 });

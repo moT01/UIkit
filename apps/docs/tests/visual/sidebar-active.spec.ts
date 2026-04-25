@@ -1,8 +1,3 @@
-// Wave 7 P9 — sidebar active-state regression. Wave 7 P2 fixed the
-// hash-aware `isActiveHrefWithHash` helper + scroll-spy wiring on
-// AppSidebar. This spec locks the runtime contract: scroll the home
-// page to a given component anchor, assert the sidebar entry for that
-// slug carries `data-active="true"`. If P2's spy regresses, this fails.
 import { test, expect } from '@playwright/test';
 
 const SLUGS: readonly string[] = ['button', 'modal', 'table'];

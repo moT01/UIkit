@@ -1,12 +1,3 @@
-// Wave 9 P6.2 (W9-Phase 6) — Input behavioural contract.
-//
-// `<Input>` is a thin wrapper over a native `<input>`, so the
-// browser owns the typing/value flow. The showcase ships:
-//
-//   <Input id='email-demo' type='email' placeholder='camper@example.com' />
-//
-// We lock the surface every consumer relies on: type forwards,
-// placeholder paints, typing updates the input value.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural input', () => {

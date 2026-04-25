@@ -1,8 +1,3 @@
-// Wave 9 P5.8 — DOM-side coverage for <Modal> + namespaced subcomponents.
-//
-// SSR test in Modal.test.ts covers the closed-state markup. This
-// suite covers the open-state Ark Dialog tree + the Body/Footer/
-// Header subcomponents that the SSR test bypasses.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
 import { Modal } from './Modal';

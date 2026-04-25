@@ -1,5 +1,3 @@
-// Wave 6 P6 — per-guide markdown sibling. `/guides/install` is the
-// human surface; `/guides/install.md` is the agent surface.
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { stripMdx } from '../../lib/strip-mdx';

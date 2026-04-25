@@ -1,9 +1,3 @@
-// Wave 9 — vitest unit + integration runner for @freecodecamp/uikit-docs.
-//
-// Migrated from `tsx --test` to vitest under W9-P0. Existing tests are
-// SSR-only (`renderToStaticMarkup`) plus source-introspection — both
-// runtime-agnostic. The test runner does NOT touch Playwright specs:
-// `tests/visual/` and `tests/behavioural/` are owned by playwright.
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({

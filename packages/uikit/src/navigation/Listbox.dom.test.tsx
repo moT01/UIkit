@@ -1,8 +1,3 @@
-// Wave 9 P5.5 — DOM-side coverage for <Listbox>.
-//
-// Existing SSR tests lock the markup. This suite covers selection
-// callbacks, multi-select toggle, and disabled-item gating that the
-// component drives via `onValueChange`.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { useState } from 'react';

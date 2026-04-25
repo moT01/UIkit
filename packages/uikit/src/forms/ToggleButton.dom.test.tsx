@@ -1,7 +1,3 @@
-// Wave 9 P5.7 — DOM-side coverage for <ToggleButton>.
-//
-// SSR tests cover initial markup. The click handler + controlled vs
-// uncontrolled state path only run in the live React tree.
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { useState } from 'react';

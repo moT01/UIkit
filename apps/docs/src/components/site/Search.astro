@@ -1,13 +1,5 @@
 ---
-// Wave 8 P2 (W8-2) — static-search dialog. Pagefind retired; the
-// search index is built by the `fcc-uikit-search-index` Astro
-// integration (`apps/docs/integrations/search-index.ts`) and served
-// at `/search-index.json` in both dev and prod. The fuse.js client
-// (`/src/scripts/search.client.ts`) lazy-loads on first focus and
-// renders results into the `<ul data-search-results>` list.
-//
-// The dialog is opened via the AppHeader's "/" shortcut (or anything
-// dispatching `fcc:open-search`).
+
 ---
 
 <dialog class='search-dialog' data-search-dialog aria-label='Search UIKit'>

@@ -1,16 +1,3 @@
-// Wave 8 P4 (W8-5) — Breadcrumb.
-//
-// Compound API mirrors WAI-ARIA APG, Mantine, shadcn/ui, and React
-// Aria conventions: <Breadcrumb> is the labelled `<nav>` container,
-// <Breadcrumb.Item> is the `<li>` (rendered as `<a>` for navigable
-// items, `<span aria-current="page">` for the current/active leaf).
-// The visible separator is a CSS `::after` pseudo-element on every
-// non-last item — invisible to AT, no extra DOM noise.
-//
-// `href` carries a scheme allowlist: anything outside
-// `(https?:|/|#|mailto:|tel:)` falls through to a non-link `<span>`
-// and emits a `console.warn`. Mitigates an XSS surface on user-
-// supplied breadcrumb input.
 import {
   createContext,
   useContext,

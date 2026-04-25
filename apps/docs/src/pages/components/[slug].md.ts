@@ -1,8 +1,3 @@
-// Wave 6 P6 — per-component markdown sibling. `/#button` is the
-// human surface; `/components/button.md` is the agent surface. The
-// content is the raw MDX body of the matching `content/components/`
-// entry, frontmatter stripped, plus a header block describing the
-// component (status, tokens, a11y).
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { stripMdx } from '../../lib/strip-mdx';

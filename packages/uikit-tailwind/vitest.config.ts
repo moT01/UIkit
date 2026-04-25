@@ -1,4 +1,3 @@
-// Wave 9 — vitest runner for @freecodecamp/uikit-tailwind preset.
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({

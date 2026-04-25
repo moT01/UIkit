@@ -1,8 +1,3 @@
-// Wave 9 P2.4 (W9-B17) — Pagination behavioural contract.
-//
-// `<Pagination>` is a stateful primitive. The demo island
-// (`_islands/PaginationDemo.tsx`) seeds page=3 and a 12-page set.
-// Clicking another page button MUST move `aria-current="page"`.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural pagination', () => {

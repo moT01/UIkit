@@ -1,21 +1,3 @@
-// Wave 9 P1 (W9-S3) — chrome conformance meta.
-//
-// Captures the canonical `<PlaygroundCard>` DOM fingerprint from the
-// `Button` showcase (the audit's "golden") and asserts every other
-// component card on `/` matches the same structural signature. This
-// is a STRUCTURAL diff, not a pixel diff — it catches drift like
-// "card lost its tab strip", "card lost the source link", or
-// "card sprouted an extra direct-child element" without churning
-// visual goldens.
-//
-// Methodology: capture `section#button` and, for every direct
-// descendant of the canonical chrome shell, record its class list
-// (semicolon-joined, sorted). Then for every other slug, walk the
-// same shape and assert equality. Failures print a diff of the
-// missing / extra class signature so the offender is obvious.
-//
-// This spec runs under the `desktop` project only — chrome shape is
-// viewport-agnostic.
 import { test, expect } from '@playwright/test';
 
 const SLUGS: readonly string[] = [

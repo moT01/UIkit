@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Wave 8 P5 (W8-7) — mobile drawer behavioral contract.
  *
  * Snapshot coverage of the drawer lives in `drawer.spec.ts`; this
  * spec asserts the BEHAVIOR — body state attribute, ESC handling,

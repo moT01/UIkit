@@ -1,13 +1,3 @@
-// Wave 9 P6.1 (W9-Phase 6) — Checkbox behavioural contract.
-//
-// Checkbox is a thin wrapper over a native `<input type='checkbox'>`,
-// so the browser owns the click → toggle wiring (no React state).
-// The showcase ships two:
-//
-//   1. defaultChecked={true} — pre-checked, label "I accept the honor code".
-//   2. unchecked            — label "Email me certificate alerts".
-//
-// This spec locks the seed states + click toggles them.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural checkbox', () => {

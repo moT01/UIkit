@@ -1,19 +1,3 @@
-// Wave 8 P1 (W8-3) — gen-props generator contract test.
-//
-// The generator runs after `tsup` (build sequence locked by D10) and
-// emits `dist/props.json` keyed by component displayName. This test
-// builds a minimal synthetic fixture tree (one normal component, one
-// generic component) and asserts the generator's contract:
-//
-//  1. Normal components emit populated `props` objects.
-//  2. Generic components (`<TRow,>`-style) return empty props from
-//     `react-docgen-typescript` (styleguidist#203). The generator
-//     must emit a stub `_extractionFailed: true` envelope so
-//     downstream consumers can render a fallback message.
-//  3. Top-level `$schemaVersion: "1.0.0"` is present as a forward
-//     compat marker.
-//  4. A `[gen-props] WARN` line is written to stderr for the
-//     generic-heavy stub case.
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import {

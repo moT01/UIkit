@@ -1,9 +1,3 @@
-// Wave 6 P3 — `/api/*` retirement. The per-component MDX route is
-// gone; everything visible lives at `/#<slug>` on the playground.
-// External deep links must keep working through 301 redirects, and
-// the Astro redirect map is the single source of truth for that
-// promise. These tests parse `astro.config.mjs` as text so they don't
-// depend on the Astro config loader (unavailable in `node:test`).
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
@@ -45,6 +39,6 @@ test('apps/docs/src/pages/api/ has been deleted', () => {
   const apiDir = resolve(appRoot, 'src', 'pages', 'api');
   assert.ok(
     !existsSync(apiDir),
-    `apps/docs/src/pages/api/ must be deleted in Wave 6 (still exists at ${apiDir})`
+    `apps/docs/src/pages/api/ must be deleted in (still exists at ${apiDir})`
   );
 });

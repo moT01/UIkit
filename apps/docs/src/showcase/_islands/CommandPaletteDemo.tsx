@@ -1,9 +1,3 @@
-// Wave 7 P5 — CommandPalette showcase island. Renders behind a
-// trigger button (matches ModalDemo) so the fixed-position
-// `.command-palette__backdrop` (z-index 9100, inset 0) only takes
-// over the viewport when the user invites it — never on initial
-// page paint. Wave 7 P9 caught the auto-open variant masking the
-// hero on `/`. Real CommandPalette from @freecodecamp/uikit.
 import { useState } from 'react';
 import { CommandPalette, Button } from '@freecodecamp/uikit';
 

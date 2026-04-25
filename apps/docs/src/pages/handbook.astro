@@ -1,18 +1,4 @@
 ---
-// Handbook — single-page reference that absorbs every foundations MDX +
-// the three guides + a brand placeholder + a short contributing guide.
-// Each major block is a `<section id='...'>` so
-// `scripts/showcase-spy.client.ts` can spy the active anchor as the
-// reader scrolls. The in-page TOC re-uses `data-sidebar-link` +
-// `data-target` so the same spy wiring that powers /showcase works here
-// with zero extra code.
-//
-// Brand content arrives in Wave 4 · 4.2; this page ships the scaffold
-// and a coming-soon callout.
-//
-// When Wave 4 · 4.7 lands, the legacy `/foundations/<slug>` and
-// `/guides/*` routes fold into 301 redirects pointing back at these
-// anchors.
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppHeader from '../components/site/AppHeader.astro';
@@ -35,10 +21,6 @@ const { Content: Voice } = await loadFoundation('voice');
 const { Content: BrandGuidelines } = await loadFoundation('brand');
 const { Content: DoDonts } = await loadFoundation('do-donts');
 
-// Wave 7 P7 — TOC reflects the brand-handbook expansion. Overview leads,
-// the foundations follow in palette → motion order, then Brand (logo +
-// wordmark + co-branding), then the cross-cutting Do / Don't gallery,
-// then Install / CDN / Contributing for kit-onboarding hand-off.
 const tocLinks: readonly { id: string; label: string }[] = [
   { id: 'overview', label: 'Overview' },
   { id: 'palette', label: 'Palette' },
@@ -354,7 +336,7 @@ pnpm --filter @freecodecamp/uikit-docs test:visual`}</code></pre>
   }
 
   /* Mirrors the `.foundations` rules that historically lived in
-     `layouts/FoundationsLayout.astro`. Wave 4 · 4.7 will retire the old
+     `layouts/FoundationsLayout.astro`. · 4.7 will retire the old
      layout; having the styles here keeps /handbook self-contained. */
   .foundations {
     display: flex;

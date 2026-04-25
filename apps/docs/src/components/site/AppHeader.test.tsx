@@ -1,18 +1,3 @@
-// Wave 9 P2.11 (W9-C3) — AppHeader active-link contract.
-//
-// The site header dogfoods <Navbar> with 4 primary links: `/`,
-// `/handbook`, `/guides/install`, GitHub. Wave 7+8 shipped them as
-// plain anchors with no current-page indicator, so screen readers
-// could not tell which page the user is on. Wave 9 wires
-// `aria-current="page"` on the matching link via a `pathname` prop
-// fed by `Astro.url.pathname` from `AppHeader.astro`.
-//
-// Match policy:
-//
-//   • `/`              → home only when pathname is exactly '/'.
-//   • `/handbook`      → matches `/handbook` and any `/handbook/*` slug.
-//   • `/guides/install` → matches any `/guides/*` slug.
-//   • GitHub (external) → never marked current.
 import { test, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { AppHeader } from './AppHeader';

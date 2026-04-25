@@ -83,15 +83,6 @@ export interface RadioGroupProps extends Omit<
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-// Wave 9 P2.1 (W9-B18) — `defaultValue` is the documented entry path
-// for static demos and most consumer code (e.g. radio.astro showcase).
-// Pre-fix, the prop fell through to `...rest` and was meaningless on
-// the rendered `<div role="radiogroup">`, so children resolved
-// `group.value === value` against `undefined` and SSRed unchecked.
-// Post-fix, the group seeds internal state from `defaultValue` when
-// `value` is omitted (uncontrolled), forwards that into the context,
-// and updates on user input. Controlled mode (`value` set) is
-// unchanged and continues to take precedence.
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   (
     { name, value, defaultValue, onChange, className = '', children, ...rest },

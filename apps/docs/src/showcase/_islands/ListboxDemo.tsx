@@ -1,4 +1,3 @@
-// Wave 7 P5 — Listbox showcase island. Single-select with state.
 import { useState } from 'react';
 import { Listbox } from '@freecodecamp/uikit';
 

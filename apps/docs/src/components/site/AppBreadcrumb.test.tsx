@@ -1,16 +1,3 @@
-// Wave 9 P4.3 (W9-B8.3) — AppBreadcrumb path mapper + SSR contract.
-//
-// `crumbsForPath` is the pure helper. The contract:
-//
-//   - `/`                  → null (home renders no breadcrumb).
-//   - `/handbook`          → [Home, Handbook (leaf)].
-//   - `/handbook/foo`      → [Home, Handbook (link), Foo (leaf)].
-//   - `/guides/install`    → [Home, Guides (link to /guides/install),
-//                              Install (leaf)].
-//   - `/guides/copy-paste` → [Home, Guides (link), Copy paste (leaf)].
-//
-// The leaf has no `href` so `<Breadcrumb.Item>` flips it to the
-// aria-current="page" branch automatically.
 import { test, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { AppBreadcrumb, crumbsForPath } from './AppBreadcrumb';

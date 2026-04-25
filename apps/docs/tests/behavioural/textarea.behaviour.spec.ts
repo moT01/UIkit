@@ -1,12 +1,3 @@
-// Wave 9 P6.2 (W9-Phase 6) — Textarea behavioural contract.
-//
-// `<Textarea>` wraps a native `<textarea>` (browser owns the typing
-// flow). The showcase seeds:
-//
-//   <Textarea id='bio-demo' rows={3} placeholder='What are you learning right now?' />
-//
-// Lock: rows attribute is forwarded, placeholder paints, typed
-// value updates the element.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural textarea', () => {

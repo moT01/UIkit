@@ -1,11 +1,3 @@
-// Wave 7 P9 hot-fix — Tabs showcase island. Astro client:* islands
-// hydrate by re-running the React component with the SERIALIZED
-// `props` attribute on `<astro-island>` — children authored in the
-// .astro template only render once at SSR; after hydration they are
-// gone. Tabs uses `Children.toArray(children).filter(...)` to find
-// its `<Tab>` config shells, so empty children == empty tabs__list.
-// Wrapping the demo in a real React component lets us pass children
-// at React level, so hydration finds the same tree the SSR pass did.
 import { Tabs, Tab } from '@freecodecamp/uikit';
 
 export function TabsDemo(): JSX.Element {

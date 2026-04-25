@@ -1,12 +1,3 @@
-// Wave 7 P5 + Wave 9 P2.9 — Toast showcase island.
-//
-// Wave 7 shipped this as a static gallery of all 4 variants
-// (`dismissible={false}`) — purely visual reference. Wave 9 promotes
-// the demo to a stateful interactive surface so the dismiss contract
-// is part of the documented behaviour: a "Trigger toast" button shows
-// a dismissible success toast; the close `×` removes it from the DOM.
-// The 3 remaining gallery rows stay underneath as the visual
-// reference of the other variants.
 import { useState } from 'react';
 import { Toast, Button } from '@freecodecamp/uikit';
 

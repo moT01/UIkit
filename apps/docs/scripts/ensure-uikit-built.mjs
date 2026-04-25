@@ -1,13 +1,5 @@
-// Wave 8 P1 (W8-3) — auto-build guard for the docs site.
-//
-// `apps/docs` consumes `@freecodecamp/uikit/props.json` at build time
-// (PlaygroundCard renders the prop table inside the anatomy block).
-// On a fresh clone or after `pnpm install --frozen-lockfile`, the
-// uikit's `dist/props.json` does not exist yet — Astro fails the
-// import resolution. This guard detects the missing file and
-// auto-runs `pnpm -F @freecodecamp/uikit build` once. Pre-launch
-// contributor friction matters more than perfect invariant strictness
-// (D13).
+// Auto-build guard: docs imports `@freecodecamp/uikit/props.json` at build time;
+// run `pnpm -F @freecodecamp/uikit build` on a fresh clone where dist/ doesn't exist yet.
 import { existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';

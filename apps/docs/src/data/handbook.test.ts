@@ -1,13 +1,3 @@
-// Wave 7 P7 — brand-handbook expansion contract. The /handbook page
-// loads the `foundations` collection. Wave 6 shipped 6 entries
-// (colors, typography, spacing, iconography, motion, voice). The
-// user expected a freeCodeCamp Brand Guidelines handbook, not a
-// token reference. P7 raises the floor to 8+ entries and adds the
-// brand-specific topics (logo usage, do/don'ts, overview).
-//
-// Resume cue (WAVE-7-SPEC.md L316):
-//   ls apps/docs/src/content/foundations/*.mdx | wc -l >= 8
-//   grep -l "Voice|Logo|Iconography" apps/docs/src/content/foundations/*.mdx | wc -l >= 3
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
@@ -19,7 +9,7 @@ const foundationsDir = resolve(here, '..', 'content', 'foundations');
 
 const files = readdirSync(foundationsDir).filter(name => name.endsWith('.mdx'));
 
-test('Wave 7 P7 — at least 8 foundations entries', () => {
+test('at least 8 foundations entries', () => {
   assert.ok(
     files.length >= 8,
     `expected >= 8 foundations MDX entries, got ${files.length} (${files.join(', ')})`

@@ -1,14 +1,6 @@
 ---
-// Wave 6 / Wave 7 / Wave 8 — PlaygroundCard. Single per-component
-// surface on `/`: eyebrow → big title → lead → grid-bordered preview →
-// REACT | HTML tabs with copy menu → optional ANATOMY <details>. The
-// data-attribute contract drives showcase.client.ts (tab switching,
-// copy-as menu, scroll-spy). Wave 7 P0 retired the legacy per-component
-// route; `source` is required so the View source link always renders.
-// Wave 8 P0 (W8-11) cut the per-card Tailwind tab + panel + copy-as
-// item; ~25 of 45 cards rendered placeholder copy. The
-// `@freecodecamp/uikit-tailwind` package + `/guides/tailwind` page
-// remain as the canonical Tailwind story.
+// Per-component card on `/`: eyebrow → title → lede → preview → REACT/HTML tabs → optional ANATOMY.
+// data-attributes drive showcase.client.ts (tabs, copy-as menu, scroll-spy).
 import { icons } from '@freecodecamp/uikit-icons';
 import propsManifest from '@freecodecamp/uikit/props.json';
 import { PropTable } from './PropTable.tsx';
@@ -31,9 +23,7 @@ export interface Props {
   a11yPattern?: string;
   previewStacked?: boolean;
   previewPlain?: boolean;
-  /** When true, the ANATOMY <details> block renders open. Wave 7 P3 —
-   * the FIRST card on `/` (typically Button) sets this so the user
-   * sees the anatomy block expanded by default; rest stay closed. */
+  /** Render ANATOMY open. First card on `/` sets this so anatomy is visible by default. */
   defaultOpen?: boolean;
 }
 

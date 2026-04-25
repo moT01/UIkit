@@ -1,11 +1,3 @@
-// Wave 7 P0 — `/api/<slug>` retired completely. The `pages/api/`
-// route was deleted in Wave 6, but Wave 6 left `apiLinkMode` on
-// PlaygroundCard and a self-defeating `View API → /api/<slug>` link
-// on every card. P0 nukes every reference. The only survivors are:
-//   - `astro.config.mjs` redirect (`/api: '/'`)
-//   - `public/_redirects` wildcard (`/api/* /#:splat 301!`)
-//   - this test file + the changeset narrative documenting the
-//     retirement
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { execSync } from 'node:child_process';

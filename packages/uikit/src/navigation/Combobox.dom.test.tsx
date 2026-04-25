@@ -1,10 +1,3 @@
-// Wave 9 P5.8 — DOM-side coverage for <Combobox>.
-//
-// Existing SSR tests lock the markup. This suite covers:
-//   - input change calls onInputValueChange with current value
-//   - clicking an item calls onValueChange
-//   - disabled item is non-clickable (no callback fires)
-//   - readOnly mode (value set without onInputValueChange)
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
 import { Combobox } from './Combobox';

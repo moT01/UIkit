@@ -1,14 +1,3 @@
-// Wave 9 P0 — behavioural Playwright tier baseline.
-//
-// Sentinel spec that proves the behavioural test directory is wired
-// into `playwright.config.ts` and the docs preview server starts.
-// Phase 6 of WAVE-9-TESTING-PLAN backfills one behavioural spec per
-// stateful primitive (tabs, pagination, listbox, command-palette,
-// modal, dropdown, tooltip, toast, form-stepper, ...).
-//
-// This file is intentionally minimal — it asserts the page loads
-// and the canonical chrome is present. Spec authors copy-and-extend
-// it for each primitive in Phase 6.
 import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural baseline', () => {

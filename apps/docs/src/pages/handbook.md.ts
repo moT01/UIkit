@@ -1,6 +1,3 @@
-// Wave 6 P6 — handbook markdown sibling. The human handbook lives
-// at `/handbook`; this is its agent twin. Source: every entry in
-// the `foundations` collection, concatenated by `order`.
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { stripMdx } from '../lib/strip-mdx';

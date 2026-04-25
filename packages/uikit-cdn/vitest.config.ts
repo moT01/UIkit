@@ -1,4 +1,3 @@
-// Wave 9 — vitest runner for @freecodecamp/uikit-cdn build scripts.
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({

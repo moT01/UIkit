@@ -1,13 +1,3 @@
-// Wave 8 P4 (W8-5) — Breadcrumb contract.
-//
-// Compound API: <Breadcrumb><Breadcrumb.Item href>…</Breadcrumb.Item>…
-//
-//  - Renders `<nav aria-label="Breadcrumb"><ol><li>…</li></ol></nav>`
-//  - Last item carries `aria-current="page"`
-//  - Scheme allowlist on `href` — anything outside
-//    `(https?:|/|#|mailto:|tel:)` falls through to a `<span>`
-//    instead of rendering `<a>`. Mitigates a stored-XSS surface
-//    where untrusted input lands in a Breadcrumb href.
 import { strict as assert } from 'node:assert';
 import { test } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';

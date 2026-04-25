@@ -1,8 +1,3 @@
-// Wave 9 P0 — vitest runner baseline (apps/docs).
-//
-// Mirrors the uikit baseline. Asserts vitest is wired and (since the
-// docs site exercises React-rendering tests via react-dom/server)
-// runs under a node-compatible environment.
 import { test, expect } from 'vitest';
 
 test('vitest is the active runner', () => {

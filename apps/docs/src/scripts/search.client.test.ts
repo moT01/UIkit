@@ -1,20 +1,3 @@
-// Wave 8 P2 (W8-2) — Fuse search behavior contract.
-//
-// `search.client.ts` lazy-imports Fuse and wires DOM listeners; the
-// DOM half lives in the Playwright spec. Here we lock the Fuse
-// configuration: weighted keys, threshold, minMatchCharLength,
-// ignoreLocation. The same options live in the client; if either
-// drifts, the search behavior diverges from the locked design.
-//
-// Fixture mirrors the real index shape (47 components + 9
-// foundations + 6 guides) at the surface — we don't need full
-// fidelity, just enough records to surface the locked behavior:
-//
-//   "drop" → Dropdown ranks first  (slug-tag + title hit)
-//   "the"  → result count ≤ 5      (broad-noise control)
-//   "x"    → minMatchCharLength gate fires
-//   "ico"  → Iconography in top 3
-//   "Button" (title) outranks  "button"-shaped summary
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import Fuse from 'fuse.js';

@@ -1,6 +1,3 @@
-// Wave 6 P5 — concatenated content dump. One file, every visible
-// page, agent-ready. Source: `getCollection('components' | 'guides')`
-// + the raw MDX body. Frontmatter stripped, code fences preserved.
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { stripMdx } from '../lib/strip-mdx';

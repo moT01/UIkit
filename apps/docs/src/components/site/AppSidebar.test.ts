@@ -5,11 +5,6 @@ import { createElement } from 'react';
 import type { NavSection } from '../../data/nav.ts';
 import { AppSidebar } from './AppSidebar.tsx';
 
-// Wave 6 — component nav hrefs are anchor links on `/` (`/#<slug>`).
-// Wave 7 P2 — active state is now hash-aware: `currentPath` is the
-// pathname only and `currentHash` is the URL fragment. The fixture
-// mirrors that shape so the active-state assertion proves the
-// sidebar tracks the current playground anchor.
 const FIXTURE: readonly NavSection[] = [
   {
     id: 'primitives',
@@ -34,8 +29,6 @@ test('AppSidebar renders a <Sidebar> with a section per nav entry', () => {
   assert.match(html, /<aside[^>]*class="sidebar"/);
   assert.match(html, /sidebar__intro-kicker/);
   assert.match(html, /sidebar__hint/);
-  // Every section ships expanded after Wave 4 · 4.6 — no
-  // collapsible affordance in the markup.
   assert.ok(
     (html.match(/sidebar__section/g) ?? []).length >= FIXTURE.length,
     'every section should render a sidebar__section wrapper'
@@ -57,7 +50,7 @@ test('AppSidebar marks the current item with data-active="true"', () => {
   assert.doesNotMatch(inactiveAnchor, /data-active/);
 });
 
-test('Wave 7 P2 — bare path on `/` no longer marks every cmp-* item active', () => {
+test('bare path on `/` no longer marks every cmp-* item active', () => {
   // Regression guard. Pre-P2 the sidebar lit up nothing, OR with the
   // pre-Wave-6 fixture it lit up everything. Page-load default is
   // pathname=/ + no hash; no item should carry data-active.
@@ -76,7 +69,7 @@ test('Wave 7 P2 — bare path on `/` no longer marks every cmp-* item active', (
   );
 });
 
-test('Wave 7 P2 — anchor items carry data-sidebar-link + data-target for scroll-spy', () => {
+test('anchor items carry data-sidebar-link + data-target for scroll-spy', () => {
   const html = renderToStaticMarkup(
     createElement(AppSidebar, {
       nav: FIXTURE,

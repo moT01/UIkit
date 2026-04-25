@@ -1,16 +1,5 @@
-// Scroll-spy for scroll-anchored surfaces — the playground at `/`
-// (post Wave 4 · 4.3) and the /handbook. Mirrors each `<section[id]>`
-// into a sidebar-link's `data-active` attribute as the section scrolls
-// through a central band (rootMargin -30% / -60%).
-//
-// Opt-out flag: Playwright full-page screenshots stitch by scrolling,
-// which triggers the observer repeatedly and drifts the active state
-// between captures. The test harness sets `window.__NO_SPY__` via
-// `page.addInitScript` before this script runs; we bail in that case.
-//
-// Deep-link: on first paint, if the URL carries a `#section-id`, we
-// mark that link active immediately so the eye isn't drawn to a
-// mis-matched `data-active` from prior load state.
+// Scroll-spy for `/` and `/handbook`. Maps each `<section[id]>` to a sidebar link's
+// `data-active`. Bails when `window.__NO_SPY__` is set (Playwright full-page captures).
 
 declare global {
   interface Window {
@@ -41,13 +30,7 @@ function init(): void {
   function clearActive(): void {
     links.forEach(a => {
       const href = a.getAttribute('href') ?? '';
-      // Spy-managed anchors carry one of three href shapes:
-      //   `/showcase#foo` — `<a>` on /showcase,
-      //   `/#foo`         — `<a>` on `/`,
-      //   `#foo`          — in-page TOC on /handbook (and future
-      //                     single-page surfaces).
-      // Anything else (e.g. `/components/button`) is a route link and
-      // gets its `data-active` from server-side rendering; leave it be.
+      // Spy-managed: `/showcase#foo`, `/#foo`, `#foo`. Route links keep their SSR `data-active`.
       if (
         href.startsWith('/showcase#') ||
         href.startsWith('/#') ||
@@ -58,7 +41,6 @@ function init(): void {
     });
   }
 
-  // Hydrate initial state from the hash, if present.
   const hashId = window.location.hash.replace(/^#/, '');
   if (hashId) {
     const initial = byTarget.get(hashId);
@@ -68,9 +50,7 @@ function init(): void {
     }
   }
 
-  // Track last-applied id to avoid touching the DOM on every sub-pixel
-  // scroll tick — mutating on every callback churns paint + makes
-  // screen readers chatter.
+  // Skip DOM writes when nothing changed — avoids paint churn + AT chatter on micro-scroll.
   let lastActiveId: string | null = null;
 
   const setActive = (id: string): void => {
@@ -88,8 +68,7 @@ function init(): void {
 
   const observer = new IntersectionObserver(
     entries => {
-      // When multiple sections overlap the central band, pick the
-      // topmost one — that's what the eye reads.
+      // Multiple sections in band → topmost wins (matches the eye).
       const visible = entries
         .filter(e => e.isIntersecting)
         .map(e => ({
@@ -105,8 +84,7 @@ function init(): void {
   );
   sections.forEach(s => observer.observe(s));
 
-  // Clicking a sidebar link should promote its target to active
-  // immediately — don't wait for the scroll animation to settle.
+  // Promote target to active on click — don't wait for the scroll animation.
   links.forEach(a => {
     a.addEventListener('click', () => {
       const target = a.getAttribute('data-target');
