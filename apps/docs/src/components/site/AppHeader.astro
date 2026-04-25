@@ -3,10 +3,16 @@
 // Chrome composition lives in AppHeader.tsx; this wrapper renders it
 // SSR-only and keeps the inline theme-swap + open-search scripts as
 // siblings so Astro does not hoist them.
+//
+// Wave 9 P2.11 (W9-C3) — pass `Astro.url.pathname` so the header can
+// stamp `aria-current="page"` on the matching primary link. The
+// match policy lives in AppHeader.tsx and is locked by AppHeader.test.tsx.
 import { AppHeader } from './AppHeader.tsx';
+
+const pathname = Astro.url.pathname;
 ---
 
-<AppHeader />
+<AppHeader pathname={pathname} />
 
 <script is:inline>
   (function () {

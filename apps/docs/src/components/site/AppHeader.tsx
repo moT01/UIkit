@@ -2,10 +2,56 @@
 // Rendered SSR-only (no client:* directive) — the sibling inline script in
 // AppHeader.astro handles theme swap + search-open interactivity via the
 // `data-theme-swap` / `data-open-search` attributes this markup emits.
+//
+// Wave 9 P2.11 (W9-C3) — accept `pathname` from Astro and stamp
+// `aria-current="page"` on the matching link so screen readers can
+// tell which page is loaded. Match policy:
+//   - `/` is current only on the literal root.
+//   - `/handbook` matches `/handbook` and any nested `/handbook/*`.
+//   - `/guides/install` matches any `/guides/*` slug — the link in the
+//     header is a generic "Guides" entry point.
+//   - GitHub external link is never marked current.
 import type { JSX } from 'react';
 import { Navbar } from '@freecodecamp/uikit/navigation';
 
-export function AppHeader(): JSX.Element {
+interface NavLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
+const NAV_LINKS: ReadonlyArray<NavLink> = [
+  { href: '/', label: 'Playground' },
+  { href: '/handbook', label: 'Handbook' },
+  { href: '/guides/install', label: 'Guides' },
+  {
+    href: 'https://github.com/freeCodeCamp/ui',
+    label: 'GitHub',
+    external: true
+  }
+];
+
+const isCurrent = (link: NavLink, pathname: string): boolean => {
+  if (link.external) return false;
+  if (link.href === '/') return pathname === '/';
+  // The Guides entry-point href is `/guides/install`, but any
+  // `/guides/*` slug should still light up the Guides tab.
+  if (link.href.startsWith('/guides/')) return pathname.startsWith('/guides/');
+  // Default: exact-match or nested under the section.
+  return pathname === link.href || pathname.startsWith(`${link.href}/`);
+};
+
+export interface AppHeaderProps {
+  /**
+   * Current pathname from `Astro.url.pathname`. Defaults to `''` so the
+   * header still renders cleanly when consumed outside an Astro route
+   * (e.g. unit tests that omit the prop) — no link will be marked
+   * current in that case, which is the correct neutral state.
+   */
+  pathname?: string;
+}
+
+export function AppHeader({ pathname = '' }: AppHeaderProps): JSX.Element {
   const brand = (
     <a
       className='site-header__brand'
@@ -20,16 +66,22 @@ export function AppHeader(): JSX.Element {
 
   const primaryNav = (
     <nav className='site-header__nav' aria-label='Primary'>
-      <a href='/'>Playground</a>
-      <a href='/handbook'>Handbook</a>
-      <a href='/guides/install'>Guides</a>
-      <a
-        href='https://github.com/freeCodeCamp/ui'
-        target='_blank'
-        rel='noreferrer noopener'
-      >
-        GitHub
-      </a>
+      {NAV_LINKS.map(link => {
+        const current = isCurrent(link, pathname);
+        const externalProps = link.external
+          ? { target: '_blank', rel: 'noreferrer noopener' }
+          : {};
+        return (
+          <a
+            key={link.href}
+            href={link.href}
+            aria-current={current ? 'page' : undefined}
+            {...externalProps}
+          >
+            {link.label}
+          </a>
+        );
+      })}
     </nav>
   );
 
