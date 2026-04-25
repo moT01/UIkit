@@ -33,10 +33,17 @@ export default defineConfig({
         'scripts/**'
       ],
       thresholds: {
-        statements: 70,
-        branches: 65,
-        functions: 70,
-        lines: 70
+        // Wave 9 P5 — ratcheted from the 70/65/70/70 seed after the
+        // L1 unit backfill landed (Textarea, DataTable, CommandPalette,
+        // Dropdown, Listbox, Pagination, ToggleButton, Toast, Modal,
+        // Combobox). Live coverage at 91.67 / 90.4 / 93.16 / 93.1, so
+        // 85 / 80 / 85 / 85 protects the floor without flagging
+        // jitter from new code that arrives mid-PR. Locked further by
+        // src/_meta/coverage-thresholds.test.ts.
+        statements: 85,
+        branches: 80,
+        functions: 85,
+        lines: 85
       }
     }
   }
