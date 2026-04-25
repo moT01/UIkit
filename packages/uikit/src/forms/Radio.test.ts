@@ -79,3 +79,52 @@ test('Radio label composes with labelClassName', () => {
   );
   assert.match(html, /class="radio extra"/);
 });
+
+// Wave 9 P2.1 (W9-B18) — `RadioGroup` must honour `defaultValue` for
+// uncontrolled mode. Closes audit B6 / B18 (Radio default-value
+// regression). The audit caught the docs `radio.astro` showcase
+// shipping `<RadioGroup defaultValue="dark">` and rendering with no
+// pre-selection because the prop fell through to `...rest`.
+test('RadioGroup defaultValue marks the matching Radio as checked (uncontrolled)', () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      RadioGroup,
+      { name: 'theme', defaultValue: 'dark' },
+      createElement(Radio, { label: 'Dark', value: 'dark' }),
+      createElement(Radio, { label: 'Light', value: 'light' }),
+      createElement(Radio, { label: 'System', value: 'system' })
+    )
+  );
+  const darkTag = html.match(/<input[^/>]*value="dark"[^/>]*\/>/)?.[0] ?? '';
+  const lightTag = html.match(/<input[^/>]*value="light"[^/>]*\/>/)?.[0] ?? '';
+  assert.match(darkTag, /checked/);
+  assert.doesNotMatch(lightTag, /checked/);
+});
+
+test('RadioGroup defaultValue does not leak as a DOM attribute', () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      RadioGroup,
+      { name: 'theme', defaultValue: 'dark' },
+      createElement(Radio, { label: 'Dark', value: 'dark' })
+    )
+  );
+  // `defaultValue` is a prop, not a DOM attribute on the radiogroup
+  // div. Before the fix it leaked through `...rest` onto the div.
+  assert.doesNotMatch(html, /defaultvalue=/i);
+});
+
+test('RadioGroup controlled `value` takes precedence over `defaultValue`', () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      RadioGroup,
+      { name: 'theme', value: 'light', defaultValue: 'dark' },
+      createElement(Radio, { label: 'Dark', value: 'dark' }),
+      createElement(Radio, { label: 'Light', value: 'light' })
+    )
+  );
+  const darkTag = html.match(/<input[^/>]*value="dark"[^/>]*\/>/)?.[0] ?? '';
+  const lightTag = html.match(/<input[^/>]*value="light"[^/>]*\/>/)?.[0] ?? '';
+  assert.doesNotMatch(darkTag, /checked/);
+  assert.match(lightTag, /checked/);
+});

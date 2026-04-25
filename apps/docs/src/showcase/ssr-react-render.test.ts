@@ -19,8 +19,10 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 
-// Wave 7 P5 — these 11 hydrate as client islands; covered by
-// runtime-island.test.ts. P6 covers everything else.
+// Wave 7 P5 + Wave 9 P2.2 — these hydrate as client islands; covered
+// by runtime-island.test.ts. P6 covers everything else. Radio joined
+// the island set in W9-P2.2 (B18 fix) — its parent-child context
+// requires a single React boundary.
 const STATEFUL = new Set([
   'combobox',
   'command-palette',
@@ -29,6 +31,7 @@ const STATEFUL = new Set([
   'listbox',
   'modal',
   'pagination',
+  'radio',
   'switch',
   'tabs',
   'toast',
@@ -65,7 +68,6 @@ const EXPECTED: Record<string, ReadonlyArray<string>> = {
   link: ['Link'],
   navbar: ['Navbar'],
   panel: ['Panel'],
-  radio: ['Radio'],
   select: ['Select'],
   sidebar: ['Sidebar'],
   'sidebar-layout': ['SidebarLayout'],
@@ -84,12 +86,13 @@ const files = readdirSync(here)
 
 const subjects = files.filter(slug => !STATEFUL.has(slug));
 
-test('Wave 7 P6 + Wave 8 P4 — 35 SSR-only showcases identified', () => {
+test('Wave 7 P6 + Wave 8 P4 + Wave 9 P2.2 — 34 SSR-only showcases identified', () => {
   // Wave 8 P4 — breadcrumb shipped, 34 → 35.
+  // Wave 9 P2.2 — radio promoted to stateful island (B18), 35 → 34.
   assert.equal(
     subjects.length,
-    35,
-    `expected 35 SSR-only showcases, got ${subjects.length}`
+    34,
+    `expected 34 SSR-only showcases, got ${subjects.length}`
   );
 });
 

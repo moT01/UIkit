@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Radio, RadioGroup } from '@freecodecamp/uikit';
+import RadioDemo from './_islands/RadioDemo.tsx';
 ---
 
 <PlaygroundCard
@@ -16,11 +16,7 @@ import { Radio, RadioGroup } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/radio/'
 >
   <Fragment slot='preview'>
-    <RadioGroup name='theme-demo' defaultValue='dark' aria-label='Theme'>
-      <Radio value='dark' label='Dark — default' />
-      <Radio value='light' label='Light' />
-      <Radio value='system' label='System' />
-    </RadioGroup>
+    <RadioDemo client:idle />
   </Fragment>
   <Code
     slot='react'

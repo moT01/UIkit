@@ -22,6 +22,10 @@ const STATEFUL: ReadonlyArray<{
   { slug: 'listbox', hydration: 'visible' },
   { slug: 'modal', hydration: 'load' },
   { slug: 'pagination', hydration: 'visible' },
+  // Wave 9 P2.2 (W9-B18) — Radio's parent-child context demands a
+  // single React boundary; promoted from static SSR to a hydrated
+  // island so `defaultValue` survives + clicks update selection.
+  { slug: 'radio', hydration: 'idle' },
   { slug: 'switch', hydration: 'idle' },
   { slug: 'tabs', hydration: 'visible' },
   { slug: 'toast', hydration: 'load' },
@@ -62,6 +66,7 @@ test('island wrappers exist for the demos that need internal state', () => {
     'FormStepperDemo.tsx',
     'ListboxDemo.tsx',
     'PaginationDemo.tsx',
+    'RadioDemo.tsx',
     'ToastDemo.tsx'
   ];
   for (const file of required) {
@@ -72,7 +77,7 @@ test('island wrappers exist for the demos that need internal state', () => {
   }
 });
 
-test('Wave 7 P5 — at least 11 showcases carry a client: directive', () => {
+test('every stateful slug carries a client: directive', () => {
   let count = 0;
   for (const { slug } of STATEFUL) {
     const path = resolve(showcaseDir, `${slug}.astro`);
@@ -80,5 +85,9 @@ test('Wave 7 P5 — at least 11 showcases carry a client: directive', () => {
       count++;
     }
   }
-  assert.equal(count, STATEFUL.length, 'all 11 stateful slugs must hydrate');
+  assert.equal(
+    count,
+    STATEFUL.length,
+    `all ${STATEFUL.length} stateful slugs must hydrate`
+  );
 });

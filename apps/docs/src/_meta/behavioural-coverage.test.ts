@@ -51,7 +51,7 @@ const REQUIRED_AT_GA: readonly string[] = [
 
 // Names with a landed spec. Phase 2 / Phase 6 commits append here as
 // each behavioural spec ships. Keep alphabetised for diff hygiene.
-const READY: readonly string[] = [];
+const READY: readonly string[] = ['radio'];
 
 test('S2 — READY is a subset of REQUIRED_AT_GA (drift gate)', () => {
   const target = new Set<string>(REQUIRED_AT_GA);

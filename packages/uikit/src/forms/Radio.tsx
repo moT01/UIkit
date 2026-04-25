@@ -1,4 +1,10 @@
-import React, { createContext, forwardRef, useContext } from 'react';
+import React, {
+  createContext,
+  forwardRef,
+  useCallback,
+  useContext,
+  useState
+} from 'react';
 
 interface RadioGroupContextValue {
   name?: string;
@@ -67,18 +73,51 @@ Radio.displayName = 'Radio';
 
 export interface RadioGroupProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
-  'onChange'
+  'onChange' | 'defaultValue'
 > {
   name: string;
+  /** Controlled selected value. When set the group ignores `defaultValue`. */
   value?: string;
+  /** Uncontrolled initial value. Used when `value` is omitted. */
+  defaultValue?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
+// Wave 9 P2.1 (W9-B18) — `defaultValue` is the documented entry path
+// for static demos and most consumer code (e.g. radio.astro showcase).
+// Pre-fix, the prop fell through to `...rest` and was meaningless on
+// the rendered `<div role="radiogroup">`, so children resolved
+// `group.value === value` against `undefined` and SSRed unchecked.
+// Post-fix, the group seeds internal state from `defaultValue` when
+// `value` is omitted (uncontrolled), forwards that into the context,
+// and updates on user input. Controlled mode (`value` set) is
+// unchanged and continues to take precedence.
 export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-  ({ name, value, onChange, className = '', children, ...rest }, ref) => {
+  (
+    { name, value, defaultValue, onChange, className = '', children, ...rest },
+    ref
+  ) => {
+    const isControlled = value !== undefined;
+    const [internalValue, setInternalValue] = useState<string | undefined>(
+      defaultValue
+    );
+    const resolvedValue = isControlled ? value : internalValue;
+    const handleChange = useCallback<
+      React.ChangeEventHandler<HTMLInputElement>
+    >(
+      event => {
+        if (!isControlled) {
+          setInternalValue(event.target.value);
+        }
+        onChange?.(event);
+      },
+      [isControlled, onChange]
+    );
     const classes = ['radio-group', className].filter(Boolean).join(' ');
     return (
-      <RadioGroupContext.Provider value={{ name, value, onChange }}>
+      <RadioGroupContext.Provider
+        value={{ name, value: resolvedValue, onChange: handleChange }}
+      >
         <div ref={ref} role='radiogroup' className={classes} {...rest}>
           {children}
         </div>
