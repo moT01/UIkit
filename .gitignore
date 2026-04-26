@@ -4,6 +4,8 @@ dist/
 dist-cdn/
 # generated types
 .astro/
+# docs: sprite copied from uikit-icons/dist on predev/prebuild
+apps/docs/public/uikit/
 
 # dependencies
 node_modules/
@@ -21,3 +23,17 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Turborepo
+.turbo/
+
+# Local scratch work
+.scratchpad/
+# CocoIndex Code (ccc)
+/.cocoindex_code/
+
+# Playwright (goldens committed; results + reports are local-only)
+apps/docs/test-results/
+apps/docs/playwright-report/
+apps/docs/blob-report/
+apps/docs/playwright/.cache/

@@ -1,0 +1,171 @@
+---
+// Landing at /. Every visible surface is a UIKit component; the only
+// page-local styling lives in `styles/landing.css`. The storybook lives at
+// /showcase (see 3C.9).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AppHeader from '../components/site/AppHeader.astro';
+import AppSidebar from '../components/site/AppSidebar.astro';
+import { Button, Heading, Text } from '@freecodecamp/uikit/primitives';
+import {
+  Alert,
+  Callout,
+  Card,
+  Panel,
+  DescriptionList
+} from '@freecodecamp/uikit/data-display';
+import '../styles/landing.css';
+
+const highlights = [
+  {
+    title: 'Tokens-first',
+    body: 'Every colour, space, and motion value flows from the same CSS custom-property tree. Swap a palette, re-theme the system.'
+  },
+  {
+    title: 'Framework-agnostic',
+    body: 'React wrappers on top, vanilla-JS adapters for Toast and Tabs, and a pure uikit-css bundle for teams that want to ship HTML.'
+  },
+  {
+    title: 'Accessibility baked in',
+    body: 'APG-grade patterns under the hood: focus rings, live regions, Escape handling, keyboard menus — WCAG AA+ by default.'
+  }
+];
+
+const numbers = [
+  { term: 'Components', detail: '45 ready to ship' },
+  { term: 'Surfaces', detail: '3 — React, CSS, vanilla JS' },
+  { term: 'Runtime JS', detail: '0 kB on static surfaces' },
+  { term: 'Contrast', detail: 'AA+ across the dark palette' }
+];
+---
+
+<BaseLayout
+  title='freeCodeCamp UIKit — Components for campers who ship'
+  description='Dark-first, token-driven, framework-agnostic. The design system behind freeCodeCamp.'
+>
+  <div class='app' id='top'>
+    <AppHeader />
+    <div class='app__body'>
+      <AppSidebar />
+      <main class='app__main' id='content'>
+        <div class='landing'>
+          <section
+            class='landing__section landing__hero'
+            aria-labelledby='landing-hero-title'
+          >
+            <p class='landing__kicker'>freeCodeCamp UIKit · v1.0.0-rc</p>
+            <Heading id='landing-hero-title' level={1} size='display'>
+              Command-line Chic.
+            </Heading>
+            <Text as='p' size='lg' tone='secondary'>
+              Dark by default. Token-driven. Accessible. Ship interfaces that
+              feel like a home terminal on every screen size.
+            </Text>
+            <div class='landing__ctas'>
+              {
+                /* Anchor-styled-as-button so the CTAs navigate without
+                  React hydration. Matches the `.btn` token contract
+                  UIKit Button renders. */
+              }
+              <a class='btn btn--cta btn--lg' href='/guides'>
+                Read the guides
+              </a>
+              <a class='btn btn--lg' href='/components'>
+                Browse components →
+              </a>
+            </div>
+          </section>
+
+          <section class='landing__section' aria-labelledby='landing-why-title'>
+            <Heading id='landing-why-title' level={2} size='xl'>
+              Why fCC UIKit
+            </Heading>
+            <ul class='landing__why' role='list'>
+              {
+                highlights.map(h => (
+                  <li>
+                    <Card bordered className='landing__why-card'>
+                      <h3 class='landing__why-title'>{h.title}</h3>
+                      <p class='landing__why-body'>{h.body}</p>
+                    </Card>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+
+          <section
+            class='landing__section'
+            aria-labelledby='landing-tasting-title'
+          >
+            <Heading id='landing-tasting-title' level={2} size='xl'>
+              A taste of the kit
+            </Heading>
+            <Text as='p' size='base' tone='secondary'>
+              Every component below renders from its real UIKit implementation —
+              no mock-ups, no screenshots.
+            </Text>
+            <div class='landing__tasting'>
+              <Panel title='Button' variant='default'>
+                <Button variant='cta' size='md'>Start learning</Button>
+              </Panel>
+              <Panel title='Alert · success' variant='default'>
+                <Alert variant='success' title='Saved'>
+                  Your progress is synced across every device.
+                </Alert>
+              </Panel>
+              <Panel title='Alert · danger' variant='default'>
+                <Alert variant='danger' title='Deletion is permanent'>
+                  This action cannot be undone.
+                </Alert>
+              </Panel>
+              <Panel title='Callout · tip' variant='default'>
+                <Callout variant='tip'>
+                  Press <kbd>/</kbd> to open search from anywhere.
+                </Callout>
+              </Panel>
+              <Panel title='Callout · warning' variant='default'>
+                <Callout variant='warning'>
+                  Breaking changes live on the `major` pre-release only.
+                </Callout>
+              </Panel>
+              <Panel title='Numbers' variant='info'>
+                <DescriptionList layout='inline' items={numbers} />
+              </Panel>
+            </div>
+          </section>
+
+          <section
+            class='landing__section landing__numbers'
+            aria-labelledby='landing-numbers-title'
+          >
+            <Heading id='landing-numbers-title' level={2} size='lg'>
+              By the numbers
+            </Heading>
+            <DescriptionList layout='inline' items={numbers} />
+          </section>
+
+          <section class='landing__section' aria-labelledby='landing-cta-title'>
+            <Heading id='landing-cta-title' level={2} size='xl'>
+              See the whole kit
+            </Heading>
+            <Callout variant='note'>
+              Every UIKit component ships with a live demo at
+              <a href='/showcase'> /showcase</a>. Deep-link to any section by
+              appending <code>#component-id</code>.
+            </Callout>
+          </section>
+
+          <footer class='landing__footer'>
+            <span>freeCodeCamp UIKit · v1.0.0-rc</span>
+            <span>
+              <a href='/guides'>Guides</a> ·
+              <a href='/components'> Components</a> ·
+              <a href='/showcase'> Showcase</a> ·
+              <a href='https://github.com/freeCodeCamp/ui'>Source</a>
+            </span>
+          </footer>
+        </div>
+      </main>
+    </div>
+  </div>
+</BaseLayout>

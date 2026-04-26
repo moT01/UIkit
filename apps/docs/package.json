@@ -1,0 +1,48 @@
+{
+  "name": "@freecodecamp/uikit-docs",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "tsx --test --test-reporter=spec 'src/**/*.test.ts'",
+    "test:visual": "playwright test",
+    "test:visual:update": "playwright test --update-snapshots",
+    "predev": "node scripts/copy-sprite.mjs",
+    "dev": "astro dev",
+    "prebuild": "node scripts/copy-sprite.mjs",
+    "build": "astro build && pagefind --site dist --output-subdir _pagefind",
+    "preview": "astro preview",
+    "lint": "astro check && eslint .",
+    "typecheck": "astro check"
+  },
+  "author": "freeCodeCamp.org <team@freecodecamp.org>",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freeCodeCamp/ui.git",
+    "directory": "apps/docs"
+  },
+  "bugs": {
+    "url": "https://github.com/freeCodeCamp/ui/issues"
+  },
+  "homepage": "https://fcc-uikit.netlify.app",
+  "description": "freeCodeCamp UIKit — living design-system documentation site",
+  "private": true,
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/react": "^5.0.4",
+    "@freecodecamp/uikit": "workspace:^",
+    "@freecodecamp/uikit-css": "workspace:^",
+    "@freecodecamp/uikit-icons": "workspace:^",
+    "@freecodecamp/uikit-js": "workspace:^",
+    "astro": "^6.1.9",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "pagefind": "^1.5.2"
+  }
+}

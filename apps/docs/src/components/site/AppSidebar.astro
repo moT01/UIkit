@@ -1,0 +1,12 @@
+---
+// Docs sidebar — dogfoods @freecodecamp/uikit's <Sidebar>+<SidebarSection>
+// +<SidebarItem>. Active state is route-aware (derived from
+// `Astro.url.pathname`), so no client-side script is required. The
+// storybook scroll-spy that used to live here has moved to `/showcase`.
+import { AppSidebar } from './AppSidebar.tsx';
+import { nav } from '../../data/nav.ts';
+
+const currentPath = Astro.url.pathname;
+---
+
+<AppSidebar nav={nav} currentPath={currentPath} />

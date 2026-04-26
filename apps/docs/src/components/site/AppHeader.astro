@@ -1,0 +1,54 @@
+---
+// Sticky site header — dogfoods @freecodecamp/uikit's <Navbar>.
+// Chrome composition lives in AppHeader.tsx; this wrapper renders it
+// SSR-only and keeps the inline theme-swap + open-search scripts as
+// siblings so Astro does not hoist them.
+import { AppHeader } from './AppHeader.tsx';
+---
+
+<AppHeader />
+
+<script is:inline>
+  (function () {
+    const btn = document.querySelector('[data-theme-swap]');
+    if (btn) {
+      const darkIcon = btn.querySelector('[data-icon-dark]');
+      const lightIcon = btn.querySelector('[data-icon-light]');
+      const sync = () => {
+        const light =
+          document.documentElement.classList.contains('light-palette');
+        if (darkIcon) darkIcon.style.display = light ? 'none' : '';
+        if (lightIcon) lightIcon.style.display = light ? '' : 'none';
+      };
+      sync();
+      btn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const next = root.classList.contains('light-palette')
+          ? 'dark'
+          : 'light';
+        root.classList.remove('dark-palette', 'light-palette');
+        root.classList.add(next + '-palette');
+        try {
+          localStorage.setItem('fcc-palette', next);
+        } catch {}
+        sync();
+      });
+    }
+
+    const searchBtn = document.querySelector('[data-open-search]');
+    if (searchBtn) {
+      const openSearch = () =>
+        document.dispatchEvent(new CustomEvent('fcc:open-search'));
+      searchBtn.addEventListener('click', openSearch);
+      document.addEventListener('keydown', e => {
+        if (
+          e.key === '/' &&
+          !/^(INPUT|TEXTAREA)$/.test(document.activeElement?.tagName || '')
+        ) {
+          e.preventDefault();
+          openSearch();
+        }
+      });
+    }
+  })();
+</script>
