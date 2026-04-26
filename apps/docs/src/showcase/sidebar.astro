@@ -1,7 +1,11 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Sidebar, SidebarSection, SidebarItem } from '@freecodecamp/uikit';
+import {
+  Sidebar as SidebarCmp,
+  SidebarSection,
+  SidebarItem
+} from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +19,7 @@ import { Sidebar, SidebarSection, SidebarItem } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Sidebar
+    <SidebarCmp
       style={{
         maxWidth: '280px',
         margin: '0 auto',
@@ -32,7 +36,7 @@ import { Sidebar, SidebarSection, SidebarItem } from '@freecodecamp/uikit';
         <SidebarItem href='#heading'>Heading</SidebarItem>
         <SidebarItem href='#button' active>Button</SidebarItem>
       </SidebarSection>
-    </Sidebar>
+    </SidebarCmp>
   </Fragment>
   <Code
     slot='react'

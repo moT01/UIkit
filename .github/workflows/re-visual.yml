@@ -1,0 +1,43 @@
+name: Visual
+
+on:
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    name: Playwright visual regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup Node.js + pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4.1.2
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @freecodecamp/uikit-docs exec playwright install chromium --with-deps
+
+      - name: Build packages (docs needs uikit + uikit-css + uikit-js + uikit-icons dists)
+        run: pnpm build
+
+      - name: Run Playwright visual regression
+        run: pnpm --filter @freecodecamp/uikit-docs test:visual
+
+      - name: Upload Playwright failure artefacts
+        if: failure()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: playwright-report
+          path: |
+            apps/docs/playwright-report/
+            apps/docs/test-results/
+          retention-days: 14
+          if-no-files-found: ignore

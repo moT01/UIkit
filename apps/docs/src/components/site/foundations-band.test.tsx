@@ -4,7 +4,6 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderToStaticMarkup } from 'react-dom/server';
-import React from 'react';
 import { FoundationsBand } from './FoundationsBand.js';
 
 const here = dirname(fileURLToPath(import.meta.url));

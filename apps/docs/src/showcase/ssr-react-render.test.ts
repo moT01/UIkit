@@ -113,13 +113,15 @@ for (const slug of subjects) {
       previewMatch,
       `${slug}.astro must define <Fragment slot='preview'>...</Fragment>`
     );
-    const preview = previewMatch[1];
+    const preview = previewMatch[1]!;
     for (const component of expected) {
-      const jsxRegex = new RegExp(`<${component}(\\s|>|/)`);
+      // Accept either `<Name ...>` or the `<NameCmp ...>` alias used to
+      // dodge Astro's filename → auto-export name collision (ts(2440)).
+      const jsxRegex = new RegExp(`<${component}(Cmp)?(\\s|>|/)`);
       assert.match(
         preview,
         jsxRegex,
-        `${slug}.astro preview must contain <${component} /> JSX (not an HTML class mock)`
+        `${slug}.astro preview must contain <${component} /> (or <${component}Cmp />) JSX (not an HTML class mock)`
       );
     }
   });

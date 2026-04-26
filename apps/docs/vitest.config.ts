@@ -14,13 +14,18 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html', 'json-summary'],
       reportsDirectory: './coverage',
-      include: ['src/**/*.ts', 'src/**/*.tsx', 'integrations/**/*.ts'],
+      include: [
+        'src/components/**/*.ts',
+        'src/components/**/*.tsx',
+        'src/lib/**/*.ts',
+        'integrations/**/*.ts'
+      ],
       exclude: [
         'src/**/*.test.ts',
         'src/**/*.test.tsx',
         'src/**/_meta/**',
         'src/env.d.ts',
-        'src/showcase/**',
+        'src/**/*.client.ts',
         'tests/**',
         'dist/**',
         '.astro/**'

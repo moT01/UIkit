@@ -1,6 +1,6 @@
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
-import Fuse from 'fuse.js';
+import Fuse, { type IFuseOptions } from 'fuse.js';
 
 interface IndexEntry {
   title: string;
@@ -9,7 +9,7 @@ interface IndexEntry {
   href: string;
 }
 
-const OPTIONS = {
+const OPTIONS: IFuseOptions<IndexEntry> = {
   keys: [
     { name: 'title', weight: 0.6 },
     { name: 'summary', weight: 0.3 },
@@ -20,7 +20,7 @@ const OPTIONS = {
   ignoreLocation: true,
   includeScore: true,
   shouldSort: true
-} as const;
+};
 
 const FIXTURE: IndexEntry[] = [
   {
@@ -141,7 +141,13 @@ test('locked options match the client wire', () => {
   assert.equal(OPTIONS.threshold, 0.3);
   assert.equal(OPTIONS.minMatchCharLength, 2);
   assert.equal(OPTIONS.ignoreLocation, true);
-  assert.equal(OPTIONS.keys.length, 3);
-  assert.equal(OPTIONS.keys[0].name, 'title');
-  assert.equal(OPTIONS.keys[0].weight, 0.6);
+  // Narrow `keys` (typed as readonly?-array of FuseOptionKey) to the literal
+  // shape we always use: `{ name, weight }`.
+  const keys = (OPTIONS.keys ?? []) as readonly {
+    name: string;
+    weight: number;
+  }[];
+  assert.equal(keys.length, 3);
+  assert.equal(keys[0]!.name, 'title');
+  assert.equal(keys[0]!.weight, 0.6);
 });

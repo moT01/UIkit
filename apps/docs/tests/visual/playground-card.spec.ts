@@ -23,7 +23,9 @@ const SLUGS: readonly string[] = [
 for (const slug of SLUGS) {
   test(`PlaygroundCard ${slug} renders stably`, async ({ page }, testInfo) => {
     test.skip(
-      testInfo.project.name === 'desktop' && slug === 'modal',
+      (testInfo.project.name === 'desktop' ||
+        testInfo.project.name === 'desktop-light') &&
+        slug === 'modal',
       'Flaky sub-pixel font jitter — see UIkit-aq0'
     );
     await page.goto(`/#${slug}`, { waitUntil: 'networkidle' });

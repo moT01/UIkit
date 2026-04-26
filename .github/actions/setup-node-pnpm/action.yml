@@ -1,0 +1,36 @@
+name: Setup Node.js + pnpm
+description: Install pnpm, set up Node.js with pnpm cache, install workspace deps.
+
+inputs:
+  node-version:
+    description: Node.js version
+    required: false
+    default: '22'
+  pnpm-version:
+    description: pnpm version
+    required: false
+    default: '10'
+  install:
+    description: Whether to run pnpm install --frozen-lockfile
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      with:
+        version: ${{ inputs.pnpm-version }}
+        run_install: false
+
+    - name: Setup Node.js ${{ inputs.node-version }}
+      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: pnpm
+
+    - name: Install dependencies
+      if: ${{ inputs.install == 'true' }}
+      shell: bash
+      run: pnpm install --frozen-lockfile

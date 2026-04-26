@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Dropdown } from '@freecodecamp/uikit';
 
 export function DropdownDemo(): JSX.Element {

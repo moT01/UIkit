@@ -46,7 +46,7 @@ test('GitHub link is never marked current (external)', () => {
   for (const path of ['/', '/handbook', '/guides/install']) {
     const html = render(path);
     expect(
-      ariaCurrentForHref(html, 'https://github.com/freeCodeCamp/ui')
+      ariaCurrentForHref(html, 'https://github.com/freeCodeCamp/UIkit')
     ).toBeNull();
   }
 });

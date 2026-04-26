@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Button } from '@freecodecamp/uikit';
+import { Button as ButtonCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -16,13 +16,13 @@ import { Button } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
 >
   <Fragment slot='preview'>
-    <Button variant='cta'>Start curriculum</Button>
-    <Button>Secondary</Button>
-    <Button variant='danger'>Dangerous</Button>
-    <Button variant='ghost'>Ghost</Button>
-    <Button size='sm'>Small</Button>
-    <Button size='lg'>Large</Button>
-    <Button disabled>Disabled</Button>
+    <ButtonCmp variant='cta'>Start curriculum</ButtonCmp>
+    <ButtonCmp>Secondary</ButtonCmp>
+    <ButtonCmp variant='danger'>Dangerous</ButtonCmp>
+    <ButtonCmp variant='ghost'>Ghost</ButtonCmp>
+    <ButtonCmp size='sm'>Small</ButtonCmp>
+    <ButtonCmp size='lg'>Large</ButtonCmp>
+    <ButtonCmp disabled>Disabled</ButtonCmp>
   </Fragment>
   <Code
     slot='react'

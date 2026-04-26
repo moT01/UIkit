@@ -1,7 +1,11 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { FormGroup, Textarea, HelpBlock } from '@freecodecamp/uikit';
+import {
+  FormGroup,
+  Textarea as TextareaCmp,
+  HelpBlock
+} from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -17,7 +21,7 @@ import { FormGroup, Textarea, HelpBlock } from '@freecodecamp/uikit';
   <Fragment slot='preview'>
     <FormGroup style={{ maxWidth: '520px', margin: '0 auto' }}>
       <label class='form-label' for='bio-demo'>Bio</label>
-      <Textarea
+      <TextareaCmp
         id='bio-demo'
         rows={3}
         placeholder='What are you learning right now?'

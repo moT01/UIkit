@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { useState } from 'react';
 import { Modal, Button } from '@freecodecamp/uikit';
 

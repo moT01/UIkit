@@ -1,5 +1,5 @@
 ---
-import { AppSidebar } from './AppSidebar.tsx';
+import { AppSidebar as AppSidebarCmp } from './AppSidebar.tsx';
 import { nav } from '../../data/nav.ts';
 
 const currentPath = Astro.url.pathname;
@@ -12,7 +12,7 @@ const showSidebar = WITH_SIDEBAR.has(currentPath);
   showSidebar && (
     <>
       <div class='app__sidebar' id='app-sidebar'>
-        <AppSidebar
+        <AppSidebarCmp
           nav={nav}
           currentPath={currentPath}
           currentHash={currentHash}

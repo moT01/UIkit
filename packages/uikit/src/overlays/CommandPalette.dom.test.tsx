@@ -1,6 +1,6 @@
 import { test, expect, afterEach, beforeAll } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { CommandPalette } from './CommandPalette';
 
 beforeAll(() => {
@@ -41,7 +41,7 @@ test('typing in the search input filters groups + items', () => {
   fireEvent.change(input, { target: { value: 'task' } });
   const items = container.querySelectorAll('[role="option"]');
   expect(items.length).toBe(1);
-  expect(items[0].textContent).toContain('New task');
+  expect(items[0]!.textContent).toContain('New task');
 });
 
 test('ArrowDown moves aria-selected forward, ArrowUp moves it back', () => {
@@ -115,8 +115,8 @@ test('mouseEnter on an item makes it active', () => {
     />
   );
   const items = container.querySelectorAll('[role="option"]');
-  fireEvent.mouseEnter(items[2]);
-  expect(items[2].getAttribute('aria-selected')).toBe('true');
+  fireEvent.mouseEnter(items[2]!);
+  expect(items[2]!.getAttribute('aria-selected')).toBe('true');
 });
 
 test('clicking an item fires onSelect for that id', () => {
@@ -132,7 +132,7 @@ test('clicking an item fires onSelect for that id', () => {
     />
   );
   const items = container.querySelectorAll('[role="option"]');
-  fireEvent.click(items[2]);
+  fireEvent.click(items[2]!);
   expect(selected).toBe('new');
 });
 

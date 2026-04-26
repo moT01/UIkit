@@ -1,0 +1,33 @@
+name: Test
+
+on:
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Vitest + coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup Node.js + pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: Run tests with coverage
+        run: pnpm test:coverage
+        env:
+          CI: 'true'
+
+      - name: Upload coverage artefact
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4.4.3
+        with:
+          name: coverage-report
+          path: |
+            packages/*/coverage/
+            apps/*/coverage/
+          retention-days: 14
+          if-no-files-found: ignore

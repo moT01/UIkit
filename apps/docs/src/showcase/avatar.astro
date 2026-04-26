@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Avatar } from '@freecodecamp/uikit';
+import { Avatar as AvatarCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -14,9 +14,9 @@ import { Avatar } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Avatar size='sm' name='Roman Wright' />
-    <Avatar size='md' name='Quincy Crew' status='online' />
-    <Avatar size='lg' name='Free Camp' status='away' />
+    <AvatarCmp size='sm' name='Roman Wright' />
+    <AvatarCmp size='md' name='Quincy Crew' status='online' />
+    <AvatarCmp size='lg' name='Free Camp' status='away' />
   </Fragment>
   <Code
     slot='react'

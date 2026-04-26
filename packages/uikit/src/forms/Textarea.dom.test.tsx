@@ -1,6 +1,6 @@
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import { useRef } from 'react';
+import { useRef, type JSX } from 'react';
 import { Textarea } from './Textarea';
 
 afterEach(cleanup);

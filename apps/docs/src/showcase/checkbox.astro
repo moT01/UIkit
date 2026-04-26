@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Checkbox } from '@freecodecamp/uikit';
+import { Checkbox as CheckboxCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,8 +15,8 @@ import { Checkbox } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/'
 >
   <Fragment slot='preview'>
-    <Checkbox defaultChecked label='I accept the honor code' />
-    <Checkbox label='Email me certificate alerts' />
+    <CheckboxCmp defaultChecked label='I accept the honor code' />
+    <CheckboxCmp label='Email me certificate alerts' />
   </Fragment>
   <Code
     slot='react'

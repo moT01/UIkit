@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 // Renders a CSS custom-property name with its runtime-resolved value (not a hand-typed hex).
 // Uncontrolled: self-mounts a MutationObserver on `<html>` and re-reads on palette swap.
 // Controlled (`value` prop): skips the observer; parent drives the re-read for many cells at once.

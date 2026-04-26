@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Image } from '@freecodecamp/uikit';
+import { Image as ImageCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { Image } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Image
+    <ImageCmp
       src='/brand/fcc-secondary.svg'
       alt='freeCodeCamp mark'
       caption='freeCodeCamp mark on surface-two'

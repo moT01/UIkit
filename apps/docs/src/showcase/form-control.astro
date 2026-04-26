@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { FormControl } from '@freecodecamp/uikit';
+import { FormControl as FormControlCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { FormControl } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <FormControl
+    <FormControlCmp
       placeholder='Search the curriculum'
       style={{ maxWidth: '420px' }}
     />

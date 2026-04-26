@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { FormGroup, Select } from '@freecodecamp/uikit';
+import { FormGroup, Select as SelectCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -17,11 +17,11 @@ import { FormGroup, Select } from '@freecodecamp/uikit';
   <Fragment slot='preview'>
     <FormGroup style={{ maxWidth: '360px', margin: '0 auto' }}>
       <label class='form-label' for='difficulty-demo'>Difficulty</label>
-      <Select id='difficulty-demo'>
+      <SelectCmp id='difficulty-demo'>
         <option value='beginner'>Beginner</option>
         <option value='intermediate' selected>Intermediate</option>
         <option value='advanced'>Advanced</option>
-      </Select>
+      </SelectCmp>
     </FormGroup>
   </Fragment>
   <Code

@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Badge } from '@freecodecamp/uikit';
+import { Badge as BadgeCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -14,12 +14,12 @@ import { Badge } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Badge>Default</Badge>
-    <Badge variant='success'>Passed</Badge>
-    <Badge variant='warning'>In review</Badge>
-    <Badge variant='danger'>Failed</Badge>
-    <Badge variant='info'>Preview</Badge>
-    <Badge variant='purple'>New</Badge>
+    <BadgeCmp>Default</BadgeCmp>
+    <BadgeCmp variant='success'>Passed</BadgeCmp>
+    <BadgeCmp variant='warning'>In review</BadgeCmp>
+    <BadgeCmp variant='danger'>Failed</BadgeCmp>
+    <BadgeCmp variant='info'>Preview</BadgeCmp>
+    <BadgeCmp variant='purple'>New</BadgeCmp>
   </Fragment>
   <Code
     slot='react'

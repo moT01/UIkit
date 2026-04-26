@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Alert } from '@freecodecamp/uikit';
+import { Alert as AlertCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -16,9 +16,13 @@ import { Alert } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/alert/'
 >
   <Fragment slot='preview'>
-    <Alert variant='success'>All 28 tests pass. Next challenge unlocked.</Alert>
-    <Alert variant='warning'>You have one unsaved edit.</Alert>
-    <Alert variant='danger'>Sign-in failed — check your email address.</Alert>
+    <AlertCmp variant='success'
+      >All 28 tests pass. Next challenge unlocked.</AlertCmp
+    >
+    <AlertCmp variant='warning'>You have one unsaved edit.</AlertCmp>
+    <AlertCmp variant='danger'
+      >Sign-in failed — check your email address.</AlertCmp
+    >
   </Fragment>
   <Code
     slot='react'

@@ -1,7 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { createElement } from 'react';
+import { createElement, type ComponentProps } from 'react';
 import { EmptyState } from './EmptyState.tsx';
 
 test('EmptyState default renders div with class="empty-state"', () => {
@@ -49,8 +49,14 @@ test('EmptyState composes user className', () => {
 });
 
 test('EmptyState forwards extra props (role, data-*)', () => {
+  // `data-testid` is a valid React DOM attribute but isn't surfaced on the
+  // strict `HTMLAttributes` map; cast through unknown so the createElement
+  // overload accepts the bag verbatim.
   const html = renderToStaticMarkup(
-    createElement(EmptyState, { role: 'status', 'data-testid': 'es' })
+    createElement(EmptyState, {
+      role: 'status',
+      'data-testid': 'es'
+    } as unknown as ComponentProps<typeof EmptyState>)
   );
   assert.match(html, /role="status"/);
   assert.match(html, /data-testid="es"/);

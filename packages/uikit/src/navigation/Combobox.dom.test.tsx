@@ -32,7 +32,7 @@ test('clicking an enabled option fires onValueChange with that value', () => {
     <Combobox items={ITEMS} onValueChange={v => (last = v)} aria-label='x' />
   );
   const options = container.querySelectorAll('[role="option"]');
-  fireEvent.click(options[0]);
+  fireEvent.click(options[0]!);
   expect(last).toBe('a');
 });
 
@@ -42,7 +42,7 @@ test('clicking a disabled option is a no-op', () => {
     <Combobox items={ITEMS} onValueChange={() => (calls += 1)} aria-label='x' />
   );
   const options = container.querySelectorAll('[role="option"]');
-  fireEvent.click(options[1]);
+  fireEvent.click(options[1]!);
   expect(calls).toBe(0);
 });
 
@@ -51,8 +51,8 @@ test('selected option has aria-selected=true', () => {
     <Combobox items={ITEMS} value='c' aria-label='x' />
   );
   const options = container.querySelectorAll('[role="option"]');
-  expect(options[2].getAttribute('aria-selected')).toBe('true');
-  expect(options[0].getAttribute('aria-selected')).toBe('false');
+  expect(options[2]!.getAttribute('aria-selected')).toBe('true');
+  expect(options[0]!.getAttribute('aria-selected')).toBe('false');
 });
 
 test('input with inputValue but no onInputValueChange is readOnly', () => {

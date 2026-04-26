@@ -1,8 +1,8 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { createElement } from 'react';
-import { DataTable } from './DataTable.tsx';
+import { createElement, type ComponentType } from 'react';
+import { DataTable, type DataTableProps } from './DataTable.tsx';
 
 interface User {
   id: string;
@@ -10,6 +10,11 @@ interface User {
   email: string;
   status: string;
 }
+
+// DataTable is generic over `<TRow>` but `createElement` can't infer the
+// type parameter from the props bag alone. Cast to a concrete `User`-row
+// component so the column accessor types resolve correctly.
+const TypedDataTable = DataTable as ComponentType<DataTableProps<User>>;
 
 const ROWS: User[] = [
   { id: 'a', name: 'Ada', email: 'ada@example.com', status: 'active' },
@@ -24,7 +29,7 @@ const COLUMNS = [
 
 test('DataTable renders table with column headers', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, { columns: COLUMNS, rows: ROWS })
+    createElement(TypedDataTable, { columns: COLUMNS, rows: ROWS })
   );
   assert.match(html, /class="data-table"/);
   assert.match(html, /<th[^>]*>.*?Name.*?<\/th>/);
@@ -34,7 +39,7 @@ test('DataTable renders table with column headers', () => {
 
 test('DataTable renders rows with string-key and function accessors', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, { columns: COLUMNS, rows: ROWS })
+    createElement(TypedDataTable, { columns: COLUMNS, rows: ROWS })
   );
   assert.match(html, /<td[^>]*>Ada<\/td>/);
   assert.match(html, /<td[^>]*>ada@example\.com<\/td>/);
@@ -43,14 +48,14 @@ test('DataTable renders rows with string-key and function accessors', () => {
 
 test('DataTable applies align modifier class on cells', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, { columns: COLUMNS, rows: ROWS })
+    createElement(TypedDataTable, { columns: COLUMNS, rows: ROWS })
   );
   assert.match(html, /class="data-table__cell data-table__cell--right"/);
 });
 
 test('DataTable sortable header emits button + aria-sort', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: ROWS,
       sortBy: { columnId: 'name', direction: 'asc' },
@@ -65,7 +70,7 @@ test('DataTable sortable header emits button + aria-sort', () => {
 
 test('DataTable unsorted sortable header sets aria-sort=none', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: ROWS,
       onSortChange: () => {}
@@ -76,7 +81,7 @@ test('DataTable unsorted sortable header sets aria-sort=none', () => {
 
 test('DataTable loading renders skeleton rows instead of data', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: [],
       loading: true
@@ -88,7 +93,7 @@ test('DataTable loading renders skeleton rows instead of data', () => {
 
 test('DataTable empty renders emptyState in a full-width row', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: [],
       emptyState: createElement('p', { 'data-test': 'es' }, 'None here')
@@ -100,7 +105,7 @@ test('DataTable empty renders emptyState in a full-width row', () => {
 
 test('DataTable selection renders checkbox column + select-all', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: ROWS,
       selection: new Set<string>(),
@@ -116,7 +121,7 @@ test('DataTable selection renders checkbox column + select-all', () => {
 
 test('DataTable selection pre-checks rows whose id is in the set', () => {
   const html = renderToStaticMarkup(
-    createElement(DataTable, {
+    createElement(TypedDataTable, {
       columns: COLUMNS,
       rows: ROWS,
       selection: new Set<string>(['a']),

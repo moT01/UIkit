@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Callout } from '@freecodecamp/uikit';
+import { Callout as CalloutCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,12 +15,12 @@ import { Callout } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Callout variant='tip'>
+    <CalloutCmp variant='tip'>
       You can open the code editor fullscreen with <kbd class='kbd'>F11</kbd>.
-    </Callout>
-    <Callout variant='warning'>
+    </CalloutCmp>
+    <CalloutCmp variant='warning'>
       Running this reset removes local progress for the active challenge.
-    </Callout>
+    </CalloutCmp>
   </Fragment>
   <Code
     slot='react'

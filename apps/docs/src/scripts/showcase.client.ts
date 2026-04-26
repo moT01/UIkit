@@ -53,7 +53,7 @@ function wireCopyMenu(block: Block): void {
   trigger.addEventListener('click', async e => {
     if ((e as MouseEvent).detail === 0) {
       // Keyboard activation — open menu instead of copying blindly.
-      setOpen(list.hidden);
+      setOpen(list.hidden === true);
       return;
     }
     const active = block.querySelector<HTMLElement>('[data-panel].is-active');

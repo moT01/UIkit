@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Text } from '@freecodecamp/uikit';
+import { Text as TextCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -17,12 +17,12 @@ import { Text } from '@freecodecamp/uikit';
 >
   <Fragment slot='preview'>
     <div style='max-width:520px;margin:0 auto;display:grid;gap:8px;'>
-      <Text size='lg'>Large body — section ledes and emphasis.</Text>
-      <Text>Default body — eighteen pixels minimum.</Text>
-      <Text size='sm' tone='muted'
-        >Caption — annotations, metadata, footnotes.</Text
+      <TextCmp size='lg'>Large body — section ledes and emphasis.</TextCmp>
+      <TextCmp>Default body — eighteen pixels minimum.</TextCmp>
+      <TextCmp size='sm' tone='muted'
+        >Caption — annotations, metadata, footnotes.</TextCmp
       >
-      <Text weight='bold'>Bold — single-word emphasis only.</Text>
+      <TextCmp weight='bold'>Bold — single-word emphasis only.</TextCmp>
     </div>
   </Fragment>
   <Code

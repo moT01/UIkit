@@ -50,7 +50,7 @@ const previewClass = [
   .filter(Boolean)
   .join(' ');
 
-const sourceHref = `https://github.com/freeCodeCamp/ui/blob/main/packages/uikit/src/${source}`;
+const sourceHref = `https://github.com/freeCodeCamp/UIkit/blob/main/packages/uikit/src/${source}`;
 
 type PropEntryProp = {
   type: string;
@@ -67,7 +67,7 @@ type PropEntry = {
 type PropsManifest = Record<string, PropEntry | undefined> & {
   $schemaVersion?: string;
 };
-const manifest = propsManifest as PropsManifest;
+const manifest = propsManifest as unknown as PropsManifest;
 const propsEntry = manifest[slug];
 const hasPropTable = Boolean(
   propsEntry &&

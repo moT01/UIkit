@@ -1,13 +1,13 @@
 ---
 // Sticky header. SSR-only AppHeader + AppBreadcrumb (returns null at `/`).
 // Inline theme-swap + open-search scripts live alongside so Astro doesn't hoist them.
-import { AppHeader } from './AppHeader.tsx';
+import { AppHeader as AppHeaderCmp } from './AppHeader.tsx';
 import { AppBreadcrumb } from './AppBreadcrumb.tsx';
 
 const pathname = Astro.url.pathname;
 ---
 
-<AppHeader pathname={pathname} />
+<AppHeaderCmp pathname={pathname} />
 <AppBreadcrumb pathname={pathname} />
 
 <script is:inline>

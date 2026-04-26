@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Tabs, Tab } from '@freecodecamp/uikit';
 
 export function TabsDemo(): JSX.Element {

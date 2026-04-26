@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Skeleton } from '@freecodecamp/uikit';
+import { Skeleton as SkeletonCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -16,10 +16,10 @@ import { Skeleton } from '@freecodecamp/uikit';
 >
   <Fragment slot='preview'>
     <div style='max-width:480px;margin:0 auto;display:grid;gap:14px;'>
-      <Skeleton variant='circle' width={48} height={48} />
-      <Skeleton variant='text' width='80%' />
-      <Skeleton variant='text' width='60%' />
-      <Skeleton />
+      <SkeletonCmp variant='circle' width={48} height={48} />
+      <SkeletonCmp variant='text' width='80%' />
+      <SkeletonCmp variant='text' width='60%' />
+      <SkeletonCmp />
     </div>
   </Fragment>
   <Code

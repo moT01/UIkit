@@ -1,7 +1,6 @@
 import { test } from 'vitest';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
-import React from 'react';
 import { PropTable } from './PropTable.js';
 
 const fixture = {

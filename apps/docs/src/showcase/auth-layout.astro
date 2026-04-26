@@ -1,7 +1,12 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { AuthLayout, FormGroup, Input, Button } from '@freecodecamp/uikit';
+import {
+  AuthLayout as AuthLayoutCmp,
+  FormGroup,
+  Input,
+  Button
+} from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +20,7 @@ import { AuthLayout, FormGroup, Input, Button } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <AuthLayout
+    <AuthLayoutCmp
       brand='freeCodeCamp'
       footer='Forgot your password?'
       pattern
@@ -37,7 +42,7 @@ import { AuthLayout, FormGroup, Input, Button } from '@freecodecamp/uikit';
         />
       </FormGroup>
       <Button variant='cta' block>Continue</Button>
-    </AuthLayout>
+    </AuthLayoutCmp>
   </Fragment>
   <Code
     slot='react'

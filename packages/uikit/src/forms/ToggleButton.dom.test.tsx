@@ -1,6 +1,6 @@
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { ToggleButton } from './ToggleButton';
 
 afterEach(cleanup);

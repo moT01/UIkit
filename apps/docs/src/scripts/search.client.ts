@@ -3,6 +3,7 @@
 // Security: all output uses textContent (never innerHTML); href is scheme-allowlisted.
 // Debug: `?fuse_debug=1` URL flag logs scores; gated on `import.meta.env.DEV`.
 import type Fuse from 'fuse.js';
+import type { IFuseOptions } from 'fuse.js';
 
 interface IndexEntry {
   title: string;
@@ -11,7 +12,7 @@ interface IndexEntry {
   href: string;
 }
 
-const FUSE_OPTIONS = {
+const FUSE_OPTIONS: IFuseOptions<IndexEntry> = {
   keys: [
     { name: 'title', weight: 0.6 },
     { name: 'summary', weight: 0.3 },
@@ -22,7 +23,7 @@ const FUSE_OPTIONS = {
   ignoreLocation: true,
   includeScore: true,
   shouldSort: true
-} as const;
+};
 
 const SAFE_SCHEMES = /^(https?:|\/|#|mailto:|tel:)/i;
 
@@ -138,7 +139,7 @@ export async function wireSearch(
 
   function runQuery(query: string): void {
     const trimmed = query.trim();
-    if (trimmed.length < FUSE_OPTIONS.minMatchCharLength) {
+    if (trimmed.length < (FUSE_OPTIONS.minMatchCharLength ?? 0)) {
       renderHint(list, 'Type at least 2 characters…');
       return;
     }

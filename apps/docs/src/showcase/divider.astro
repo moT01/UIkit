@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Divider, Text } from '@freecodecamp/uikit';
+import { Divider as DividerCmp, Text } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -18,14 +18,14 @@ import { Divider, Text } from '@freecodecamp/uikit';
   <Fragment slot='preview'>
     <div style='max-width:480px;margin:0 auto;display:grid;gap:16px;'>
       <Text size='sm' tone='muted'>Solid</Text>
-      <Divider />
+      <DividerCmp />
       <Text size='sm' tone='muted'>Dashed</Text>
-      <Divider variant='dashed' />
+      <DividerCmp variant='dashed' />
       <div
         style='display:flex;align-items:center;gap:14px;font-family:var(--font-mono);font-size:13px;color:var(--foreground-muted);'
       >
         <span>kbd</span>
-        <Divider orientation='vertical' style={{ height: '18px' }} />
+        <DividerCmp orientation='vertical' style={{ height: '18px' }} />
         <span>shortcut</span>
       </div>
     </div>

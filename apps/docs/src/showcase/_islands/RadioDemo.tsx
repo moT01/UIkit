@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Radio, RadioGroup } from '@freecodecamp/uikit';
 
 export function RadioDemo(): JSX.Element {

@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { DataTable, Badge } from '@freecodecamp/uikit';
+import { DataTable as DataTableCmp, Badge } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { DataTable, Badge } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <DataTable
+    <DataTableCmp
       columns={[
         { id: 'cert', header: 'Cert', accessor: 'cert', sortable: true },
         { id: 'hours', header: 'Hours', accessor: 'hours', align: 'right' },

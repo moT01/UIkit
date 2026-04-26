@@ -14,7 +14,7 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
   { href: '/handbook', label: 'Handbook' },
   { href: '/guides/install', label: 'Guides' },
   {
-    href: 'https://github.com/freeCodeCamp/ui',
+    href: 'https://github.com/freeCodeCamp/UIkit',
     label: 'GitHub',
     external: true
   }

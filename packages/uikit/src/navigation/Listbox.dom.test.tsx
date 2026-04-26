@@ -1,6 +1,6 @@
 import { test, expect, afterEach } from 'vitest';
 import { cleanup, render, fireEvent } from '@testing-library/react';
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { Listbox } from './Listbox';
 
 afterEach(cleanup);
@@ -23,7 +23,7 @@ test('single-select: clicking an option fires onValueChange with that value', ()
     />
   );
   const options = container.querySelectorAll('[role="option"]');
-  fireEvent.click(options[1]);
+  fireEvent.click(options[1]!);
   expect(last).toBe('b');
 });
 
@@ -34,10 +34,10 @@ test('single-select: aria-selected reflects current value', () => {
   }
   const { container } = render(<Probe />);
   const options = container.querySelectorAll('[role="option"]');
-  expect(options[0].getAttribute('aria-selected')).toBe('true');
-  fireEvent.click(options[1]);
-  expect(options[1].getAttribute('aria-selected')).toBe('true');
-  expect(options[0].getAttribute('aria-selected')).toBe('false');
+  expect(options[0]!.getAttribute('aria-selected')).toBe('true');
+  fireEvent.click(options[1]!);
+  expect(options[1]!.getAttribute('aria-selected')).toBe('true');
+  expect(options[0]!.getAttribute('aria-selected')).toBe('false');
 });
 
 test('disabled option does not trigger onValueChange', () => {
@@ -52,9 +52,9 @@ test('disabled option does not trigger onValueChange', () => {
     />
   );
   const options = container.querySelectorAll('[role="option"]');
-  fireEvent.click(options[2]);
+  fireEvent.click(options[2]!);
   expect(calls).toBe(0);
-  expect(options[2].getAttribute('aria-disabled')).toBe('true');
+  expect(options[2]!.getAttribute('aria-disabled')).toBe('true');
 });
 
 test('multi-select: clicking an option toggles it in the value array', () => {
@@ -71,14 +71,14 @@ test('multi-select: clicking an option toggles it in the value array', () => {
   }
   const { container } = render(<Probe />);
   const options = container.querySelectorAll('[role="option"]');
-  expect(options[0].getAttribute('aria-selected')).toBe('true');
-  fireEvent.click(options[1]);
-  expect(options[1].getAttribute('aria-selected')).toBe('true');
-  expect(options[0].getAttribute('aria-selected')).toBe('true');
+  expect(options[0]!.getAttribute('aria-selected')).toBe('true');
+  fireEvent.click(options[1]!);
+  expect(options[1]!.getAttribute('aria-selected')).toBe('true');
+  expect(options[0]!.getAttribute('aria-selected')).toBe('true');
   // Click 'a' again to remove from selection.
-  fireEvent.click(options[0]);
-  expect(options[0].getAttribute('aria-selected')).toBe('false');
-  expect(options[1].getAttribute('aria-selected')).toBe('true');
+  fireEvent.click(options[0]!);
+  expect(options[0]!.getAttribute('aria-selected')).toBe('false');
+  expect(options[1]!.getAttribute('aria-selected')).toBe('true');
 });
 
 test('multi-select: root advertises aria-multiselectable=true', () => {
@@ -99,7 +99,7 @@ test('without onValueChange the click handler is a no-op', () => {
   // callback (the component still renders for read-only display).
   const { container } = render(<Listbox items={ITEMS} value='a' />);
   const options = container.querySelectorAll('[role="option"]');
-  expect(() => fireEvent.click(options[1])).not.toThrow();
+  expect(() => fireEvent.click(options[1]!)).not.toThrow();
 });
 
 test('null value renders no selected option', () => {

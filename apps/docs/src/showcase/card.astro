@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Card, Link } from '@freecodecamp/uikit';
+import { Card as CardCmp, Link } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,25 +15,25 @@ import { Card, Link } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Card style={{ maxWidth: '480px', margin: '0 auto' }}>
-      <Card.Header>
+    <CardCmp style={{ maxWidth: '480px', margin: '0 auto' }}>
+      <CardCmp.Header>
         <span class='card__dot card__dot--purple' aria-hidden='true'></span>
         <p class='card__hours'>300 HOURS</p>
-      </Card.Header>
-      <Card.Title>Responsive Web Design</Card.Title>
-      <Card.Body>
+      </CardCmp.Header>
+      <CardCmp.Title>Responsive Web Design</CardCmp.Title>
+      <CardCmp.Body>
         Build five certification projects using HTML, CSS, flexbox, grid, and
         accessibility primitives.
-      </Card.Body>
+      </CardCmp.Body>
       <div class='progress'>
         <div class='progress__bar progress__bar--purple' style='width:62%'>
         </div>
       </div>
-      <Card.Footer>
+      <CardCmp.Footer>
         <span>62% complete</span>
         <Link href='#button'>Resume →</Link>
-      </Card.Footer>
-    </Card>
+      </CardCmp.Footer>
+    </CardCmp>
   </Fragment>
   <Code
     slot='react'

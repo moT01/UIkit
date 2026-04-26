@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Tooltip, Button } from '@freecodecamp/uikit';
+import { Tooltip as TooltipCmp, Button } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,12 +15,12 @@ import { Tooltip, Button } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/'
 >
   <Fragment slot='preview'>
-    <Tooltip
+    <TooltipCmp
       client:idle
       content='Runs the public test suite against your code.'
     >
       <Button>Run tests</Button>
-    </Tooltip>
+    </TooltipCmp>
   </Fragment>
   <Code
     slot='react'

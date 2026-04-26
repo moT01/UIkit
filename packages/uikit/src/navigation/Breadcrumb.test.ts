@@ -6,15 +6,25 @@ import { Breadcrumb } from './Breadcrumb.tsx';
 
 function renderTrail() {
   return renderToStaticMarkup(
-    createElement(Breadcrumb, null, [
-      createElement(Breadcrumb.Item, { key: 'a', href: '/' }, 'Home'),
-      createElement(
-        Breadcrumb.Item,
-        { key: 'b', href: '/components' },
-        'Components'
-      ),
-      createElement(Breadcrumb.Item, { key: 'c', active: true }, 'Breadcrumb')
-    ])
+    createElement(Breadcrumb, {
+      children: [
+        createElement(Breadcrumb.Item, {
+          key: 'a',
+          href: '/',
+          children: 'Home'
+        }),
+        createElement(Breadcrumb.Item, {
+          key: 'b',
+          href: '/components',
+          children: 'Components'
+        }),
+        createElement(Breadcrumb.Item, {
+          key: 'c',
+          active: true,
+          children: 'Breadcrumb'
+        })
+      ]
+    })
   );
 }
 
@@ -55,13 +65,15 @@ test('Breadcrumb scheme guard rejects javascript: hrefs', () => {
   };
   try {
     const html = renderToStaticMarkup(
-      createElement(Breadcrumb, null, [
-        createElement(
-          Breadcrumb.Item,
-          { key: 'evil', href: 'javascript:alert(1)' },
-          'Untrusted'
-        )
-      ])
+      createElement(Breadcrumb, {
+        children: [
+          createElement(Breadcrumb.Item, {
+            key: 'evil',
+            href: 'javascript:alert(1)',
+            children: 'Untrusted'
+          })
+        ]
+      })
     );
     assert.doesNotMatch(
       html,
@@ -78,9 +90,15 @@ test('Breadcrumb scheme guard rejects javascript: hrefs', () => {
 test('Breadcrumb passes safe schemes through to the href', () => {
   for (const safe of ['/foo', 'https://x.test', '#bar', 'mailto:a@b']) {
     const html = renderToStaticMarkup(
-      createElement(Breadcrumb, null, [
-        createElement(Breadcrumb.Item, { key: safe, href: safe }, 'Item')
-      ])
+      createElement(Breadcrumb, {
+        children: [
+          createElement(Breadcrumb.Item, {
+            key: safe,
+            href: safe,
+            children: 'Item'
+          })
+        ]
+      })
     );
     assert.match(
       html,
@@ -102,11 +120,13 @@ test('Breadcrumb separator class is applied to all but the last item', () => {
 
 test('Breadcrumb accepts a custom aria-label', () => {
   const html = renderToStaticMarkup(
-    createElement(
-      Breadcrumb,
-      { 'aria-label': 'You are here' },
-      createElement(Breadcrumb.Item, { active: true }, 'Now')
-    )
+    createElement(Breadcrumb, {
+      'aria-label': 'You are here',
+      children: createElement(Breadcrumb.Item, {
+        active: true,
+        children: 'Now'
+      })
+    })
   );
   assert.match(html, /aria-label="You are here"/);
 });

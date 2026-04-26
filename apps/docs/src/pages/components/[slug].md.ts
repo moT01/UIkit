@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from 'astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { stripMdx } from '../../lib/strip-mdx';
 
 const SITE = 'https://fcc-uikit.netlify.app';
@@ -13,9 +13,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const GET: APIRoute = async ({ props }) => {
-  const { entry } = props as {
-    entry: Awaited<ReturnType<typeof getCollection>>[number];
-  };
+  const { entry } = props as { entry: CollectionEntry<'components'> };
 
   const lines: string[] = [];
   lines.push(`# ${entry.data.title}`);

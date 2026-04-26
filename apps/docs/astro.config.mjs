@@ -10,6 +10,7 @@ import searchIndex from './integrations/search-index.ts';
 
 // Resolve `@freecodecamp/uikit*` to raw TS source under packages/<name>/src/.
 // Mirrors the path map in `apps/docs/tsconfig.json`.
+/** @param {string} rel */
 const pkgUrl = rel =>
   fileURLToPath(new URL(`../../packages/${rel}`, import.meta.url));
 

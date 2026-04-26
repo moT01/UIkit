@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { HelpBlock } from '@freecodecamp/uikit';
+import { HelpBlock as HelpBlockCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -16,9 +16,9 @@ import { HelpBlock } from '@freecodecamp/uikit';
 >
   <Fragment slot='preview'>
     <div style='max-width:420px;margin:0 auto;display:grid;gap:14px;'>
-      <HelpBlock>We send one curriculum update per week.</HelpBlock>
-      <HelpBlock variant='success'>Username available.</HelpBlock>
-      <HelpBlock variant='error'>Username already in use.</HelpBlock>
+      <HelpBlockCmp>We send one curriculum update per week.</HelpBlockCmp>
+      <HelpBlockCmp variant='success'>Username available.</HelpBlockCmp>
+      <HelpBlockCmp variant='error'>Username already in use.</HelpBlockCmp>
     </div>
   </Fragment>
   <Code

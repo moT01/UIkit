@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Breadcrumb } from '@freecodecamp/uikit';
+import { Breadcrumb as BreadcrumbCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,11 +15,11 @@ import { Breadcrumb } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/'
 >
   <Fragment slot='preview'>
-    <Breadcrumb>
-      <Breadcrumb.Item href='/'>Docs</Breadcrumb.Item>
-      <Breadcrumb.Item href='/#navigation'>Navigation</Breadcrumb.Item>
-      <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
-    </Breadcrumb>
+    <BreadcrumbCmp>
+      <BreadcrumbCmp.Item href='/'>Docs</BreadcrumbCmp.Item>
+      <BreadcrumbCmp.Item href='/#navigation'>Navigation</BreadcrumbCmp.Item>
+      <BreadcrumbCmp.Item active>Breadcrumb</BreadcrumbCmp.Item>
+    </BreadcrumbCmp>
   </Fragment>
   <Code
     slot='react'

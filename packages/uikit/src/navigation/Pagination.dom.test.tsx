@@ -117,7 +117,7 @@ test('pageCount falls back to 1 when count <= 0 (single page render)', () => {
   // One page button rendered — "1".
   const pages = container.querySelectorAll('button[data-part="page"]');
   expect(pages.length).toBe(1);
-  expect(pages[0].textContent).toBe('1');
+  expect(pages[0]!.textContent).toBe('1');
 });
 
 test('pageSize=0 still computes a finite pageCount (guarded by Math.max(1, pageSize))', () => {

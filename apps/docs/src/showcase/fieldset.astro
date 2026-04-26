@@ -1,7 +1,11 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Fieldset, RadioGroup, Radio } from '@freecodecamp/uikit';
+import {
+  Fieldset as FieldsetCmp,
+  RadioGroup,
+  Radio
+} from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +19,7 @@ import { Fieldset, RadioGroup, Radio } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Fieldset
+    <FieldsetCmp
       legend='Notification cadence'
       style={{ maxWidth: '480px', margin: '0 auto' }}
     >
@@ -24,7 +28,7 @@ import { Fieldset, RadioGroup, Radio } from '@freecodecamp/uikit';
         <Radio value='per-cert' label='Per-cert' />
         <Radio value='never' label='Never' />
       </RadioGroup>
-    </Fieldset>
+    </FieldsetCmp>
   </Fragment>
   <Code
     slot='react'

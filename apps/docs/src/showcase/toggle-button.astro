@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { ToggleButton } from '@freecodecamp/uikit';
+import { ToggleButton as ToggleButtonCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,10 +15,11 @@ import { ToggleButton } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/button/'
 >
   <Fragment slot='preview'>
-    <ToggleButton defaultPressed={false} client:visible
-      >Not pressed</ToggleButton
+    <ToggleButtonCmp defaultPressed={false} client:visible
+      >Not pressed</ToggleButtonCmp
     >
-    <ToggleButton defaultPressed={true} client:visible>Keyboard on</ToggleButton
+    <ToggleButtonCmp defaultPressed={true} client:visible
+      >Keyboard on</ToggleButtonCmp
     >
   </Fragment>
   <Code

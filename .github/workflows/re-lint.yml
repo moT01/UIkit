@@ -1,0 +1,23 @@
+name: Lint
+
+on:
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Format + typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup Node.js + pnpm
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: Format check
+        run: pnpm format:check
+
+      - name: Typecheck
+        run: pnpm typecheck

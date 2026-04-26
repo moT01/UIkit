@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Link } from '@freecodecamp/uikit';
+import { Link as LinkCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -16,7 +16,7 @@ import { Link } from '@freecodecamp/uikit';
 >
   <Fragment slot='preview'>
     <p style='margin:0;font-size:18px;color:var(--foreground-secondary)'>
-      Explore the <Link href='#tokens'>token layer</Link> to recolor every component
+      Explore the <LinkCmp href='#tokens'>token layer</LinkCmp> to recolor every component
       at once.
     </p>
   </Fragment>

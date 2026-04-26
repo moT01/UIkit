@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { StackedLayout } from '@freecodecamp/uikit';
+import { StackedLayout as StackedLayoutCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { StackedLayout } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <StackedLayout
+    <StackedLayoutCmp
       style={{
         width: '100%',
         maxWidth: '680px',
@@ -56,7 +56,7 @@ import { StackedLayout } from '@freecodecamp/uikit';
       >
         Footer
       </footer>
-    </StackedLayout>
+    </StackedLayoutCmp>
   </Fragment>
   <Code
     slot='react'

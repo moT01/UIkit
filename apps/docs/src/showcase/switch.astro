@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Switch } from '@freecodecamp/uikit';
+import { Switch as SwitchCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,8 +15,8 @@ import { Switch } from '@freecodecamp/uikit';
   a11yPattern='https://www.w3.org/WAI/ARIA/apg/patterns/switch/'
 >
   <Fragment slot='preview'>
-    <Switch client:idle defaultChecked label='Keyboard shortcuts' />
-    <Switch client:idle label='Sound effects' />
+    <SwitchCmp client:idle defaultChecked label='Keyboard shortcuts' />
+    <SwitchCmp client:idle label='Sound effects' />
   </Fragment>
   <Code
     slot='react'

@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 const foundations = defineCollection({
@@ -29,7 +30,7 @@ const components = defineCollection({
       'layout'
     ]),
     summary: z.string(),
-    a11yPattern: z.string().url().optional(),
+    a11yPattern: z.url().optional(),
     tokens: z.array(z.string()).optional(),
     order: z.number().int().nonnegative().optional()
   })

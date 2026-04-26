@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { DescriptionList } from '@freecodecamp/uikit';
+import { DescriptionList as DescriptionListCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { DescriptionList } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <DescriptionList
+    <DescriptionListCmp
       items={[
         { term: 'Username', detail: 'camper-42' },
         { term: 'Joined', detail: '2014-04-12' },

@@ -54,7 +54,7 @@ test('clicking an anchor item fires its onClick + closes the menu', () => {
     container.querySelector('button[aria-haspopup="menu"]') as HTMLElement
   );
   const items = container.querySelectorAll('[role="menuitem"]');
-  fireEvent.click(items[0]);
+  fireEvent.click(items[0]!);
   expect(container.querySelector('[role="menu"]')).toBeNull();
 });
 
@@ -113,8 +113,8 @@ test('active item carries aria-current="true"', () => {
     container.querySelector('button[aria-haspopup="menu"]') as HTMLElement
   );
   const items = container.querySelectorAll('[role="menuitem"]');
-  expect(items[1].getAttribute('aria-current')).toBe('true');
-  expect(items[0].getAttribute('aria-current')).toBeNull();
+  expect(items[1]!.getAttribute('aria-current')).toBe('true');
+  expect(items[0]!.getAttribute('aria-current')).toBeNull();
 });
 
 test('Toggle throws helpful error when used outside <Dropdown>', () => {

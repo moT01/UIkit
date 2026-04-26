@@ -1,6 +1,6 @@
 {
   "name": "@freecodecamp/uikit-css",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "test": "echo '[packages/uikit-css] no tests yet' && exit 0",
     "build": "echo '[uikit-css] ships source — no build' && exit 0",
@@ -11,11 +11,11 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/freeCodeCamp/ui.git",
+    "url": "git+https://github.com/freeCodeCamp/UIkit.git",
     "directory": "packages/uikit-css"
   },
   "bugs": {
-    "url": "https://github.com/freeCodeCamp/ui/issues"
+    "url": "https://github.com/freeCodeCamp/UIkit/issues"
   },
   "homepage": "https://fcc-uikit.netlify.app",
   "description": "Tokens + component CSS + fonts for the freeCodeCamp UIKit",

@@ -13,43 +13,46 @@ permissions:
   contents: read
 
 jobs:
-  release:
+  lint:
+    name: Lint
+    uses: ./.github/workflows/re-lint.yml
+    secrets: inherit
+
+  test:
+    name: Test
+    uses: ./.github/workflows/re-test.yml
+    secrets: inherit
+
+  visual:
+    name: Visual
+    needs: [lint, test]
+    uses: ./.github/workflows/re-visual.yml
+    secrets: inherit
+
+  build:
+    name: Build
+    needs: [lint, test, visual]
+    uses: ./.github/workflows/re-build.yml
+    with:
+      upload-artifacts: true
+    secrets: inherit
+
+  publish-cdn:
+    name: Publish to freeCodeCamp/cdn
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - name: Checkout UIkit at ${{ inputs.ref }}
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ inputs.ref }}
           path: uikit
 
-      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+      - name: Download CDN bundle artefact
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
-          version: 10
-
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: 22
-          cache: pnpm
-          cache-dependency-path: uikit/pnpm-lock.yaml
-
-      - name: Install
-        working-directory: uikit
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        working-directory: uikit
-        run: pnpm format:check
-
-      - name: Test
-        working-directory: uikit
-        run: pnpm test
-
-      - name: Build
-        working-directory: uikit
-        run: pnpm build
-
-      - name: Verify CDN bundle
-        working-directory: uikit
-        run: pnpm --filter @freecodecamp/uikit-cdn run verify
+          name: dist-cdn
+          path: uikit/dist-cdn/
 
       - name: Read UIkit version
         id: version
@@ -112,11 +115,12 @@ jobs:
         env:
           VERSION: ${{ steps.version.outputs.value }}
           REPUBLISHED: ${{ steps.republish_check.outputs.republished }}
+          REF: ${{ inputs.ref }}
         run: |
           {
             echo "## Release dispatched"
             echo
-            echo "- UIkit ref: \`${{ inputs.ref }}\`"
+            echo "- UIkit ref: \`${REF}\`"
             echo "- UIkit version: \`v${VERSION}\`"
             echo "- Target: freeCodeCamp/cdn branch \`release/uikit-v${VERSION}\`"
             if [ "${REPUBLISHED}" = "true" ]; then

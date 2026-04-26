@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Panel } from '@freecodecamp/uikit';
+import { Panel as PanelCmp } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,10 +15,13 @@ import { Panel } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Panel title='Editor hints' style={{ maxWidth: '520px', margin: '0 auto' }}>
+    <PanelCmp
+      title='Editor hints'
+      style={{ maxWidth: '520px', margin: '0 auto' }}
+    >
       Your code runs against the first test each time you save. Open the console
       tab to inspect logs.
-    </Panel>
+    </PanelCmp>
   </Fragment>
   <Code
     slot='react'

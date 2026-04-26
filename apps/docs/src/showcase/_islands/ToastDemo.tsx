@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { useState } from 'react';
 import { Toast, Button } from '@freecodecamp/uikit';
 

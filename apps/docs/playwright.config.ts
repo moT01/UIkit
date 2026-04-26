@@ -22,7 +22,10 @@ export default defineConfig({
   use: {
     baseURL: 'http://127.0.0.1:4321',
     trace: 'on-first-retry',
-    reducedMotion: 'reduce'
+    // Top-level use option preferred for stability with focus + animation
+    // tests; the @playwright/test 1.59 type re-export omits `reducedMotion`,
+    // hence the explicit pass-through cast.
+    ...({ reducedMotion: 'reduce' } as { reducedMotion: 'reduce' })
   },
   expect: {
     toHaveScreenshot: {

@@ -1,7 +1,7 @@
 ---
 import PlaygroundCard from '../components/site/PlaygroundCard.astro';
 import { Code } from 'astro/components';
-import { Navbar, Button, Link } from '@freecodecamp/uikit';
+import { Navbar as NavbarCmp, Button } from '@freecodecamp/uikit';
 ---
 
 <PlaygroundCard
@@ -15,7 +15,7 @@ import { Navbar, Button, Link } from '@freecodecamp/uikit';
   since='1.0.0'
 >
   <Fragment slot='preview'>
-    <Navbar style={{ maxWidth: '760px', margin: '0 auto' }}>
+    <NavbarCmp style={{ maxWidth: '760px', margin: '0 auto' }}>
       <div class='navbar__start'><strong>freeCodeCamp</strong></div>
       <div class='navbar__center'>
         <a class='fcc-link' href='#curriculum'>Curriculum</a>
@@ -25,7 +25,7 @@ import { Navbar, Button, Link } from '@freecodecamp/uikit';
       <div class='navbar__end'>
         <Button variant='cta'>Sign in</Button>
       </div>
-    </Navbar>
+    </NavbarCmp>
   </Fragment>
   <Code
     slot='react'
