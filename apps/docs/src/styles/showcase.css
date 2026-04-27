@@ -101,78 +101,6 @@
   flex: 1;
 }
 
-.site-search {
-  position: relative;
-  width: 320px;
-  display: flex;
-  align-items: center;
-}
-.site-search--button {
-  height: 28px;
-  padding: 0 10px 0 30px;
-  font-family: var(--font-sans);
-  font-size: 14px;
-  color: var(--foreground-muted);
-  background: var(--background-secondary);
-  border: 1px solid var(--background-quaternary);
-  cursor: pointer;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.site-search--button:hover,
-.site-search--button:focus-visible {
-  color: var(--foreground-primary);
-  border-color: var(--highlight-color);
-  outline: 0;
-}
-.site-search--button span {
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.site-search::before {
-  content: '/';
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--foreground-muted);
-}
-.site-search kbd {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 1px 6px;
-  border: 1px solid var(--background-quaternary);
-  color: var(--foreground-muted);
-}
-
-.theme-swap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--background-quaternary);
-  background: var(--background-secondary);
-  color: var(--foreground-secondary);
-  cursor: pointer;
-}
-.theme-swap:hover {
-  color: var(--foreground-primary);
-  border-color: var(--foreground-muted);
-}
-.theme-swap svg {
-  display: block;
-}
-
 /* ---------- Body grid ---------- */
 
 .app__body {
@@ -199,11 +127,11 @@
 /* Container styling + collapsible/active rules live in @freecodecamp/uikit-css
  * (`.sidebar`, `.sidebar__intro`, `.sidebar__hint`, `.sidebar__item`,
  * `.sidebar__section--collapsible`). This block only carries docs-site
- * overrides: setting the sticky offset to match the fixed header height and
- * hiding the rail on mobile. */
+ * overrides: setting the sticky offset to match the header + breadcrumb bars
+ * and hiding the rail on mobile. */
 
 .sidebar {
-  --sidebar-top: var(--header-height);
+  --sidebar-top: calc(var(--header-height) + var(--breadcrumbs-height));
   padding: 20px 0 32px;
 }
 
@@ -244,9 +172,6 @@
     display: inline-flex;
   }
   .site-header__nav {
-    display: none;
-  }
-  .site-search--button span {
     display: none;
   }
   .app__sidebar {

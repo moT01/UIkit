@@ -1,40 +1,46 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
+import { Panel } from '@freecodecamp/uikit';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppHeader from '../components/site/AppHeader.astro';
-import AppSidebar from '../components/site/AppSidebar.astro';
+import { HandbookSidebar } from '../components/handbook/HandbookSidebar';
 import Brand from '../components/handbook/Brand.astro';
 
-async function loadFoundation(slug: string) {
-  const entry = await getEntry('foundations', slug);
-  if (!entry) throw new Error(`Missing foundations entry: ${slug}`);
-  return render(entry);
-}
+const foundationId = (id: string): string => (id === 'colors' ? 'palette' : id);
 
-const { Content: Overview } = await loadFoundation('overview');
-const { Content: Palette } = await loadFoundation('colors');
-const { Content: Typography } = await loadFoundation('typography');
-const { Content: Spacing } = await loadFoundation('spacing');
-const { Content: Iconography } = await loadFoundation('iconography');
-const { Content: Motion } = await loadFoundation('motion');
-const { Content: Voice } = await loadFoundation('voice');
-const { Content: BrandGuidelines } = await loadFoundation('brand');
-const { Content: DoDonts } = await loadFoundation('do-donts');
+const foundations = await getCollection('foundations');
+const foundationSections = await Promise.all(
+  foundations
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async entry => {
+      const { Content } = await render(entry);
+      return {
+        entry,
+        id: foundationId(entry.id),
+        Content
+      };
+    })
+);
 
-const tocLinks: readonly { id: string; label: string }[] = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'palette', label: 'Palette' },
-  { id: 'typography', label: 'Typography' },
-  { id: 'spacing', label: 'Spacing' },
-  { id: 'iconography', label: 'Iconography' },
-  { id: 'motion', label: 'Motion' },
-  { id: 'voice', label: 'Voice' },
-  { id: 'brand', label: 'Brand' },
-  { id: 'do-donts', label: "Do / Don't" },
+const implementationLinks = [
   { id: 'install', label: 'Install' },
   { id: 'cdn', label: 'CDN' },
   { id: 'contributing', label: 'Contributing' }
-];
+] as const;
+
+const handbookSections = [
+  {
+    label: 'Foundations',
+    items: foundationSections.map(({ entry, id }) => ({
+      id,
+      label: entry.data.title
+    }))
+  },
+  {
+    label: 'Implementation',
+    items: implementationLinks
+  }
+] as const;
 ---
 
 <BaseLayout
@@ -44,8 +50,19 @@ const tocLinks: readonly { id: string; label: string }[] = [
   <div class='app' id='top'>
     <AppHeader />
     <div class='app__body'>
-      <AppSidebar />
-      <main class='content' tabindex='-1'>
+      <div class='app__sidebar' id='app-sidebar'>
+        <HandbookSidebar
+          sections={handbookSections}
+          currentHash={Astro.url.hash}
+        />
+      </div>
+      <button
+        class='app__backdrop'
+        type='button'
+        aria-hidden='true'
+        tabindex='-1'
+        data-nav-backdrop></button>
+      <main class='content sidebar-layout__main' tabindex='-1'>
         <div class='content__inner'>
           <section class='hero' id='introduction'>
             <p class='hero__kicker'>Handbook</p>
@@ -53,100 +70,23 @@ const tocLinks: readonly { id: string; label: string }[] = [
             <p class='hero__lede'>
               Everything a builder needs to ship fluently with freeCodeCamp
               UIKit — tokens, type, motion, voice, brand, install, CDN, and how
-              to contribute. Scroll, or jump from the table of contents.
+              to contribute. Use the handbook navigation to jump between rules.
             </p>
           </section>
 
-          <nav class='handbook-toc' aria-label='On this page'>
-            {
-              tocLinks.map(l => (
-                <a
-                  class='handbook-toc__link'
-                  data-sidebar-link
-                  data-target={l.id}
-                  href={`#${l.id}`}
-                >
-                  {l.label}
-                </a>
-              ))
-            }
-          </nav>
-
-          <section class='section handbook-section' id='overview'>
-            <p class='section__eyebrow'>Foundation · 00</p>
-            <h2 class='section__title'>Overview</h2>
-            <div class='foundations'>
-              <Overview />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='palette'>
-            <p class='section__eyebrow'>Foundation · 01</p>
-            <h2 class='section__title'>Palette</h2>
-            <div class='foundations'>
-              <Palette />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='typography'>
-            <p class='section__eyebrow'>Foundation · 02</p>
-            <h2 class='section__title'>Typography</h2>
-            <div class='foundations'>
-              <Typography />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='spacing'>
-            <p class='section__eyebrow'>Foundation · 03</p>
-            <h2 class='section__title'>Spacing</h2>
-            <div class='foundations'>
-              <Spacing />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='iconography'>
-            <p class='section__eyebrow'>Foundation · 04</p>
-            <h2 class='section__title'>Iconography</h2>
-            <div class='foundations'>
-              <Iconography />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='motion'>
-            <p class='section__eyebrow'>Foundation · 05</p>
-            <h2 class='section__title'>Motion</h2>
-            <div class='foundations'>
-              <Motion />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='voice'>
-            <p class='section__eyebrow'>Foundation · 06</p>
-            <h2 class='section__title'>Voice</h2>
-            <div class='foundations'>
-              <Voice />
-            </div>
-          </section>
-
-          <section class='section handbook-section' id='brand'>
-            <p class='section__eyebrow'>Foundation · 08</p>
-            <h2 class='section__title'>Brand</h2>
-            <p class='section__lede'>
-              Marks, clear-space, misuse, wordmark usage, and the asset kit.
-            </p>
-            <div class='foundations'>
-              <BrandGuidelines />
-            </div>
-            <Brand />
-          </section>
-
-          <section class='section handbook-section' id='do-donts'>
-            <p class='section__eyebrow'>Foundation · 09</p>
-            <h2 class='section__title'>Do / Don't</h2>
-            <div class='foundations'>
-              <DoDonts />
-            </div>
-          </section>
+          {
+            foundationSections.map(({ entry, id, Content }) => (
+              <section class='section handbook-section' id={id}>
+                <p class='section__eyebrow'>{entry.data.eyebrow}</p>
+                <h2 class='section__title'>{entry.data.title}</h2>
+                <p class='section__lede'>{entry.data.summary}</p>
+                <div class='foundations'>
+                  <Content />
+                </div>
+                {entry.id === 'brand' && <Brand />}
+              </section>
+            ))
+          }
 
           <section class='section handbook-section' id='install'>
             <p class='section__eyebrow'>Install</p>
@@ -154,25 +94,19 @@ const tocLinks: readonly { id: string; label: string }[] = [
             <p class='section__lede'>
               Ship UIKit however you like — two patterns, identical output.
             </p>
-            <div class='handbook-block'>
-              <p class='handbook-block__title'>1 · Add the packages</p>
-              <pre
-                class='guide-pre'><code>pnpm add @freecodecamp/uikit @freecodecamp/uikit-css</code></pre>
-            </div>
-            <div class='handbook-block'>
-              <p class='handbook-block__title'>2 · Import the stylesheets</p>
+            <Panel title='1 · Add the packages'>
+              <pre><code>pnpm add @freecodecamp/uikit @freecodecamp/uikit-css</code></pre>
+            </Panel>
+            <Panel title='2 · Import the stylesheets'>
               <p>Tokens first, components second.</p>
-              <pre
-                class='guide-pre'><code>{`@import '@freecodecamp/uikit-css/tokens.css';
+              <pre><code>{`@import '@freecodecamp/uikit-css/tokens.css';
 @import '@freecodecamp/uikit-css/components.css';`}</code></pre>
-            </div>
-            <div class='handbook-block'>
-              <p class='handbook-block__title'>3 · Use the components</p>
-              <pre
-                class='guide-pre'><code>{`import { Button } from '@freecodecamp/uikit';
+            </Panel>
+            <Panel title='3 · Use the components'>
+              <pre><code>{`import { Button } from '@freecodecamp/uikit';
 
 <Button variant="cta">Start curriculum</Button>`}</code></pre>
-            </div>
+            </Panel>
           </section>
 
           <section class='section handbook-section' id='cdn'>
@@ -182,24 +116,16 @@ const tocLinks: readonly { id: string; label: string }[] = [
               One <code>@import</code> line pulls every token, every component class,
               and every font. Fonts resolve relative to the stylesheet URL.
             </p>
-            <div class='handbook-block'>
-              <p class='handbook-block__title'>
-                CSS <code>@import</code>
-              </p>
-              <pre
-                class='guide-pre'><code>{`@import url('https://cdn.freecodecamp.org/uikit/styles.min.css');`}</code></pre>
-            </div>
-            <div class='handbook-block'>
-              <p class='handbook-block__title'>
-                Or the <code>&lt;link&gt;</code> tag
-              </p>
-              <pre
-                class='guide-pre'><code>{`<link
+            <Panel title='CSS @import'>
+              <pre><code>{`@import url('https://cdn.freecodecamp.org/uikit/styles.min.css');`}</code></pre>
+            </Panel>
+            <Panel title='Or the <link> tag'>
+              <pre><code>{`<link
   rel="stylesheet"
   href="https://cdn.freecodecamp.org/uikit/styles.min.css"
   crossorigin="anonymous"
 />`}</code></pre>
-            </div>
+            </Panel>
             <p>
               Pin a specific version by swapping the root for
               <code>https://cdn.freecodecamp.org/uikit/v1.0.0/</code>. The
@@ -232,8 +158,7 @@ const tocLinks: readonly { id: string; label: string }[] = [
               </li>
               <li>
                 Run the full battery locally before pushing:
-                <pre
-                  class='guide-pre'><code>{`pnpm install
+                <pre><code>{`pnpm install
 pnpm test
 pnpm build
 pnpm format:check
@@ -268,121 +193,3 @@ pnpm --filter @freecodecamp/uikit-docs test:visual`}</code></pre>
     import '../scripts/showcase-spy.client.ts';
   </script>
 </BaseLayout>
-
-<style is:global>
-  /* In-page table of contents — compact row of mono chips. Spy marks
-     the active section via data-active="true". */
-  .handbook-toc {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 8px;
-    margin: 0 0 32px;
-    padding: 12px 16px;
-    background: var(--background-secondary);
-    border: 1px solid var(--border-strong);
-    font-family: var(--font-mono);
-    font-size: 12px;
-  }
-  .handbook-toc__link {
-    padding: 4px 8px;
-    color: var(--foreground-secondary);
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition:
-      color var(--dur-fast) var(--ease-snap),
-      border-color var(--dur-fast) var(--ease-snap),
-      background-color var(--dur-fast) var(--ease-snap);
-  }
-  .handbook-toc__link:hover {
-    color: var(--foreground-primary);
-    border-color: var(--border-strong);
-    background: var(--background-tertiary);
-  }
-  .handbook-toc__link[data-active='true'] {
-    color: var(--background-primary);
-    background: var(--cta-background);
-    border-color: var(--cta-background);
-  }
-
-  .handbook-section {
-    scroll-margin-top: 96px;
-  }
-  .handbook-section + .handbook-section {
-    margin-top: 40px;
-  }
-
-  .handbook-block {
-    margin: 16px 0;
-    padding: 16px;
-    background: var(--background-secondary);
-    border: 1px solid var(--border-strong);
-  }
-  .handbook-block__title {
-    margin: 0 0 12px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--foreground-muted);
-  }
-  .handbook-block p {
-    margin: 12px 0;
-    color: var(--foreground-secondary);
-    font-size: var(--fs-md);
-    line-height: var(--lh-loose);
-  }
-
-  .handbook-steps li {
-    margin-bottom: 12px;
-  }
-
-  /* Mirrors the `.foundations` rules that historically lived in
-     `layouts/FoundationsLayout.astro`. · 4.7 will retire the old
-     layout; having the styles here keeps /handbook self-contained. */
-  .foundations {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    max-width: 72ch;
-  }
-  .foundations h2 {
-    margin: 16px 0 8px;
-    font-size: var(--fs-xl);
-  }
-  .foundations h3 {
-    margin: 12px 0 6px;
-    font-size: var(--fs-lg);
-  }
-  /* rehype-autolink-headings appends a `#` anchor after each heading.
-     Keep it discreet — visible on hover, low-opacity by default, no
-     underline. Anchors stay focusable for keyboard users. */
-  .foundations :is(h1, h2, h3, h4, h5, h6) .heading-anchor {
-    color: var(--foreground-muted);
-    text-decoration: none;
-    opacity: 0;
-    transition: opacity 120ms ease;
-    margin-left: 6px;
-  }
-  .foundations :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor,
-  .foundations :is(h1, h2, h3, h4, h5, h6) .heading-anchor:focus-visible {
-    opacity: 1;
-  }
-  .foundations p {
-    margin: 0;
-    color: var(--foreground-secondary);
-    font-size: var(--fs-md);
-    line-height: var(--lh-loose);
-  }
-  .foundations ul {
-    margin: 0;
-    padding-left: 20px;
-    color: var(--foreground-secondary);
-    font-size: var(--fs-md);
-  }
-  .foundations ul li {
-    margin-bottom: 6px;
-  }
-  .foundations code {
-    font-size: 0.9em;
-  }
-</style>

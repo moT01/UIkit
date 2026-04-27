@@ -33,7 +33,7 @@ const { specimens } = Astro.props;
             class={['type-sample', mono ? 'type-sample--mono' : '']
               .filter(Boolean)
               .join(' ')}
-            style={{ fontSize: `var(${token})` }}
+            style={{ '--type-sample-size': `var(${token})` }}
           >
             {sample}
           </Tag>
@@ -42,55 +42,3 @@ const { specimens } = Astro.props;
     })
   }
 </ul>
-
-<style>
-  .type-specimens {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  .type-row {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 24px;
-    align-items: baseline;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .type-row:last-child {
-    border-bottom: 0;
-  }
-  .type-meta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--foreground-muted);
-  }
-  .type-meta__name {
-    margin: 0;
-    color: var(--foreground-primary);
-    font-size: 13px;
-  }
-  .type-meta__token {
-    margin: 2px 0 0;
-  }
-  .type-meta__note {
-    margin: 2px 0 0;
-  }
-  .type-sample {
-    margin: 0;
-    color: var(--foreground-primary);
-    line-height: var(--lh-snug);
-  }
-  .type-sample--mono {
-    font-family: var(--font-mono);
-  }
-  @media (max-width: 720px) {
-    .type-row {
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-  }
-</style>

@@ -110,19 +110,20 @@ export function AppHeader({ pathname = '' }: AppHeaderProps): JSX.Element {
         </svg>
       </button>
       <button
-        className='site-search site-search--button'
+        className='btn btn--sm'
         type='button'
         data-open-search
         aria-label='Open search'
+        title='Search'
       >
-        <span>Search components, guides, foundations</span>
-        <kbd>/</kbd>
+        <span aria-hidden='true'>/</span>
       </button>
       <button
-        className='theme-swap'
+        className='btn btn--sm'
         type='button'
         aria-label='Toggle color palette'
         data-theme-swap
+        title='Toggle color palette'
       >
         <svg
           data-icon-dark

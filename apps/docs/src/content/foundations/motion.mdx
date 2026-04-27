@@ -31,12 +31,77 @@ import MotionDemo from '../../components/foundations/MotionDemo.astro';
 
 ## Per-component budget
 
-| Surface            | Enter                                          | Exit                | Notes                               |
-| :----------------- | :--------------------------------------------- | :------------------ | :---------------------------------- |
-| Dialog             | fade 120ms + scale 0.96 → 1 260ms `--ease-out` | reverse 140ms       | Backdrop fades independently.       |
-| Drawer             | translateX 260ms `--ease-out`                  | reverse 200ms       | Also translateY for bottom sheet.   |
-| Dropdown / Listbox | translateY(-4) + fade 120ms                    | reverse 100ms       | No scale — menus should not "grow". |
-| Tooltip            | fade 80ms after 300ms delay                    | fade 80ms, no delay | Delay resets per group.             |
-| Tabs               | indicator translateX 180ms `--ease-snap`       | —                   | Content cross-fades 120ms.          |
-| Switch             | thumb translateX 160ms `--ease-snap`           | —                   | No bounce.                          |
-| Page               | opacity 120ms on Astro view transitions        | —                   | Reduced-motion honored.             |
+<div class='data-table'>
+  <table class='data-table__table'>
+    <thead>
+      <tr>
+        <th class='data-table__header' scope='col'>
+          Surface
+        </th>
+        <th class='data-table__header' scope='col'>
+          Enter
+        </th>
+        <th class='data-table__header' scope='col'>
+          Exit
+        </th>
+        <th class='data-table__header' scope='col'>
+          Notes
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class='data-table__cell'>Dialog</td>
+        <td class='data-table__cell'>
+          fade 120ms + scale 0.96 → 1 260ms <code>--ease-out</code>
+        </td>
+        <td class='data-table__cell'>reverse 140ms</td>
+        <td class='data-table__cell'>Backdrop fades independently.</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Drawer</td>
+        <td class='data-table__cell'>
+          translateX 260ms <code>--ease-out</code>
+        </td>
+        <td class='data-table__cell'>reverse 200ms</td>
+        <td class='data-table__cell'>Also translateY for bottom sheet.</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Dropdown / Listbox</td>
+        <td class='data-table__cell'>translateY(-4) + fade 120ms</td>
+        <td class='data-table__cell'>reverse 100ms</td>
+        <td class='data-table__cell'>No scale — menus should not "grow".</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Tooltip</td>
+        <td class='data-table__cell'>fade 80ms after 300ms delay</td>
+        <td class='data-table__cell'>fade 80ms, no delay</td>
+        <td class='data-table__cell'>Delay resets per group.</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Tabs</td>
+        <td class='data-table__cell'>
+          indicator translateX 180ms <code>--ease-snap</code>
+        </td>
+        <td class='data-table__cell'>—</td>
+        <td class='data-table__cell'>Content cross-fades 120ms.</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Switch</td>
+        <td class='data-table__cell'>
+          thumb translateX 160ms <code>--ease-snap</code>
+        </td>
+        <td class='data-table__cell'>—</td>
+        <td class='data-table__cell'>No bounce.</td>
+      </tr>
+      <tr>
+        <td class='data-table__cell'>Page</td>
+        <td class='data-table__cell'>
+          opacity 120ms on Astro view transitions
+        </td>
+        <td class='data-table__cell'>—</td>
+        <td class='data-table__cell'>Reduced-motion honored.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -64,3 +64,17 @@ test('unknown routes default to no current link', () => {
   const matches = html.match(/aria-current="page"/g) ?? [];
   expect(matches.length).toBe(0);
 });
+
+test('search control dogfoods Button styling with compact visible text', () => {
+  const html = render('/handbook');
+  const search = html.match(
+    /<button[^>]*data-open-search[^>]*>[\s\S]*?<\/button>/
+  );
+  expect(search, 'search button must render').not.toBeNull();
+  if (!search) return;
+  expect(search[0]).toMatch(/class="[^"]*\bbtn\b[^"]*\bbtn--sm\b/);
+  expect(search[0]).toMatch(/aria-label="Open search"/);
+  expect(search[0]).toMatch(/aria-hidden="true"[^>]*>\/</);
+  expect(search[0]).not.toMatch(/\bsite-search\b/);
+  expect(search[0]).not.toMatch(/Search components, guides, foundations/);
+});

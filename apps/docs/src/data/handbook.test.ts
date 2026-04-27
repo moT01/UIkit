@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const foundationsDir = resolve(here, '..', 'content', 'foundations');
+const handbookPagePath = resolve(here, '..', 'pages', 'handbook.astro');
 
 const files = readdirSync(foundationsDir).filter(name => name.endsWith('.mdx'));
 
@@ -105,5 +106,47 @@ test('a do/donts entry exists (cross-cutting examples)', () => {
   assert.ok(
     found,
     'expected a foundations entry with a Do / Don’t section (cross-cutting visual rules)'
+  );
+});
+
+test('handbook page uses handbook navigation, not playground component navigation', () => {
+  const src = readFileSync(handbookPagePath, 'utf8');
+  assert.doesNotMatch(
+    src,
+    /import\s+AppSidebar\b/,
+    'handbook must not import the playground AppSidebar'
+  );
+  assert.match(
+    src,
+    /HandbookSidebar/,
+    'handbook must render a handbook-specific Sidebar built from handbook links'
+  );
+});
+
+test('handbook foundations render from collection metadata', () => {
+  const src = readFileSync(handbookPagePath, 'utf8');
+  assert.match(
+    src,
+    /getCollection\('foundations'\)/,
+    'handbook must load foundations from the Astro content collection'
+  );
+  assert.doesNotMatch(
+    src,
+    /function\s+loadFoundation/,
+    'handbook must not hardcode each foundation loader'
+  );
+  assert.doesNotMatch(
+    src,
+    /Foundation\s*·\s*00/,
+    'handbook section eyebrows must come from foundation frontmatter'
+  );
+});
+
+test('handbook main column dogfoods the UIKit sidebar layout scroll guard', () => {
+  const src = readFileSync(handbookPagePath, 'utf8');
+  assert.match(
+    src,
+    /<main\s+class='content sidebar-layout__main'/,
+    'handbook main must use the UIKit SidebarLayout main class instead of page-specific overflow CSS'
   );
 });

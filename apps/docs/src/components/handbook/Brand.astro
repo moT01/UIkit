@@ -12,7 +12,12 @@
 // (timestamps + compression flags drift per run).
 import DoDont from '../site/DoDont.astro';
 
-const marks: readonly { file: string; label: string; desc: string }[] = [
+const marks: readonly {
+  file: string;
+  label: string;
+  desc: string;
+  previewTone?: 'light';
+}[] = [
   {
     file: 'fcc-primary.svg',
     label: 'Primary',
@@ -21,7 +26,8 @@ const marks: readonly { file: string; label: string; desc: string }[] = [
   {
     file: 'fcc-secondary.svg',
     label: 'Secondary',
-    desc: 'Compact lockup — wordmark only. Navs, cards, footers.'
+    desc: 'Compact lockup — wordmark only. Navs, cards, footers.',
+    previewTone: 'light'
   },
   {
     file: 'fcc-puck.svg',
@@ -43,7 +49,9 @@ const marks: readonly { file: string; label: string; desc: string }[] = [
       {
         marks.map(m => (
           <li class='brand-marks__item'>
-            <figure class='brand-marks__frame'>
+            <figure
+              class={`brand-marks__frame${m.previewTone === 'light' ? ' light-palette' : ''}`}
+            >
               <img
                 class='brand-marks__img'
                 src={`/brand/${m.file}`}
@@ -223,184 +231,3 @@ const marks: readonly { file: string; label: string; desc: string }[] = [
     mountClearSpace();
   }
 </script>
-
-<style is:global>
-  .brand {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-  }
-  .brand__sub-title {
-    margin: 0 0 8px;
-    font-size: var(--fs-lg);
-  }
-  .brand__sub-lede {
-    margin: 0 0 16px;
-    color: var(--foreground-secondary);
-    font-size: var(--fs-md);
-    line-height: var(--lh-loose);
-  }
-
-  .brand-marks {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .brand-marks__item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    background: var(--background-secondary);
-    border: 1px solid var(--border-strong);
-  }
-  .brand-marks__frame {
-    margin: 0;
-    padding: 24px;
-    background: var(--background-primary);
-    border: 1px dashed var(--foreground-quaternary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 112px;
-  }
-  .brand-marks__img {
-    max-width: 100%;
-    height: auto;
-  }
-  .brand-marks__label {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--foreground-muted);
-  }
-  .brand-marks__desc {
-    margin: 0;
-    color: var(--foreground-secondary);
-    font-size: 14px;
-    line-height: var(--lh-loose);
-  }
-
-  .brand-clear {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
-    background: var(--background-secondary);
-    border: 1px solid var(--border-strong);
-  }
-  .brand-clear__stage {
-    --brand-clear-ratio: 1;
-    padding: calc(32px * var(--brand-clear-ratio));
-    background: var(--background-primary);
-    border: 2px solid var(--border-strong);
-    transition: border-color var(--dur-fast) var(--ease-snap);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 160px;
-  }
-  .brand-clear__stage[data-under-threshold] {
-    border-color: var(--danger-color);
-  }
-  .brand-clear__inner {
-    padding: 12px;
-    background: var(--background-tertiary);
-  }
-  .brand-clear__img {
-    max-width: 280px;
-    height: auto;
-    display: block;
-  }
-  .brand-clear__control {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 12px;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--foreground-muted);
-  }
-  .brand-clear__control-label {
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .brand-clear__control input[type='range'] {
-    width: 100%;
-  }
-
-  .brand-dodont {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    background: var(--background-primary);
-    min-height: 96px;
-  }
-  .brand-dodont img {
-    max-width: 220px;
-    height: auto;
-  }
-  .brand-dodont--stretched img {
-    transform: scaleX(1.6);
-    transform-origin: center;
-  }
-  .brand-dodont--recoloured img {
-    filter: hue-rotate(200deg) saturate(2);
-  }
-  .brand-dodont--busy {
-    background-image: repeating-linear-gradient(
-      45deg,
-      var(--purple-color) 0,
-      var(--purple-color) 12px,
-      var(--warning-color) 12px,
-      var(--warning-color) 24px
-    );
-  }
-  .brand-dodont__caption {
-    margin: 8px 0 16px;
-    color: var(--foreground-secondary);
-    font-size: 13px;
-    line-height: var(--lh-loose);
-  }
-
-  .brand-wordmark {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 16px;
-  }
-  .brand-wordmark__tile {
-    padding: 20px;
-    background: var(--background-secondary);
-    border: 1px solid var(--border-strong);
-    min-height: 140px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .brand-wordmark__sample {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--foreground-primary);
-  }
-  .brand-wordmark__img {
-    max-width: 64px;
-    height: auto;
-  }
-  .brand-wordmark__rule {
-    margin: 0;
-    color: var(--foreground-secondary);
-    font-size: 13px;
-    line-height: var(--lh-loose);
-  }
-</style>
