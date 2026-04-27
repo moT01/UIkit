@@ -28,7 +28,8 @@ pnpm test
 
 `pnpm install` also installs Husky's git hooks. The `pre-commit` hook runs `lint-staged`, which formats staged files with Prettier + ESLint before the commit lands.
 
-Requires Node `>=20` (CI runs on Node 22) and pnpm 9. The `.nvmrc` and `engines` field pin the version.
+Requires Node `>=20` (CI runs on Node 22) and pnpm 10. The `.nvmrc`,
+`engines`, and root `packageManager` fields pin the versions.
 
 ## Day-to-day workflow
 
@@ -67,15 +68,18 @@ pnpm test:visual:update  # refresh goldens after intentional UI change
 - `Release` is manual. Trigger from GitHub Actions with `workflow_dispatch` and pick the ref to release.
 - The release workflow builds the CDN bundle, then opens a PR on `freeCodeCamp/cdn` that updates `build/uikit/`.
 - Cross-repo push uses the `CDN_PUSH_TOKEN` secret (fine-grained PAT scoped to `freeCodeCamp/cdn`). The default `GITHUB_TOKEN` is never used outside this repo.
-- npm publish is not currently automated — run `pnpm changeset publish` locally with an org-scoped npm token.
+- npm publish is not currently automated. Run `pnpm release:check`, then
+  `pnpm release` locally with an org-scoped npm token.
 
 ## Release checklist
 
 1. Run `pnpm changeset` for each PR that ships user-visible change.
 2. When ready to release, run `pnpm changeset version` on `main` to consume queued changesets, bump versions, and update per-package `CHANGELOG.md`.
 3. Commit the version bump as a single commit.
-4. Run the `Release` workflow with `ref: main` to publish the CDN bundle.
-5. Review and merge the PR it opens on `freeCodeCamp/cdn`.
+4. Run `pnpm release:check` from a clean checkout.
+5. Run `pnpm release` to publish npm packages.
+6. Run the `Release` workflow with `ref: main` to publish the CDN bundle.
+7. Review and merge the PR it opens on `freeCodeCamp/cdn`.
 
 ## More docs
 

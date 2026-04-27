@@ -27,7 +27,10 @@
     "format": "prettier . --write && eslint . --fix",
     "format:check": "prettier . --check && eslint .",
     "changeset": "changeset",
-    "release": "turbo run build && changeset publish"
+    "release:check": "pnpm build:pkgs && pnpm verify:cdn && pnpm release:lint-packages && pnpm release:npm:dry-run",
+    "release:lint-packages": "publint run packages/uikit --strict && publint run packages/uikit-css --strict && publint run packages/uikit-js --strict && publint run packages/uikit-icons --strict && publint run packages/uikit-tailwind --strict",
+    "release:npm:dry-run": "pnpm -r --filter './packages/*' publish --access public --dry-run",
+    "release": "pnpm build:pkgs && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
@@ -47,6 +50,7 @@
     "lint-staged": "16.4.0",
     "prettier": "3.8.3",
     "prettier-plugin-astro": "0.14.1",
+    "publint": "^0.3.18",
     "tsx": "^4.21.0",
     "turbo": "^2.9.6",
     "typescript": "^6.0.3",

@@ -19,7 +19,8 @@ CDN bundle builder, and the Astro documentation site.
 
 ## Workspace layout
 
-`pnpm-workspace.yaml` includes two workspace roots:
+`pnpm-workspace.yaml` includes two workspace roots and pnpm-specific install
+settings:
 
 - `apps/*` for private applications. Today this is `apps/docs`.
 - `packages/*` for publishable packages and internal package tooling.

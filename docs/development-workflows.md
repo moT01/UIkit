@@ -13,35 +13,41 @@ the command explicitly says otherwise.
 `pnpm install` runs the root `prepare` script, which installs Husky unless the
 environment is CI.
 
+pnpm-specific install settings live in `pnpm-workspace.yaml` so npm CLI
+commands do not warn on pnpm-only `.npmrc` keys during package dry-runs.
+
 ## Root scripts
 
-| Script                   | Command                                                              | Use                                                                     |
-| ------------------------ | -------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `prepare`                | `is-ci \|\| husky`                                                   | Install git hooks outside CI.                                           |
-| `build`                  | `turbo run build`                                                    | Build every workspace.                                                  |
-| `build:pkgs`             | `turbo run build --filter=!@freecodecamp/uikit-docs`                 | Build packages without the docs app.                                    |
-| `build:docs`             | `turbo run build --filter=@freecodecamp/uikit-docs`                  | Build only the docs app and required deps.                              |
-| `dev`                    | `pnpm dev:docs`                                                      | Default local dev entry; delegates to docs dev.                         |
-| `dev:docs`               | `pnpm --filter @freecodecamp/uikit-docs dev`                         | Run the Astro docs dev server.                                          |
-| `dev:vanilla`            | `pnpm --filter @freecodecamp/uikit-js dev`                           | Watch-build the vanilla runtime.                                        |
-| `dev:cdn`                | `pnpm verify:cdn`                                                    | Verify the current CDN bundle.                                          |
-| `build:cdn`              | `turbo run build --filter=@freecodecamp/uikit-cdn`                   | Build the CDN workspace and upstream deps.                              |
-| `verify:cdn`             | `turbo run verify --filter=@freecodecamp/uikit-cdn`                  | Verify `dist-cdn/uikit`.                                                |
-| `preview`                | `turbo run preview --filter=@freecodecamp/uikit-docs`                | Preview the built docs app.                                             |
-| `test`                   | `turbo run test`                                                     | Run workspace tests.                                                    |
-| `test:unit`              | `turbo run test`                                                     | Alias for workspace unit tests.                                         |
-| `test:coverage`          | `turbo run test:coverage`                                            | Run coverage tasks.                                                     |
-| `test:watch`             | `turbo run test:watch`                                               | Run watch-mode tests where available.                                   |
-| `test:playwright`        | `turbo run test:playwright --filter=@freecodecamp/uikit-docs`        | Run docs Playwright tests.                                              |
-| `test:playwright:update` | `turbo run test:playwright:update --filter=@freecodecamp/uikit-docs` | Update docs Playwright snapshots.                                       |
-| `test:visual`            | `pnpm test:playwright`                                               | Visual-test alias kept for existing workflows.                          |
-| `test:visual:update`     | `pnpm test:playwright:update`                                        | Visual snapshot update alias.                                           |
-| `lint`                   | `turbo run lint`                                                     | Run workspace lint tasks.                                               |
-| `typecheck`              | `turbo run typecheck`                                                | Run workspace type checks.                                              |
-| `format`                 | `prettier . --write && eslint . --fix`                               | Format and autofix the repo.                                            |
-| `format:check`           | `prettier . --check && eslint .`                                     | Check formatting and linting without writes.                            |
-| `changeset`              | `changeset`                                                          | Create package release notes and version intent.                        |
-| `release`                | `turbo run build && changeset publish`                               | Local npm publish path after building. CDN release uses GitHub Actions. |
+| Script                   | Command                                                                                        | Use                                                                                      |
+| ------------------------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `prepare`                | `is-ci \|\| husky`                                                                             | Install git hooks outside CI.                                                            |
+| `build`                  | `turbo run build`                                                                              | Build every workspace.                                                                   |
+| `build:pkgs`             | `turbo run build --filter=!@freecodecamp/uikit-docs`                                           | Build packages without the docs app.                                                     |
+| `build:docs`             | `turbo run build --filter=@freecodecamp/uikit-docs`                                            | Build only the docs app and required deps.                                               |
+| `dev`                    | `pnpm dev:docs`                                                                                | Default local dev entry; delegates to docs dev.                                          |
+| `dev:docs`               | `pnpm --filter @freecodecamp/uikit-docs dev`                                                   | Run the Astro docs dev server.                                                           |
+| `dev:vanilla`            | `pnpm --filter @freecodecamp/uikit-js dev`                                                     | Watch-build the vanilla runtime.                                                         |
+| `dev:cdn`                | `pnpm verify:cdn`                                                                              | Verify the current CDN bundle.                                                           |
+| `build:cdn`              | `turbo run build --filter=@freecodecamp/uikit-cdn`                                             | Build the CDN workspace and upstream deps.                                               |
+| `verify:cdn`             | `turbo run verify --filter=@freecodecamp/uikit-cdn`                                            | Verify `dist-cdn/uikit`.                                                                 |
+| `preview`                | `turbo run preview --filter=@freecodecamp/uikit-docs`                                          | Preview the built docs app.                                                              |
+| `test`                   | `turbo run test`                                                                               | Run workspace tests.                                                                     |
+| `test:unit`              | `turbo run test`                                                                               | Alias for workspace unit tests.                                                          |
+| `test:coverage`          | `turbo run test:coverage`                                                                      | Run coverage tasks.                                                                      |
+| `test:watch`             | `turbo run test:watch`                                                                         | Run watch-mode tests where available.                                                    |
+| `test:playwright`        | `turbo run test:playwright --filter=@freecodecamp/uikit-docs`                                  | Run docs Playwright tests.                                                               |
+| `test:playwright:update` | `turbo run test:playwright:update --filter=@freecodecamp/uikit-docs`                           | Update docs Playwright snapshots.                                                        |
+| `test:visual`            | `pnpm test:playwright`                                                                         | Visual-test alias kept for existing workflows.                                           |
+| `test:visual:update`     | `pnpm test:playwright:update`                                                                  | Visual snapshot update alias.                                                            |
+| `lint`                   | `turbo run lint`                                                                               | Run workspace lint tasks.                                                                |
+| `typecheck`              | `turbo run typecheck`                                                                          | Run workspace type checks.                                                               |
+| `format`                 | `prettier . --write && eslint . --fix`                                                         | Format and autofix the repo.                                                             |
+| `format:check`           | `prettier . --check && eslint .`                                                               | Check formatting and linting without writes.                                             |
+| `changeset`              | `changeset`                                                                                    | Create package release notes and version intent.                                         |
+| `release:check`          | `pnpm build:pkgs && pnpm verify:cdn && pnpm release:lint-packages && pnpm release:npm:dry-run` | Build packages, verify CDN output, lint package shape, and dry-run npm package tarballs. |
+| `release:lint-packages`  | `publint run ... --strict`                                                                     | Run package-shape validation for all public packages.                                    |
+| `release:npm:dry-run`    | `pnpm -r --filter './packages/*' publish --access public --dry-run`                            | Verify publishable package contents without publishing.                                  |
+| `release`                | `pnpm build:pkgs && changeset publish`                                                         | Local npm publish path after building. CDN release uses GitHub Actions.                  |
 
 ## Package scripts
 
@@ -178,5 +184,8 @@ build jobs first. The build job uploads `dist-cdn`. The publish job downloads
 that artifact, validates `packages/uikit/package.json` version, checks out
 `freeCodeCamp/cdn` using `CDN_PUSH_TOKEN`, syncs `dist-cdn/uikit` to
 `cdn/build/uikit`, and opens a PR.
+
+The npm release path uses Changesets. Run `pnpm release:check` from a clean
+checkout before `pnpm release`.
 
 See [Releasing](./releasing.md) for the full runbook.

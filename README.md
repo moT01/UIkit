@@ -5,7 +5,7 @@
 [![Discord](https://img.shields.io/discord/692816967895220344?logo=discord&label=Discord&color=5865F2)](https://discord.gg/PRyKn3Vbay)
 [![License: BSD-3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](./LICENSE.md)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](./.nvmrc)
-[![pnpm](https://img.shields.io/badge/pnpm-9-orange)](./package.json)
+[![pnpm](https://img.shields.io/badge/pnpm-10-orange)](./package.json)
 
 Design system, React component library, vanilla-JS adapter, and CDN bundle that power the freeCodeCamp.org platform. Built CSS-first with design tokens, accessibility-tested against the WAI-ARIA Authoring Practices, and ships in three flavours: import as a React package, drop in via a `<script>` tag, or extend with the Tailwind preset.
 

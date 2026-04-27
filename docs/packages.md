@@ -28,6 +28,24 @@ Root `package.json` owns workspace-level scripts and shared dev tools:
 
 The root package should not contain product source. It coordinates packages.
 
+## npm package standards
+
+Every public package should keep:
+
+- `description`, `keywords`, `license`, `author`, `repository`, `bugs`, and
+  `homepage`
+- `publishConfig.access: public`
+- a package-local `README.md`
+- a package-local `CHANGELOG.md`
+- an explicit `files` allowlist
+- an `exports` map for supported entry points
+
+Compiled TypeScript packages publish `dist`, README, and changelog files. The
+CSS package publishes `src` because its public exports are the source CSS,
+fonts, and brand files.
+
+The private docs and CDN workspaces must stay `private: true`.
+
 ## `@freecodecamp/uikit`
 
 React component library for the Command-line Chic design system.
@@ -96,11 +114,13 @@ Key files:
 
 Exports:
 
+- `@freecodecamp/uikit-css`
 - `@freecodecamp/uikit-css/index.css`
 - `@freecodecamp/uikit-css/tokens.css`
 - `@freecodecamp/uikit-css/components.css`
 - `@freecodecamp/uikit-css/fonts/*`
 - `@freecodecamp/uikit-css/brand/*`
+- `@freecodecamp/uikit-css/package.json`
 
 Build behavior:
 
@@ -132,6 +152,7 @@ Exports:
 
 - `@freecodecamp/uikit-js`
 - `@freecodecamp/uikit-js/iife`
+- `@freecodecamp/uikit-js/package.json`
 
 Runtime behavior:
 
@@ -183,6 +204,7 @@ Exports:
 - `@freecodecamp/uikit-icons`
 - `@freecodecamp/uikit-icons/react`
 - `@freecodecamp/uikit-icons/sprite.svg`
+- `@freecodecamp/uikit-icons/package.json`
 
 Build output:
 
@@ -218,6 +240,7 @@ Exports:
 - `@freecodecamp/uikit-tailwind`
 - `@freecodecamp/uikit-tailwind/preset`
 - `@freecodecamp/uikit-tailwind/plugin`
+- `@freecodecamp/uikit-tailwind/package.json`
 
 Behavior:
 

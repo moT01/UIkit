@@ -22,10 +22,22 @@
   },
   "homepage": "https://fcc-uikit.netlify.app",
   "description": "Tailwind preset + plugin mirroring freeCodeCamp UIKit tokens",
+  "keywords": [
+    "freecodecamp",
+    "uikit",
+    "design-system",
+    "tailwindcss",
+    "preset",
+    "plugin"
+  ],
   "files": [
     "dist",
-    "src"
+    "README.md",
+    "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^25.6.0",
     "tailwindcss": "^4.2.4",
@@ -38,22 +50,38 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     },
     "./preset": {
-      "import": "./dist/preset.js",
-      "require": "./dist/preset.cjs",
-      "types": "./dist/preset.d.ts"
+      "import": {
+        "types": "./dist/preset.d.ts",
+        "default": "./dist/preset.js"
+      },
+      "require": {
+        "types": "./dist/preset.d.cts",
+        "default": "./dist/preset.cjs"
+      }
     },
     "./plugin": {
-      "import": "./dist/plugin.js",
-      "require": "./dist/plugin.cjs",
-      "types": "./dist/plugin.d.ts"
-    }
+      "import": {
+        "types": "./dist/plugin.d.ts",
+        "default": "./dist/plugin.js"
+      },
+      "require": {
+        "types": "./dist/plugin.d.cts",
+        "default": "./dist/plugin.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts"
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }

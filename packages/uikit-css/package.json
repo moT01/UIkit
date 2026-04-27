@@ -19,17 +19,33 @@
   },
   "homepage": "https://fcc-uikit.netlify.app",
   "description": "Tokens + component CSS + fonts for the freeCodeCamp UIKit",
+  "keywords": [
+    "freecodecamp",
+    "uikit",
+    "design-system",
+    "css",
+    "tokens",
+    "fonts"
+  ],
   "sideEffects": [
-    "*.css"
+    "**/*.css"
   ],
   "files": [
-    "src"
+    "src",
+    "README.md",
+    "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "style": "./src/index.css",
   "exports": {
+    ".": "./src/index.css",
     "./index.css": "./src/index.css",
     "./tokens.css": "./src/tokens.css",
     "./components.css": "./src/components.css",
     "./fonts/*": "./src/fonts/*",
-    "./brand/*": "./src/brand/*"
+    "./brand/*": "./src/brand/*",
+    "./package.json": "./package.json"
   }
 }

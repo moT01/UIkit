@@ -21,20 +21,33 @@
   },
   "homepage": "https://fcc-uikit.netlify.app",
   "description": "Vanilla JS runtime for freeCodeCamp UIKit — wires data-uikit-* attributes to Zag state machines",
+  "keywords": [
+    "freecodecamp",
+    "uikit",
+    "design-system",
+    "vanilla-js",
+    "cdn",
+    "accessibility"
+  ],
   "sideEffects": false,
   "files": [
     "dist",
-    "src"
+    "README.md",
+    "CHANGELOG.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/uikit.js",
   "module": "./dist/uikit.js",
   "types": "./dist/uikit.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/uikit.js",
-      "types": "./dist/uikit.d.ts"
+      "types": "./dist/uikit.d.ts",
+      "import": "./dist/uikit.js"
     },
-    "./iife": "./dist/uikit.global.js"
+    "./iife": "./dist/uikit.global.js",
+    "./package.json": "./package.json"
   },
   "dependencies": {
     "@zag-js/combobox": "^1.40.0",
