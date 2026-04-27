@@ -1,13 +1,13 @@
 name: Deploy docs
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/docs/**'
-      - 'packages/**'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/deploy-docs.yml'
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'apps/docs/**'
+  #     - 'packages/**'
+  #     - 'pnpm-lock.yaml'
+  #     - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
 permissions:
