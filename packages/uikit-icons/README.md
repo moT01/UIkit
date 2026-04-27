@@ -34,6 +34,6 @@ import { icons } from '@freecodecamp/uikit-icons';
 
 Peer dependency: `react >=18 <20` for the React wrapper only.
 
-Docs: <https://fcc-uikit.netlify.app>
+Docs: <https://design.freecodecamp.org>
 
 License: BSD-3-Clause

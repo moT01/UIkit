@@ -38,6 +38,6 @@ import '@freecodecamp/uikit-css';
 
 Peer dependency: `tailwindcss >=3 <5`.
 
-Docs: <https://fcc-uikit.netlify.app>
+Docs: <https://design.freecodecamp.org>
 
 License: BSD-3-Clause

@@ -34,6 +34,6 @@ import '@freecodecamp/uikit-css/components.css';
 This package ships source CSS directly. There is no compile step for package
 consumers.
 
-Docs: <https://fcc-uikit.netlify.app>
+Docs: <https://design.freecodecamp.org>
 
 License: BSD-3-Clause

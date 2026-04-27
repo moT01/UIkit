@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
-const SITE = 'https://fcc-uikit.netlify.app';
+const SITE = 'https://design.freecodecamp.org';
 
 export const GET: APIRoute = async () => {
   const [components, guides] = await Promise.all([

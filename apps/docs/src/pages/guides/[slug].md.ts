@@ -2,7 +2,7 @@ import type { APIRoute, GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 import { stripMdx } from '../../lib/strip-mdx';
 
-const SITE = 'https://fcc-uikit.netlify.app';
+const SITE = 'https://design.freecodecamp.org';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const guides = await getCollection('guides');

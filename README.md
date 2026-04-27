@@ -72,7 +72,7 @@ pnpm dev:docs
 
 Then open <http://localhost:4321>.
 
-A static snapshot is published at <https://fcc-uikit.netlify.app>.
+A static snapshot is published at <https://design.freecodecamp.org>.
 
 For the full component-by-component reference and how UIKit compares to Catalyst / Ark UI / Headless UI, see [docs/components-matrix.md](./docs/components-matrix.md).
 

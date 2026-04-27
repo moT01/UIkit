@@ -42,6 +42,6 @@ export function Example() {
 - `react-dom >=18 <20`
 - `@ark-ui/react ^5.0.0`
 
-Docs: <https://fcc-uikit.netlify.app>
+Docs: <https://design.freecodecamp.org>
 
 License: BSD-3-Clause

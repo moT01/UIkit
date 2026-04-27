@@ -7,8 +7,8 @@ const lines: string[] = [
   'camp@fcc:~$ pnpm add @freecodecamp/uikit',
   '+ @freecodecamp/uikit 0.1.0',
   '+ @freecodecamp/uikit-css 0.1.0',
-  'camp@fcc:~$ open components',
-  '→ opening https://fcc-uikit.netlify.app/components/button'
+  'camp@fcc:~$ open playground',
+  '→ opening https://design.freecodecamp.org/playground'
 ];
 
 const script: string = lines.join('\n');

@@ -16,7 +16,7 @@ const pkgUrl = rel =>
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://fcc-uikit.netlify.app',
+  site: 'https://design.freecodecamp.org',
   markdown: {
     shikiConfig: {
       theme: 'github-dark'

@@ -30,6 +30,6 @@ The CDN package copies that IIFE into the published CDN bundle.
 - `@freecodecamp/uikit-js/iife`
 - `@freecodecamp/uikit-js/package.json`
 
-Docs: <https://fcc-uikit.netlify.app>
+Docs: <https://design.freecodecamp.org>
 
 License: BSD-3-Clause
