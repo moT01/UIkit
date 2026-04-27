@@ -1,14 +1,20 @@
 # Releasing UIKit
 
+This runbook covers the CDN release path for UIKit. npm publishing is separate
+and still uses Changesets.
+
 ## What ships
 
-The CDN bundle lives under `dist-cdn/uikit/` and must be copied into `freeCodeCamp/cdn/build/uikit/` without rearranging it.
+The CDN bundle is built into `dist-cdn/uikit/` and then synced into
+`freeCodeCamp/cdn/build/uikit/`.
 
-Ship these assets:
+The top-level bundle contains:
 
 - `styles.min.css`
 - `tokens.min.css`
 - `components.min.css`
+- `uikit.global.js`
+- `sprite.svg`
 - `fonts/`
 - `brand/` when present
 - `manifest.json`
@@ -17,84 +23,214 @@ Ship these assets:
 - `<major>.<minor>/`
 - `<major>.<minor>.<patch>/`
 
+Do not rearrange this tree when syncing to the CDN repo.
+
 ## Version aliases
 
-For package version `0.1.0`, the build emits:
+The CDN build reads `packages/uikit/package.json` for the version.
+
+For package version `1.2.3`, the build emits:
 
 ```text
 uikit/styles.min.css
 uikit/latest/styles.min.css
-uikit/0/styles.min.css
-uikit/0.1/styles.min.css
-uikit/0.1.0/styles.min.css
+uikit/1/styles.min.css
+uikit/1.2/styles.min.css
+uikit/1.2.3/styles.min.css
 ```
 
 Alias rules:
 
-- Root tracks the current release.
-- `latest/` is an explicit current-release alias.
-- `<major>/` tracks the latest release in that major line.
-- `<major>.<minor>/` tracks the latest release in that minor line.
-- `<major>.<minor>.<patch>/` is fully pinned.
+- root tracks the current release
+- `latest/` tracks the current release
+- `<major>/` tracks the latest release in that major line
+- `<major>.<minor>/` tracks the latest release in that minor line
+- `<major>.<minor>.<patch>/` is fully pinned
 
-## GitHub Actions
+The GitHub release job requires a full `x.y.z` semver version before it opens
+the CDN PR.
 
-### CI
+## Build and verify locally
 
-The `CI` workflow runs on:
+Build all package outputs first:
+
+```bash
+pnpm build
+```
+
+Build only the CDN package path and its upstream dependency graph:
+
+```bash
+pnpm build:cdn
+```
+
+Verify the generated CDN tree:
+
+```bash
+pnpm verify:cdn
+```
+
+The package-level equivalents are:
+
+```bash
+pnpm --filter @freecodecamp/uikit-cdn build
+pnpm --filter @freecodecamp/uikit-cdn verify
+```
+
+## CDN build internals
+
+`packages/uikit-cdn/scripts/build.mjs`:
+
+- bundles CSS with Lightning CSS
+- creates:
+  - `styles.min.css`
+  - `tokens.min.css`
+  - `components.min.css`
+- rewrites font URLs from `/fonts/...` to `./fonts/...`
+- copies fonts from `packages/uikit-css/src/fonts`
+- copies brand assets from `packages/uikit-css/src/brand` when present
+- copies `packages/uikit-js/dist/uikit.global.js`
+- copies `packages/uikit-icons/dist/sprite.svg`
+- writes `manifest.json`
+- mirrors the bundle into `latest`, major, minor, and exact-version aliases
+
+The manifest stores:
+
+- `bytes`
+- `sha256` as hex
+- `sha384` as W3C-shaped integrity text, for example `sha384-<base64>`
+
+## CDN verification internals
+
+`packages/uikit-cdn/scripts/verify.mjs` checks:
+
+- required files exist
+- no minified CSS file contains absolute `/fonts/` URLs
+- every `./fonts/...` CSS reference resolves to a real file
+- every manifest sha256 and sha384 matches recomputed file hashes
+- alias directories contain the same files as the top-level bundle
+- alias files match top-level bundle hashes
+
+Verification exits non-zero on the first failed run summary.
+
+## CI
+
+`.github/workflows/ci.yml` runs on:
 
 - pushes to `main`
 - pull requests targeting `main`
 
-It runs:
+It calls four reusable workflows:
 
-- `pnpm test`
-- `pnpm build:cdn`
-- `pnpm verify:cdn`
-- `pnpm build`
+- `re-lint.yml`
+  - `pnpm format:check`
+  - `pnpm typecheck`
+- `re-test.yml`
+  - `pnpm test:coverage`
+  - uploads coverage artifacts from `packages/*/coverage` and
+    `apps/*/coverage`
+- `re-build.yml`
+  - `pnpm build`
+  - `pnpm --filter @freecodecamp/uikit-cdn run verify`
+  - optionally uploads the `dist-cdn` artifact
+- `re-visual.yml`
+  - installs Playwright Chromium
+  - `pnpm build`
+  - `pnpm --filter @freecodecamp/uikit-docs test:visual`
+  - uploads Playwright failure artifacts
 
-### Release
+The shared setup action installs pnpm 10, Node 22, and dependencies with
+`pnpm install --frozen-lockfile`.
 
-The `Release` workflow is manual and uses `workflow_dispatch`.
+## GitHub Actions release
 
-Inputs:
+`.github/workflows/release.yml` is manual and uses `workflow_dispatch`.
 
-- `ref`: the git ref to release
-- `draft`: whether to create a draft release
-- `prerelease`: whether to mark the release as a prerelease
+Input:
 
-It performs these steps:
+- `ref`: the UIkit git ref to release
 
-1. Checks out the selected ref.
-2. Installs dependencies.
-3. Runs tests and builds.
-4. Reads `package.json` version and requires full `x.y.z` semver.
-5. Packages `dist-cdn/uikit/` as `.tar.gz` and `.zip`.
-6. Creates a GitHub release tagged as `v<version>`.
+Release job order:
 
-Release assets:
+1. `lint` runs the reusable lint workflow.
+2. `test` runs the reusable test workflow.
+3. `visual` runs after lint and test.
+4. `build` runs after lint, test, and visual, then uploads `dist-cdn`.
+5. `publish-cdn` runs after build and opens the CDN PR.
 
-- `fcc-uikit-<version>.tar.gz`
-- `fcc-uikit-<version>.zip`
-- `fcc-uikit-<version>-sha256.txt`
+`publish-cdn` performs these steps:
 
-## Why CDN publishing is manual
+1. Checks out this repo at the selected `ref` into `uikit/`.
+2. Downloads the `dist-cdn` artifact into `uikit/dist-cdn/`.
+3. Reads `packages/uikit/package.json` version.
+4. Fails unless the version is full `x.y.z` semver.
+5. Checks out `freeCodeCamp/cdn` into `cdn/` with `CDN_PUSH_TOKEN`.
+6. Warns if `cdn/build/uikit/<version>/` already exists.
+7. Runs `rsync -a --delete uikit/dist-cdn/uikit/ cdn/build/uikit/`.
+8. Opens a PR on `freeCodeCamp/cdn`.
+9. Writes a GitHub Actions summary with the ref, version, branch, and
+   republish warning when relevant.
 
-This repo's workflow uses the default `GITHUB_TOKEN`. That token can create tags and releases in this repo when `contents: write` is allowed, but it does not have permission to push to `freeCodeCamp/cdn` unless a separate cross-repo credential is added.
+The PR branch is:
 
-That means the last mile stays manual:
+```text
+release/uikit-v<version>
+```
 
-1. Run the `Release` workflow.
-2. Download a release asset.
-3. Extract `uikit/`.
-4. Copy the extracted files into `freeCodeCamp/cdn/build/uikit/`.
-5. Commit that change in the `freeCodeCamp/cdn` repo.
+The PR title and commit message are:
 
-## Quick release checklist
+```text
+chore(uikit): publish v<version>
+```
 
-1. Bump `package.json` to the target `x.y.z`.
-2. Merge to `main`.
-3. Run `Release` with `ref=main`.
-4. Confirm the tag is `v<version>`.
-5. Confirm the release assets were uploaded.
-6. Sync `uikit/` into the CDN repo.
+## Required secret
+
+The release workflow needs `CDN_PUSH_TOKEN`.
+
+That token must be able to:
+
+- check out `freeCodeCamp/cdn`
+- push the release branch
+- open the publish PR
+
+The default `GITHUB_TOKEN` is not used for cross-repo writes.
+
+## npm publishing
+
+The CDN release flow does not publish npm packages.
+
+For package releases:
+
+1. Add a changeset for package-visible changes:
+
+   ```bash
+   pnpm changeset
+   ```
+
+2. When ready, consume changesets on `main`:
+
+   ```bash
+   pnpm changeset version
+   ```
+
+3. Review package versions and generated changelogs.
+4. Commit the version bump.
+5. Publish with an org-scoped npm token:
+
+   ```bash
+   pnpm changeset publish
+   ```
+
+The root `pnpm release` script runs `turbo run build && changeset publish`.
+
+## Quick CDN checklist
+
+1. Confirm `packages/uikit/package.json` has the intended `x.y.z` version.
+2. Run `pnpm build`.
+3. Run `pnpm verify:cdn`.
+4. Push or merge the release ref.
+5. Dispatch `Release` with `ref` set to that ref.
+6. Review the Actions summary.
+7. Review and merge the generated PR in `freeCodeCamp/cdn`.
+8. Confirm `freeCodeCamp/cdn/build/uikit/` contains root, `latest`, major,
+   minor, and exact-version aliases.
