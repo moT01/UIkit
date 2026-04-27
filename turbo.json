@@ -35,6 +35,14 @@
       "cache": false,
       "dependsOn": ["build"]
     },
+    "test:playwright": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
+    "test:playwright:update": {
+      "cache": false,
+      "dependsOn": ["build"]
+    },
     "lint": {
       "outputs": []
     },

@@ -5,6 +5,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:playwright": "playwright test",
+    "test:playwright:update": "playwright test --update-snapshots",
     "test:visual": "playwright test",
     "test:visual:update": "playwright test --update-snapshots",
     "predev": "node scripts/copy-sprite.mjs && node scripts/build-asset-kit.mjs && node scripts/ensure-uikit-built.mjs",

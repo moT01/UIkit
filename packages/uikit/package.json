@@ -6,7 +6,6 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "build": "tsup && node scripts/gen-props.mjs",
-    "dev": "vitest",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
