@@ -39,13 +39,11 @@ Use BEM class names anywhere:
 <span class="badge badge--success">Passed</span>
 ```
 
-Full walkthrough: [CDN guide](./apps/docs/src/pages/guides/cdn.astro).
+Full walkthrough: [Handbook → CDN](https://design.freecodecamp.org/handbook#cdn).
 
-### React — npm install
+### React — npm install (Day-2)
 
-```bash
-pnpm add @freecodecamp/uikit @freecodecamp/uikit-css
-```
+The npm packages are wired and ready, but the v1.0 GA release will publish them in a follow-up. Today's MVP is the CDN bundle.
 
 ```tsx
 import '@freecodecamp/uikit-css';
@@ -63,7 +61,7 @@ export default function Example() {
 
 ## Documentation
 
-The docs site (`apps/docs`) is the canonical reference: live component showcases, real React previews, the design handbook, brand guide, and 6 usage guides.
+The docs site (`apps/docs`) is the canonical reference: live component showcases, real React previews, the design handbook, and brand guide.
 
 ```bash
 pnpm install
@@ -72,9 +70,15 @@ pnpm dev:docs
 
 Then open <http://localhost:4321>.
 
-A static snapshot is published at <https://design.freecodecamp.org>.
+The site ships at <https://design.freecodecamp.org> via Cloudflare Pages.
 
 For the full component-by-component reference and how UIKit compares to Catalyst / Ark UI / Headless UI, see [docs/components-matrix.md](./docs/components-matrix.md).
+
+## Deployment
+
+- **Docs site** → Cloudflare Pages, project `fcc-design`. Pushes to `main` trigger `.github/workflows/deploy-docs.yml`. Build output: `apps/docs/dist/`. Required repo secrets: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`.
+- **CDN bundle** → opened as a PR against `freeCodeCamp/cdn` by `.github/workflows/release.yml` (manual workflow_dispatch). Live at <https://cdn.freecodecamp.org/uikit/>.
+- **npm packages** → not published today. Day-2 plan: enable `pnpm release` (Changesets + `changeset publish`) once the API surface is signed off.
 
 ## Reporting bugs
 
