@@ -10,9 +10,8 @@ interface NavLink {
 }
 
 const NAV_LINKS: ReadonlyArray<NavLink> = [
-  { href: '/', label: 'Playground' },
+  { href: '/playground', label: 'Playground' },
   { href: '/handbook', label: 'Handbook' },
-  { href: '/guides/install', label: 'Guides' },
   {
     href: 'https://github.com/freeCodeCamp/UIkit',
     label: 'GitHub',
@@ -23,8 +22,6 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
 const isCurrent = (link: NavLink, pathname: string): boolean => {
   if (link.external) return false;
   if (link.href === '/') return pathname === '/';
-  // Any `/guides/*` slug lights up the Guides tab.
-  if (link.href.startsWith('/guides/')) return pathname.startsWith('/guides/');
   return pathname === link.href || pathname.startsWith(`${link.href}/`);
 };
 

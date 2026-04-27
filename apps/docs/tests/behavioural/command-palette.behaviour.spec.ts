@@ -5,7 +5,9 @@ const DIALOG = '[role="dialog"][aria-modal="true"]';
 
 test.describe('@behavioural command-palette', () => {
   test('trigger opens dialog with focused search input', async ({ page }) => {
-    await page.goto('/#command-palette', { waitUntil: 'networkidle' });
+    await page.goto('/playground#command-palette', {
+      waitUntil: 'networkidle'
+    });
     const card = page.locator('section#command-palette .showcase__preview');
     await expect(card).toBeVisible();
     await expect(card.locator(DIALOG)).toHaveCount(0);
@@ -18,7 +20,9 @@ test.describe('@behavioural command-palette', () => {
   });
 
   test('typing filters the option list to matches only', async ({ page }) => {
-    await page.goto('/#command-palette', { waitUntil: 'networkidle' });
+    await page.goto('/playground#command-palette', {
+      waitUntil: 'networkidle'
+    });
     const card = page.locator('section#command-palette .showcase__preview');
     await card.locator(TRIGGER).click();
     const dialog = card.locator(DIALOG);
@@ -31,7 +35,9 @@ test.describe('@behavioural command-palette', () => {
   });
 
   test('Escape closes the palette', async ({ page }) => {
-    await page.goto('/#command-palette', { waitUntil: 'networkidle' });
+    await page.goto('/playground#command-palette', {
+      waitUntil: 'networkidle'
+    });
     const card = page.locator('section#command-palette .showcase__preview');
     await card.locator(TRIGGER).click();
     await expect(card.locator(DIALOG)).toBeVisible();

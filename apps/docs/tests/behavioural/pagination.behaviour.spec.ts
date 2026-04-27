@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural pagination', () => {
   test('seed page is 3; click page-4 moves aria-current', async ({ page }) => {
-    await page.goto('/#pagination', { waitUntil: 'networkidle' });
+    await page.goto('/playground#pagination', { waitUntil: 'networkidle' });
     const card = page.locator('section#pagination .showcase__preview');
     await expect(card).toBeVisible();
     const current = card.locator('button[aria-current="page"]');
@@ -16,7 +16,7 @@ test.describe('@behavioural pagination', () => {
   });
 
   test('clicking next advances by one page', async ({ page }) => {
-    await page.goto('/#pagination', { waitUntil: 'networkidle' });
+    await page.goto('/playground#pagination', { waitUntil: 'networkidle' });
     const card = page.locator('section#pagination .showcase__preview');
     const start = await card
       .locator('button[aria-current="page"]')

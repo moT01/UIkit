@@ -4,7 +4,7 @@ test.describe('@behavioural textarea', () => {
   test('renders <textarea> with the seeded rows + placeholder', async ({
     page
   }) => {
-    await page.goto('/#textarea', { waitUntil: 'networkidle' });
+    await page.goto('/playground#textarea', { waitUntil: 'networkidle' });
     const card = page.locator('section#textarea .showcase__preview');
     const ta = card.locator('textarea#bio-demo');
     await expect(ta).toBeVisible();
@@ -16,7 +16,7 @@ test.describe('@behavioural textarea', () => {
   });
 
   test('typing updates the textarea value', async ({ page }) => {
-    await page.goto('/#textarea', { waitUntil: 'networkidle' });
+    await page.goto('/playground#textarea', { waitUntil: 'networkidle' });
     const card = page.locator('section#textarea .showcase__preview');
     const ta = card.locator('textarea#bio-demo');
     const text = 'TypeScript + Astro';

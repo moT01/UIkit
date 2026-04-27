@@ -69,21 +69,6 @@ test('apiLinkMode prop fully removed from PlaygroundCard + showcases', () => {
   );
 });
 
-test('Netlify _redirects keeps the wildcard `/api/* → /#:splat` rule', () => {
-  // Edge-level redirect catches external deep-links. Required so
-  // legacy `/api/button` URLs land at `/#button` even though the
-  // route no longer exists.
-  const redirects = execSync(
-    `cat ${JSON.stringify(resolve(appRoot, 'public', '_redirects'))}`,
-    { encoding: 'utf8' }
-  );
-  assert.match(
-    redirects,
-    /^\/api\/\*\s+\/#:splat\s+301!?\s*$/m,
-    '_redirects must contain `/api/* /#:splat 301!`'
-  );
-});
-
 test('Showcase.astro forwarder removed, PlaygroundCard imported directly', () => {
   // 45 showcases import PlaygroundCard.astro directly. Forwarder gone.
   const showcases = execSync(`ls ${JSON.stringify(resolve(SRC, 'showcase'))}`, {

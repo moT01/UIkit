@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural data-table', () => {
   test('renders the seeded headers + 2 data rows', async ({ page }) => {
-    await page.goto('/#data-table', { waitUntil: 'networkidle' });
+    await page.goto('/playground#data-table', { waitUntil: 'networkidle' });
     const card = page.locator('section#data-table .showcase__preview');
     await expect(card.locator('table.data-table__table')).toBeVisible();
     const headers = card.locator('th.data-table__header');
@@ -19,7 +19,7 @@ test.describe('@behavioural data-table', () => {
   test('sortable Cert header declares aria-sort=none initially', async ({
     page
   }) => {
-    await page.goto('/#data-table', { waitUntil: 'networkidle' });
+    await page.goto('/playground#data-table', { waitUntil: 'networkidle' });
     const card = page.locator('section#data-table .showcase__preview');
     const certHeader = card.locator('th').filter({ hasText: 'Cert' });
     // The demo does not wire `onSortChange`, so DataTable does not
@@ -35,7 +35,7 @@ test.describe('@behavioural data-table', () => {
   test('alignment modifier classes paint per column.align', async ({
     page
   }) => {
-    await page.goto('/#data-table', { waitUntil: 'networkidle' });
+    await page.goto('/playground#data-table', { waitUntil: 'networkidle' });
     const card = page.locator('section#data-table .showcase__preview');
     // Hours column is align='right', Status is align='center'.
     await expect(

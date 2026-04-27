@@ -4,7 +4,7 @@ test.describe('@behavioural radio', () => {
   test('RadioGroup pre-selects the matching Radio from defaultValue', async ({
     page
   }) => {
-    await page.goto('/#radio', { waitUntil: 'networkidle' });
+    await page.goto('/playground#radio', { waitUntil: 'networkidle' });
     const card = page.locator('section#radio');
     await expect(card).toBeVisible();
     const darkRadio = card.locator('input[type="radio"][value="dark"]');
@@ -18,7 +18,7 @@ test.describe('@behavioural radio', () => {
   test('Clicking another Radio updates the group selection', async ({
     page
   }) => {
-    await page.goto('/#radio', { waitUntil: 'networkidle' });
+    await page.goto('/playground#radio', { waitUntil: 'networkidle' });
     const card = page.locator('section#radio');
     const lightLabel = card.locator('label.radio:has-text("Light")');
     await lightLabel.click();

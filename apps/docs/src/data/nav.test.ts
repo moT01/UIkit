@@ -69,19 +69,20 @@ test('nav includes every layered component section', () => {
   }
 });
 
-test('every cmp-* item points to /#<slug> with a known slug', () => {
+test('every cmp-* item points to /playground#<slug> with a known slug', () => {
   const componentEntries = flatNav.filter(i => i.id.startsWith('cmp-'));
   assert.equal(
     componentEntries.length,
     knownComponentSlugs.size,
     `nav must have one cmp-* entry per known component (expected ${knownComponentSlugs.size}, got ${componentEntries.length})`
   );
+  const PREFIX = '/playground#';
   for (const entry of componentEntries) {
     assert.ok(
-      entry.href.startsWith('/#'),
-      `${entry.id} href ${entry.href} must start with /# (/api retired)`
+      entry.href.startsWith(PREFIX),
+      `${entry.id} href ${entry.href} must start with ${PREFIX} (/api retired)`
     );
-    const slug = entry.href.slice('/#'.length);
+    const slug = entry.href.slice(PREFIX.length);
     assert.ok(
       knownComponentSlugs.has(slug),
       `${entry.id} points at unknown slug ${slug}`
@@ -90,13 +91,13 @@ test('every cmp-* item points to /#<slug> with a known slug', () => {
 });
 
 test('non-component nav entries still use absolute, non-anchor hrefs', () => {
-  // Anchor-only hrefs (`/#…`) are reserved for component playground
-  // links. Everything else (guides, handbook, foundations) gets a
-  // real route so search engines can index it.
+  // Anchor hrefs (`/playground#…`) are reserved for component playground
+  // links. Everything else (handbook, foundations) gets a real route so
+  // search engines can index it.
   for (const entry of flatNav) {
     if (entry.id.startsWith('cmp-')) continue;
     assert.ok(
-      !entry.href.startsWith('/#'),
+      !entry.href.includes('#'),
       `${entry.id} non-component item should have a real route (got ${entry.href})`
     );
   }

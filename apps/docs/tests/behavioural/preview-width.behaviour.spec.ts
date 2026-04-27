@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural preview-width', () => {
   test('Button card preview spans the full card chrome', async ({ page }) => {
-    await page.goto('/#button', { waitUntil: 'networkidle' });
+    await page.goto('/playground#button', { waitUntil: 'networkidle' });
     const sec = page.locator('section#button');
     const card = sec.locator('.showcase');
     const preview = sec.locator('.showcase__preview');

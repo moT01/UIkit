@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural checkbox', () => {
   test('seed states honour defaultChecked', async ({ page }) => {
-    await page.goto('/#checkbox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#checkbox', { waitUntil: 'networkidle' });
     const card = page.locator('section#checkbox .showcase__preview');
     const inputs = card.locator('input[type="checkbox"]');
     await expect(inputs).toHaveCount(2);
@@ -11,7 +11,7 @@ test.describe('@behavioural checkbox', () => {
   });
 
   test('click toggles the native checked state', async ({ page }) => {
-    await page.goto('/#checkbox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#checkbox', { waitUntil: 'networkidle' });
     const card = page.locator('section#checkbox .showcase__preview');
     const inputs = card.locator('input[type="checkbox"]');
     await inputs.nth(1).click();

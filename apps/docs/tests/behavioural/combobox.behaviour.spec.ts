@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural combobox', () => {
   test('seed renders 5 options + empty input', async ({ page }) => {
-    await page.goto('/#combobox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#combobox', { waitUntil: 'networkidle' });
     const card = page.locator('section#combobox .showcase__preview');
     const input = card.locator('input[role="combobox"]');
     await expect(input).toBeVisible();
@@ -12,7 +12,7 @@ test.describe('@behavioural combobox', () => {
   });
 
   test('typing filters the option list', async ({ page }) => {
-    await page.goto('/#combobox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#combobox', { waitUntil: 'networkidle' });
     const card = page.locator('section#combobox .showcase__preview');
     const input = card.locator('input[role="combobox"]');
     // The island uses `client:visible` — focus the input first to
@@ -26,7 +26,7 @@ test.describe('@behavioural combobox', () => {
   });
 
   test('clicking an option marks aria-selected on it', async ({ page }) => {
-    await page.goto('/#combobox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#combobox', { waitUntil: 'networkidle' });
     const card = page.locator('section#combobox .showcase__preview');
     const options = card.locator('[role="option"]');
     await options.nth(2).click();

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural switch', () => {
   test('seed states honour defaultChecked', async ({ page }) => {
-    await page.goto('/#switch', { waitUntil: 'networkidle' });
+    await page.goto('/playground#switch', { waitUntil: 'networkidle' });
     const card = page.locator('section#switch .showcase__preview');
     const inputs = card.locator('input[type="checkbox"]');
     await expect(inputs).toHaveCount(2);
@@ -11,7 +11,7 @@ test.describe('@behavioural switch', () => {
   });
 
   test('click flips the underlying checkbox state', async ({ page }) => {
-    await page.goto('/#switch', { waitUntil: 'networkidle' });
+    await page.goto('/playground#switch', { waitUntil: 'networkidle' });
     const card = page.locator('section#switch .showcase__preview');
     // The native <input> is visually hidden — switches paint the
     // track + thumb skin via the wrapping <label>, so clicks are

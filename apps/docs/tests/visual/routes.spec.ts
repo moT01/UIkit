@@ -30,15 +30,7 @@ test.beforeEach(async ({ page }, testInfo) => {
  * diffed PNGs as part of the same commit.
  */
 
-const surfaces: readonly string[] = [
-  '/handbook',
-  '/guides/install',
-  '/guides/cdn',
-  '/guides/copy-paste',
-  '/guides/migrate-v1',
-  '/guides/recipes',
-  '/guides/tailwind'
-];
+const surfaces: readonly string[] = ['/', '/playground', '/handbook'];
 
 const routes = [...surfaces];
 

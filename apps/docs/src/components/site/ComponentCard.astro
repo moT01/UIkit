@@ -7,7 +7,7 @@ export interface Props {
 
 const { entry } = Astro.props;
 const { title, eyebrow, summary, status, since } = entry.data;
-const href = `/components/${entry.id}`;
+const href = `/playground#${entry.id}`;
 ---
 
 <a href={href} class='card' aria-label={`Open ${title} page`}>

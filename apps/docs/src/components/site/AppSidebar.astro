@@ -4,7 +4,12 @@ import { nav } from '../../data/nav.ts';
 
 const currentPath = Astro.url.pathname;
 const currentHash = Astro.url.hash;
-const WITH_SIDEBAR = new Set<string>(['/', '/handbook', '/handbook/']);
+const WITH_SIDEBAR = new Set<string>([
+  '/playground',
+  '/playground/',
+  '/handbook',
+  '/handbook/'
+]);
 const showSidebar = WITH_SIDEBAR.has(currentPath);
 ---
 

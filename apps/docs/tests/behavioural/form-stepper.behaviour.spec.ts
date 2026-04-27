@@ -5,7 +5,7 @@ const STEP_BTN = '.form-stepper__step-btn';
 
 test.describe('@behavioural form-stepper', () => {
   test('seed step is Profile (aria-current="step")', async ({ page }) => {
-    await page.goto('/#form-stepper', { waitUntil: 'networkidle' });
+    await page.goto('/playground#form-stepper', { waitUntil: 'networkidle' });
     const card = page.locator('section#form-stepper .showcase__preview');
     await expect(card).toBeVisible();
     const current = card.locator(`${STEP_BTN}[aria-current="step"]`);
@@ -16,7 +16,7 @@ test.describe('@behavioural form-stepper', () => {
   test('clicking the previous (complete) step moves aria-current', async ({
     page
   }) => {
-    await page.goto('/#form-stepper', { waitUntil: 'networkidle' });
+    await page.goto('/playground#form-stepper', { waitUntil: 'networkidle' });
     const card = page.locator('section#form-stepper .showcase__preview');
     const buttons = card.locator(STEP_BTN);
     // Step 1 is "complete" → still navigable per default policy.
@@ -28,7 +28,7 @@ test.describe('@behavioural form-stepper', () => {
   test('upcoming steps are disabled (forward leap-frog blocked)', async ({
     page
   }) => {
-    await page.goto('/#form-stepper', { waitUntil: 'networkidle' });
+    await page.goto('/playground#form-stepper', { waitUntil: 'networkidle' });
     const card = page.locator('section#form-stepper .showcase__preview');
     const buttons = card.locator(STEP_BTN);
     await expect(buttons).toHaveCount(4);

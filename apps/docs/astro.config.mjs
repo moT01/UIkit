@@ -100,18 +100,5 @@ export default defineConfig({
         '@freecodecamp/uikit-tailwind'
       ]
     }
-  },
-  // Wildcard /api/* → /#:splat lives in public/_redirects (Astro can't add fragments).
-  redirects: {
-    '/showcase': '/',
-    '/api': '/',
-    '/components': '/',
-    '/foundations': '/handbook',
-    '/foundations/colors': '/handbook#palette',
-    '/foundations/typography': '/handbook#typography',
-    '/foundations/spacing': '/handbook#spacing',
-    '/foundations/iconography': '/handbook#iconography',
-    '/foundations/motion': '/handbook#motion',
-    '/foundations/voice': '/handbook#voice'
   }
 });

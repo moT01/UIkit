@@ -4,7 +4,7 @@ test.describe('@behavioural sidebar-showcase-bounds', () => {
   test('rendered Sidebar fits inside the showcase preview', async ({
     page
   }) => {
-    await page.goto('/#sidebar', { waitUntil: 'networkidle' });
+    await page.goto('/playground#sidebar', { waitUntil: 'networkidle' });
     const card = page.locator('section#sidebar .showcase__preview');
     await expect(card).toBeVisible();
     const sidebar = card.locator('.sidebar').first();

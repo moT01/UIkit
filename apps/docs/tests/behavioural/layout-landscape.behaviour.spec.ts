@@ -7,7 +7,7 @@ test.describe('@behavioural layout-landscape', () => {
     test(`${slug} preview renders in landscape (width > height)`, async ({
       page
     }) => {
-      await page.goto(`/#${slug}`, { waitUntil: 'networkidle' });
+      await page.goto(`/playground#${slug}`, { waitUntil: 'networkidle' });
       const preview = page
         .locator(`section#${slug} .showcase__preview > *`)
         .first();

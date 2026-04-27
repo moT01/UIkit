@@ -32,7 +32,7 @@ test.describe('@behavioural header-active-link', () => {
   }) => {
     await page.goto('/handbook', { waitUntil: 'networkidle' });
     const inactive = page.locator(
-      'header.site-header .site-header__nav a[href="/"]:not([aria-current])'
+      'header.site-header .site-header__nav a[href="/playground"]:not([aria-current])'
     );
     await expect(inactive).toHaveCount(1);
     const color = await inactive.evaluate(

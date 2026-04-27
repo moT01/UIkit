@@ -5,7 +5,7 @@ const PANEL_OPEN = '.modal__panel[data-state="open"]';
 
 test.describe('@behavioural modal', () => {
   test('trigger reveals the modal with the seeded title', async ({ page }) => {
-    await page.goto('/#modal', { waitUntil: 'networkidle' });
+    await page.goto('/playground#modal', { waitUntil: 'networkidle' });
     const card = page.locator('section#modal .showcase__preview');
     await expect(card).toBeVisible();
     await expect(page.locator(PANEL_OPEN)).toHaveCount(0);
@@ -16,7 +16,7 @@ test.describe('@behavioural modal', () => {
   });
 
   test('Escape closes the modal', async ({ page }) => {
-    await page.goto('/#modal', { waitUntil: 'networkidle' });
+    await page.goto('/playground#modal', { waitUntil: 'networkidle' });
     await page.locator(`section#modal ${TRIGGER}`).click();
     await expect(page.locator(PANEL_OPEN)).toBeVisible();
     await page.keyboard.press('Escape');
@@ -24,7 +24,7 @@ test.describe('@behavioural modal', () => {
   });
 
   test('Cancel button in the footer closes the modal', async ({ page }) => {
-    await page.goto('/#modal', { waitUntil: 'networkidle' });
+    await page.goto('/playground#modal', { waitUntil: 'networkidle' });
     await page.locator(`section#modal ${TRIGGER}`).click();
     const panel = page.locator(PANEL_OPEN);
     await expect(panel).toBeVisible();

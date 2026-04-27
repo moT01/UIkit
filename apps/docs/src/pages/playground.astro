@@ -1,16 +1,81 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppHeader from '../components/site/AppHeader.astro';
+import AppSidebar from '../components/site/AppSidebar.astro';
+import FoundationsBandSection from '../components/site/FoundationsBandSection.astro';
+import { nav } from '../data/nav';
+
+const showcaseModules = import.meta.glob<{ default: any }>(
+  '../showcase/*.astro',
+  { eager: true }
+);
+const slugFor = (navId: string) => navId.replace(/^cmp-/, '');
+const componentForSlug = (slug: string) => {
+  const mod = showcaseModules[`../showcase/${slug}.astro`];
+  if (!mod) throw new Error(`No showcase file for slug "${slug}"`);
+  return mod.default;
+};
+
+// Type scale: just the demo content. Sizes/line-heights live in CSS
+// custom properties (`--fs-*`); the meta line reads them at runtime
+// via the same TokenSwatch-style resolver pattern.
+const typeScale = [
+  {
+    name: 'Display',
+    token: '--fs-display',
+    tag: 'h1',
+    text: 'Command-line Chic.'
+  },
+  {
+    name: 'Title',
+    token: '--fs-2xl',
+    tag: 'h2',
+    text: 'Ship interfaces that feel like home.'
+  },
+  {
+    name: 'Section',
+    token: '--fs-xl',
+    tag: 'h3',
+    text: 'Composable primitives.'
+  },
+  {
+    name: 'Subhead',
+    token: '--fs-lg',
+    tag: 'h4',
+    text: 'Flat surfaces, square corners.'
+  },
+  {
+    name: 'Lede',
+    token: '--fs-md',
+    tag: 'p',
+    text: 'Type-heavy, shadow-free, accessible by default.'
+  },
+  {
+    name: 'Body',
+    token: '--fs-base',
+    tag: 'p',
+    text: 'Eighteen-pixel minimum. Never compromise the body.'
+  },
+  {
+    name: 'Caption',
+    token: '--fs-sm',
+    tag: 'p',
+    text: '404-ROUTE — optimized for 120ch lines of code.'
+  }
+];
+
+const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64];
 ---
 
 <BaseLayout
-  title='freeCodeCamp UIKit'
-  description='A dark-first, token-driven, framework-agnostic UI kit by the freeCodeCamp team. Built for learners—by learners. Open source and free to use.'
+  title='freeCodeCamp UIKit — Playground'
+  description='Interactive playground for every component in the freeCodeCamp UIKit — preview each surface, copy snippets, and test in light + dark.'
 >
   <div class='app' id='top'>
     <AppHeader />
     <div class='app__body'>
-      <main class='content content--landing' tabindex='-1'>
+      <AppSidebar />
+      <main class='content sidebar-layout__main' tabindex='-1'>
         <div class='content__inner'>
           <!-- ============================================================ -->
           <!-- HERO -->
@@ -35,7 +100,7 @@ import AppHeader from '../components/site/AppHeader.astro';
             </p>
             <div class='hero__actions'>
               <a class='btn btn--cta' href='/handbook#install'>Get started →</a>
-              <a class='btn' href='/playground'>Open playground</a>
+              <a class='btn' href='#button'>Browse components</a>
               <a
                 class='btn btn--ghost'
                 href='https://github.com/freeCodeCamp/UIkit'
@@ -147,20 +212,83 @@ import AppHeader from '../components/site/AppHeader.astro';
           </section>
 
           <!-- ============================================================ -->
-          <!-- CTA BAND -->
+          <!-- TOKENS -->
           <!-- ============================================================ -->
-          <section class='section landing-cta' id='start'>
-            <p class='section__eyebrow'>Ready when you are</p>
-            <h2 class='section__title'>Two ways in.</h2>
+          <FoundationsBandSection />
+
+          <section class='section' id='tokens'>
+            <p class='section__eyebrow'>02 · type & spacing</p>
+            <h2 class='section__title'>Type scale & spacing</h2>
             <p class='section__lede'>
-              Read the rules, or play with the surfaces. Either path lands you
-              shipping in minutes.
+              The body type ladder, monospaced display sizes, and the eight-step
+              spacing grid every layout reaches for.
             </p>
-            <div class='hero__actions'>
-              <a class='btn btn--cta' href='/handbook'>Read the handbook →</a>
-              <a class='btn' href='/playground'>Open the playground →</a>
+
+            <h3 style='font-size:var(--fs-lg);margin:24px 0 12px;'>
+              Type scale
+            </h3>
+            <div>
+              {
+                typeScale.map(t => (
+                  <div class='type-sample'>
+                    <p class='type-sample__meta'>
+                      {t.name} · <code>{t.token}</code>
+                    </p>
+                    <div class='type-sample__body'>
+                      {t.tag === 'h1' && <h1 style='margin:0'>{t.text}</h1>}
+                      {t.tag === 'h2' && <h2 style='margin:0'>{t.text}</h2>}
+                      {t.tag === 'h3' && <h3 style='margin:0'>{t.text}</h3>}
+                      {t.tag === 'h4' && <h4 style='margin:0'>{t.text}</h4>}
+                      {t.tag === 'p' && <p style='margin:0'>{t.text}</p>}
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+
+            <h3 style='font-size:var(--fs-lg);margin:40px 0 12px;'>Spacing</h3>
+            <div class='space-grid'>
+              {
+                spacing.map(s => [
+                  <span class='space-grid__label'>{s}px</span>,
+                  <div>
+                    <div
+                      class='space-grid__bar'
+                      style={`width:${Math.max(s, 1)}px`}
+                    />
+                  </div>
+                ])
+              }
             </div>
           </section>
+
+          <!-- ============================================================ -->
+          <!-- COMPONENT SECTION GROUPS — driven by data/nav.ts -->
+          <!-- One <div class='section-group'> per nav section. The slug -->
+          <!-- list inside each section drives the order of <Showcase /> -->
+          <!-- components. Each showcase lives in src/showcase/<slug>.astro. -->
+          <!-- ============================================================ -->
+          {
+            nav.map((section, index) => {
+              const groupLetter = String.fromCharCode(65 + index);
+              return (
+                <div class='section-group' data-section-group={section.id}>
+                  <header class='section-group__header'>
+                    <p class='section-group__header-eyebrow'>
+                      Group {groupLetter}
+                    </p>
+                    <h2 class='section-group__header-title'>{section.label}</h2>
+                  </header>
+                  {section.items.map(item => {
+                    const ShowcaseComponent = componentForSlug(
+                      slugFor(item.id)
+                    );
+                    return <ShowcaseComponent />;
+                  })}
+                </div>
+              );
+            })
+          }
 
           <footer class='footer'>
             <p>
@@ -176,7 +304,12 @@ import AppHeader from '../components/site/AppHeader.astro';
   </div>
 
   <script>
+    // Scroll-spy moved to `scripts/showcase-spy.client.ts` for
+    // testability + single-source-of-truth with the sidebar wiring.
+    import '../scripts/showcase.client.ts';
+    import '../scripts/preview.client.ts';
     import '../scripts/terminal.client.ts';
+    import '../scripts/showcase-spy.client.ts';
   </script>
 </BaseLayout>
 
@@ -190,13 +323,6 @@ import AppHeader from '../components/site/AppHeader.astro';
     100% {
       opacity: 0;
     }
-  }
-
-  /* Landing page renders without sidebar — center the column. */
-  .content--landing {
-    margin-inline: auto;
-    max-width: 96ch;
-    padding-inline: clamp(20px, 5vw, 48px);
   }
 
   .surfaces {
@@ -275,11 +401,5 @@ import AppHeader from '../components/site/AppHeader.astro';
     font-family: var(--font-mono);
     font-size: 12px;
     color: var(--foreground-muted);
-  }
-
-  .landing-cta {
-    border-top: 1px solid var(--border-strong);
-    margin-top: 48px;
-    padding-top: 32px;
   }
 </style>

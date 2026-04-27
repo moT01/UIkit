@@ -4,7 +4,7 @@ test.describe('@behavioural listbox', () => {
   test('frontend pre-selected; click devops flips aria-selected', async ({
     page
   }) => {
-    await page.goto('/#listbox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#listbox', { waitUntil: 'networkidle' });
     const card = page.locator('section#listbox .showcase__preview');
     await expect(card).toBeVisible();
     const options = card.locator('[role="option"]');
@@ -20,7 +20,7 @@ test.describe('@behavioural listbox', () => {
   test('clicking design selects it and deselects every other option', async ({
     page
   }) => {
-    await page.goto('/#listbox', { waitUntil: 'networkidle' });
+    await page.goto('/playground#listbox', { waitUntil: 'networkidle' });
     const options = page.locator(
       'section#listbox .showcase__preview [role="option"]'
     );

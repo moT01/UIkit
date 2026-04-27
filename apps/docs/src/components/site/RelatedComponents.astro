@@ -22,7 +22,7 @@ const cards = slugs
       <ul role='list'>
         {cards.map(entry => (
           <li>
-            <a href={`/components/${entry.id}`}>
+            <a href={`/playground#${entry.id}`}>
               <p class='related__eyebrow'>{entry.data.eyebrow}</p>
               <p class='related__title'>{entry.data.title}</p>
             </a>

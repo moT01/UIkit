@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('@behavioural toggle-button', () => {
   test('seed states paint correctly', async ({ page }) => {
-    await page.goto('/#toggle-button', { waitUntil: 'networkidle' });
+    await page.goto('/playground#toggle-button', { waitUntil: 'networkidle' });
     const card = page.locator('section#toggle-button .showcase__preview');
     const buttons = card.locator('button.toggle-btn');
     await expect(buttons).toHaveCount(2);
@@ -13,7 +13,7 @@ test.describe('@behavioural toggle-button', () => {
   test('click flips aria-pressed on each independent toggle', async ({
     page
   }) => {
-    await page.goto('/#toggle-button', { waitUntil: 'networkidle' });
+    await page.goto('/playground#toggle-button', { waitUntil: 'networkidle' });
     const card = page.locator('section#toggle-button .showcase__preview');
     const buttons = card.locator('button.toggle-btn');
     await buttons.nth(0).click();

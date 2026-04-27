@@ -4,7 +4,7 @@ const TRIGGER = 'button:has-text("Trigger toast")';
 
 test.describe('@behavioural toast', () => {
   test('trigger mounts a dismissible "Saved" toast', async ({ page }) => {
-    await page.goto('/#toast', { waitUntil: 'networkidle' });
+    await page.goto('/playground#toast', { waitUntil: 'networkidle' });
     const card = page.locator('section#toast .showcase__preview');
     await expect(card).toBeVisible();
     // Reference gallery has 3 non-dismissible toasts.
@@ -20,7 +20,7 @@ test.describe('@behavioural toast', () => {
   });
 
   test('Dismiss button removes the toast from the DOM', async ({ page }) => {
-    await page.goto('/#toast', { waitUntil: 'networkidle' });
+    await page.goto('/playground#toast', { waitUntil: 'networkidle' });
     const card = page.locator('section#toast .showcase__preview');
     await card.locator(TRIGGER).click();
     const saved = card

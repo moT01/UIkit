@@ -4,7 +4,7 @@ test.describe('@behavioural input', () => {
   test('renders type=email input with the seeded placeholder', async ({
     page
   }) => {
-    await page.goto('/#input', { waitUntil: 'networkidle' });
+    await page.goto('/playground#input', { waitUntil: 'networkidle' });
     const card = page.locator('section#input .showcase__preview');
     const input = card.locator('input#email-demo');
     await expect(input).toBeVisible();
@@ -13,7 +13,7 @@ test.describe('@behavioural input', () => {
   });
 
   test('typing updates the input value', async ({ page }) => {
-    await page.goto('/#input', { waitUntil: 'networkidle' });
+    await page.goto('/playground#input', { waitUntil: 'networkidle' });
     const card = page.locator('section#input .showcase__preview');
     const input = card.locator('input#email-demo');
     await input.fill('hi@freecodecamp.org');

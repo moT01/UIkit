@@ -28,7 +28,7 @@ for (const slug of SLUGS) {
         slug === 'modal',
       'Flaky sub-pixel font jitter — see UIkit-aq0'
     );
-    await page.goto(`/#${slug}`, { waitUntil: 'networkidle' });
+    await page.goto(`/playground#${slug}`, { waitUntil: 'networkidle' });
     await page.evaluate(async () => {
       if ('fonts' in document) await document.fonts.ready;
     });

@@ -8,11 +8,12 @@ const here = dirname(fileURLToPath(import.meta.url));
 const docsSrc = resolve(here, '..');
 const showcaseCssPath = resolve(docsSrc, 'styles/showcase.css');
 
+// Sidebar-bearing surfaces only. The minimal `/` landing has no sidebar
+// (single-column marketing page) and is exempt from this guard.
 const files = [
   'layouts/ProseLayout.astro',
-  'pages/guides/index.astro',
   'pages/handbook.astro',
-  'pages/index.astro'
+  'pages/playground.astro'
 ];
 
 test('docs main columns dogfood the UIKit SidebarLayout overflow guard', () => {

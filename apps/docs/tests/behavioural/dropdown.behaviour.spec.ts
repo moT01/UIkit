@@ -6,7 +6,7 @@ const ITEM = '[role="menuitem"]';
 
 test.describe('@behavioural dropdown', () => {
   test('toggle opens the menu and flips aria-expanded', async ({ page }) => {
-    await page.goto('/#dropdown', { waitUntil: 'networkidle' });
+    await page.goto('/playground#dropdown', { waitUntil: 'networkidle' });
     const card = page.locator('section#dropdown .showcase__preview');
     await expect(card).toBeVisible();
     const toggle = card.locator(TOGGLE);
@@ -19,7 +19,7 @@ test.describe('@behavioural dropdown', () => {
   });
 
   test('clicking a menu item closes the menu', async ({ page }) => {
-    await page.goto('/#dropdown', { waitUntil: 'networkidle' });
+    await page.goto('/playground#dropdown', { waitUntil: 'networkidle' });
     const card = page.locator('section#dropdown .showcase__preview');
     await card.locator(TOGGLE).click();
     await expect(card.locator(MENU)).toBeVisible();
@@ -32,7 +32,7 @@ test.describe('@behavioural dropdown', () => {
   });
 
   test('Escape closes the menu', async ({ page }) => {
-    await page.goto('/#dropdown', { waitUntil: 'networkidle' });
+    await page.goto('/playground#dropdown', { waitUntil: 'networkidle' });
     const card = page.locator('section#dropdown .showcase__preview');
     await card.locator(TOGGLE).click();
     await expect(card.locator(MENU)).toBeVisible();
