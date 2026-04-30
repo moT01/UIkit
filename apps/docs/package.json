@@ -14,7 +14,7 @@
     "prebuild": "node scripts/copy-sprite.mjs && node scripts/build-asset-kit.mjs && node scripts/ensure-uikit-built.mjs",
     "build": "astro build",
     "preview": "astro preview",
-    "lint": "astro check && eslint .",
+    "lint": "astro check && oxlint",
     "typecheck": "astro check"
   },
   "author": "freeCodeCamp.org <team@freecodecamp.org>",

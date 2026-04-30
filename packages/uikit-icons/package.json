@@ -6,7 +6,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "build": "tsup && node scripts/build-sprite.mjs",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "typecheck": "tsc --noEmit"
   },
   "author": "freeCodeCamp.org <team@freecodecamp.org>",

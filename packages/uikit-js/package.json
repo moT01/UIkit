@@ -5,7 +5,7 @@
     "test": "echo '[packages/uikit-js] no tests yet' && exit 0",
     "build": "tsup",
     "dev": "tsup --watch",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "typecheck": "tsc --noEmit"
   },
   "author": "freeCodeCamp.org <team@freecodecamp.org>",
