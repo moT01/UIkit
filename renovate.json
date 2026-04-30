@@ -8,10 +8,9 @@
       "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": [
         "@types/**",
-        "eslint",
-        "eslint-**",
-        "@eslint/**",
-        "typescript-eslint",
+        "oxlint",
+        "oxfmt",
+        "@oxc-project/**",
         "prettier",
         "prettier-**",
         "vitest",
@@ -21,10 +20,10 @@
         "tsup",
         "tsx",
         "turbo",
-        "globals",
         "is-ci",
         "husky",
-        "lint-staged"
+        "lint-staged",
+        "publint"
       ],
       "automerge": true,
       "automergeType": "pr",
