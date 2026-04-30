@@ -8,6 +8,7 @@
 //   - .nvmrc parses to ACTIVE_LTS
 //   - .github/actions/setup-node-pnpm/action.yml default === FLOOR
 //   - .github/workflows/re-test.yml matrix contains FLOOR + ACTIVE_LTS
+//   - every @types/node devDep major === FLOOR
 //
 // Run via: node scripts/check-node-versions.mjs
 // Exit 0 = aligned; exit 1 = drift.
@@ -120,6 +121,37 @@ console.log('re-test.yml node-version matrix');
       if (!list.includes(wantActive))
         fail(`${path} matrix missing ${wantActive}`);
       else ok(`${path} matrix contains ${wantActive}`);
+    }
+  }
+}
+
+// 6. @types/node major === FLOOR across all package.json
+console.log('@types/node major');
+{
+  const allPkgs = [
+    'package.json',
+    'packages/uikit/package.json',
+    'packages/uikit-css/package.json',
+    'packages/uikit-icons/package.json',
+    'packages/uikit-js/package.json',
+    'packages/uikit-tailwind/package.json',
+    'packages/uikit-cdn/package.json',
+    'apps/docs/package.json'
+  ];
+  for (const rel of allPkgs) {
+    if (!existsSync(join(ROOT, rel))) continue;
+    const pkg = readJson(rel);
+    const ranges = [pkg.devDependencies, pkg.dependencies]
+      .filter(Boolean)
+      .map(d => d['@types/node'])
+      .filter(Boolean);
+    for (const range of ranges) {
+      const major = String(range).match(/(\d+)/)?.[1];
+      if (major === String(FLOOR)) {
+        ok(`${rel} @types/node "${range}"`);
+      } else {
+        fail(`${rel} @types/node = "${range}", expected major ${FLOOR}`);
+      }
     }
   }
 }
