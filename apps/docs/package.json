@@ -47,7 +47,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "@astrojs/sitemap": "^3.7.2",
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "~1.59.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "rehype-autolink-headings": "^7.1.0",
