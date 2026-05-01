@@ -55,11 +55,15 @@
     "vitest": "4.1.5"
   },
   "lint-staged": {
-    "**/*.{astro,mjs,cjs,js,jsx,ts,tsx,yaml,yml}": [
-      "pnpm format"
+    "**/*.{js,jsx,mjs,cjs,ts,tsx}": [
+      "oxlint --fix",
+      "oxfmt --write"
     ],
-    "**/*.{mdx,md}": [
-      "pnpm exec prettier . --write"
+    "**/*.{json,jsonc}": [
+      "oxfmt --write"
+    ],
+    "**/*.{astro,md,mdx,yaml,yml}": [
+      "prettier --write"
     ]
   },
   "private": true,
