@@ -20,9 +20,10 @@ private and exists to run pnpm and Turbo workflows across all workspaces.
 Root `package.json` owns workspace-level scripts and shared dev tools:
 
 - package manager: `pnpm@10.33.2`
-- Node engine: `>=20`
+- Node engine: `>=22` (see [`adr/0001-node-lts-floor.md`](./adr/0001-node-lts-floor.md))
 - package runner: Turbo
-- formatting: Prettier and ESLint
+- linting: oxlint (`.oxlintrc.json`)
+- formatting: oxfmt for js/ts/json (`.oxfmtrc.json`); Prettier for `.astro`/`.md`/`.mdx`/`.yaml` (see [`adr/0002-oxc-suite-adoption.md`](./adr/0002-oxc-suite-adoption.md))
 - testing: Vitest, Testing Library, Playwright through the docs package
 - releases: Changesets plus the manual GitHub Actions release workflow
 
@@ -94,7 +95,7 @@ Scripts:
 - `pnpm --filter @freecodecamp/uikit build` runs `tsup` and generates
   `props.json`.
 - `test`, `test:watch`, and `test:coverage` run Vitest.
-- `lint` runs ESLint.
+- `lint` runs oxlint.
 - `typecheck` runs `tsc --noEmit`.
 
 Tests live beside components. DOM interaction tests use `.dom.test.tsx`.
@@ -130,9 +131,9 @@ Build behavior:
 
 Scripts:
 
-- `test` is a no-op placeholder.
+- `test`, `test:watch`, and `test:coverage` run Vitest against tokens, components, fonts, and brand assets.
 - `build` is a source-only no-op.
-- `lint` runs `prettier --check src`.
+- `lint` runs `oxfmt --check src`.
 
 ## `@freecodecamp/uikit-js`
 
@@ -183,8 +184,8 @@ Scripts:
 
 - `build` runs `tsup`.
 - `dev` runs `tsup --watch`.
-- `test` is a no-op placeholder.
-- `lint` runs ESLint.
+- `test`, `test:watch`, and `test:coverage` run Vitest (jsdom) covering exports + adapter contracts.
+- `lint` runs oxlint.
 - `typecheck` runs `tsc --noEmit`.
 
 ## `@freecodecamp/uikit-icons`
@@ -221,7 +222,7 @@ Scripts:
 
 - `build` runs `tsup` and `build-sprite.mjs`.
 - `test`, `test:watch`, and `test:coverage` run Vitest.
-- `lint` runs ESLint.
+- `lint` runs oxlint.
 - `typecheck` runs `tsc --noEmit`.
 
 ## `@freecodecamp/uikit-tailwind`
@@ -260,7 +261,7 @@ Scripts:
 
 - `build` runs `tsup`.
 - `test`, `test:watch`, and `test:coverage` run Vitest.
-- `lint` runs ESLint.
+- `lint` runs oxlint.
 - `typecheck` runs `tsc --noEmit`.
 
 ## `@freecodecamp/uikit-cdn`
@@ -331,5 +332,5 @@ Scripts:
 - `test`, `test:watch`, and `test:coverage` run Vitest.
 - `test:playwright` and `test:visual` run Playwright.
 - `test:playwright:update` and `test:visual:update` refresh snapshots.
-- `lint` runs `astro check && eslint .`.
+- `lint` runs `astro check && oxlint`.
 - `typecheck` runs `astro check`.

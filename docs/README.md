@@ -10,6 +10,8 @@ contributors working in the monorepo. The public product documentation lives in
 | --------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | [Repo overview](./repo-overview.md)                 | What the monorepo ships, where source lives, and how the build outputs fit together.              |
 | [Packages](./packages.md)                           | Every workspace package, its entrypoints, exports, scripts, tests, and generated artifacts.       |
+| [Tooling](./tooling.md)                             | Workspace inventory, toolchain pins, oxc adoption, LTS policy, CI/CD overview.                    |
+| [ADRs](./adr/)                                      | Architecture decision records — locked decisions cited from code and other docs.                  |
 | [Component catalog](./component-catalog.md)         | Every component surfaced by the docs navigation, grouped by tier, with source and showcase paths. |
 | [Development workflows](./development-workflows.md) | Current `pnpm run` scripts, Turbo tasks, local workflows, CI, and validation commands.            |
 | [Docs app internals](./docs-app-internals.md)       | How the Astro docs app, content collections, showcases, search index, and tests are wired.        |

@@ -33,9 +33,11 @@ Important root files:
   typechecking, preview, visual tests, and CDN verification.
 - `tsconfig.base.json` sets strict TypeScript defaults used by packages and the
   docs app.
-- `eslint.config.js` is the flat ESLint config for TypeScript and Astro-aware
-  linting.
-- `prettier.config.js` and `.prettierignore` define formatting.
+- `.oxlintrc.json` is the oxlint config (replaces ESLint as of Phase 1).
+- `.oxfmtrc.json` is the oxfmt config; covers js/ts/json. `prettier.config.js` +
+  `prettier-plugin-astro` retained for `.astro`/`.md`/`.mdx`/`.yaml` only.
+  See [`adr/0002-oxc-suite-adoption.md`](./adr/0002-oxc-suite-adoption.md).
+- Toolchain inventory + LTS policy: [`tooling.md`](./tooling.md).
 - `.github/workflows/*` defines CI, reusable lint/test/build/visual jobs, and
   the manual CDN release flow.
 
