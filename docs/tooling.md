@@ -5,7 +5,84 @@ and CI surface for the freeCodeCamp UIKit monorepo. Source of truth for
 "what is installed and why" lives here; the per-package `package.json`
 remains the source of truth for exact versions.
 
-Last refreshed: 2026-05-01 (Phase 1 modernization wave).
+Last refreshed: 2026-05-02.
+
+## Architecture
+
+freeCodeCamp UIKit is a pnpm/Turbo monorepo. It ships a React component
+package, source CSS tokens and BEM classes, a vanilla JavaScript runtime,
+an icon package, a Tailwind integration, an internal CDN bundle builder,
+and the Astro documentation site.
+
+### What ships
+
+| Surface                  | Package or app                 | Main source                   | Output                                                            |
+| ------------------------ | ------------------------------ | ----------------------------- | ----------------------------------------------------------------- |
+| React components         | `@freecodecamp/uikit`          | `packages/uikit/src`          | ESM, CJS, declarations, and `props.json` in `packages/uikit/dist` |
+| Tokens and component CSS | `@freecodecamp/uikit-css`      | `packages/uikit-css/src`      | Source CSS, fonts, and brand assets shipped directly              |
+| Vanilla runtime          | `@freecodecamp/uikit-js`       | `packages/uikit-js/src`       | ESM module and IIFE bundle in `packages/uikit-js/dist`            |
+| Icons                    | `@freecodecamp/uikit-icons`    | `packages/uikit-icons/src`    | Icon map, React wrapper, declarations, and `sprite.svg` in `dist` |
+| Tailwind integration     | `@freecodecamp/uikit-tailwind` | `packages/uikit-tailwind/src` | Preset and plugin ESM/CJS entries in `dist`                       |
+| CDN bundle               | `@freecodecamp/uikit-cdn`      | `packages/uikit-cdn/scripts`  | `dist-cdn/uikit` bundle with version aliases and manifest         |
+| Public docs site         | `@freecodecamp/uikit-docs`     | `apps/docs/src`               | Static Astro site in `apps/docs/dist`                             |
+
+### Workspace layout
+
+`pnpm-workspace.yaml` includes `apps/*` (private apps; today `apps/docs`)
+and `packages/*` (publishable packages + internal package tooling).
+Important root files: `package.json` (root scripts + dev tools + pnpm
+version + lint-staged), `turbo.json` (task graph), `tsconfig.base.json`
+(strict TS defaults), `.oxlintrc.json`, `.oxfmtrc.json`,
+`prettier.config.js` (Astro/MD fallback — see ADR-0002),
+`.github/workflows/*` (CI + reusable jobs + manual CDN release).
+
+Generated output is intentionally separate from source:
+
+- `packages/*/dist` from `tsup` builds.
+- `packages/uikit/dist/props.json` from `scripts/gen-props.mjs`.
+- `dist-cdn/uikit` from the CDN build.
+- `apps/docs/.astro` and `apps/docs/dist` from Astro.
+- `apps/docs/public/uikit/*` from docs predev/prebuild asset copying.
+- coverage and Playwright artifacts under package/app `coverage/` and
+  `apps/docs/test-results/`.
+
+### Build flow
+
+1. `@freecodecamp/uikit-css` provides token + component CSS source. No
+   compile step during its package build.
+2. `@freecodecamp/uikit` compiles React source with `tsup` and generates
+   `dist/props.json` for docs API tables.
+3. `@freecodecamp/uikit-js` compiles the vanilla runtime to ESM and
+   `uikit.global.js`.
+4. `@freecodecamp/uikit-icons` compiles package entries and builds
+   `dist/sprite.svg`.
+5. `@freecodecamp/uikit-tailwind` compiles the Tailwind preset + plugin.
+6. `@freecodecamp/uikit-cdn` bundles CSS with Lightning CSS, copies
+   fonts, brand assets, the vanilla IIFE, and the icon sprite, then
+   mirrors them under `latest`, major, minor, and exact-version
+   aliases.
+7. `apps/docs` imports workspace package source during dev/build through
+   Vite aliases, copies dogfood assets into `public/uikit`, and builds
+   the Astro site.
+
+`turbo run build` drives this graph. The `build` task depends on upstream
+workspace builds, except `@freecodecamp/uikit-css#build`, which is
+explicitly source-only and has no upstream dependency.
+
+### Runtime model
+
+UIKit has three usage modes:
+
+- **React** consumers import from `@freecodecamp/uikit` plus CSS from
+  `@freecodecamp/uikit-css`.
+- **Static HTML** consumers use BEM classes from the CSS package or the
+  CDN stylesheet.
+- **Vanilla interactive** consumers add `data-uikit-*` attributes and
+  load `uikit.global.js`; the runtime scans the DOM at boot and after
+  mutations.
+
+The docs app dogfoods all three: React previews, HTML examples, CSS
+tokens, the vanilla runtime, icons, and CDN-style assets.
 
 ## Workspace inventory
 
@@ -148,8 +225,11 @@ local rules:
 
 ## See also
 
-- [`docs/repo-overview.md`](./repo-overview.md) — high-level architecture.
 - [`docs/packages.md`](./packages.md) — per-package entrypoints + exports.
-- [`docs/development-workflows.md`](./development-workflows.md) — `pnpm`/`turbo` task reference.
 - [`docs/releasing.md`](./releasing.md) — release process.
+- [`docs/runbooks/deploy-docs.md`](./runbooks/deploy-docs.md) — Cloudflare Pages operator playbook.
+- [`docs/components-matrix.md`](./components-matrix.md) — peer comparison.
+- [`docs/v1.1-backlog.md`](./v1.1-backlog.md) — deferred items.
 - [`docs/adr/`](./adr/) — architecture decision log (locked decisions).
+- [`apps/docs/README.md`](../apps/docs/README.md) — Astro app internals.
+- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — contributor narrative workflow.
