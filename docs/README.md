@@ -1,29 +1,27 @@
 # UIKit repo docs
 
-This folder documents how this repository works. It is for maintainers and
-contributors working in the monorepo. The public product documentation lives in
-`apps/docs` and is published as the Astro docs site.
+Maintainer + contributor reference for this monorepo. The public product
+documentation is the Astro docs site at
+[`https://design.freecodecamp.org`](https://design.freecodecamp.org)
+(source: [`apps/docs`](../apps/docs/README.md)).
 
 ## Start here
 
-| Doc                                                 | What it covers                                                                                    |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| [Repo overview](./repo-overview.md)                 | What the monorepo ships, where source lives, and how the build outputs fit together.              |
-| [Packages](./packages.md)                           | Every workspace package, its entrypoints, exports, scripts, tests, and generated artifacts.       |
-| [Tooling](./tooling.md)                             | Workspace inventory, toolchain pins, oxc adoption, LTS policy, CI/CD overview.                    |
-| [ADRs](./adr/)                                      | Architecture decision records — locked decisions cited from code and other docs.                  |
-| [Component catalog](./component-catalog.md)         | Every component surfaced by the docs navigation, grouped by tier, with source and showcase paths. |
-| [Development workflows](./development-workflows.md) | Current `pnpm run` scripts, Turbo tasks, local workflows, CI, and validation commands.            |
-| [Docs app internals](./docs-app-internals.md)       | How the Astro docs app, content collections, showcases, search index, and tests are wired.        |
-| [Components matrix](./components-matrix.md)         | UIKit component coverage compared with Catalyst, Ark UI, and Headless UI.                         |
-| [Releasing](./releasing.md)                         | CDN bundle build, verification, GitHub Actions release flow, and cross-repo publish PR.           |
-| [v1.1 backlog](./v1.1-backlog.md)                   | Deferred bugs, features, CI hardening, and repo-public follow-ups.                                |
-| [Release notes](./releases/v1.0.0-rc.0.md)          | Historical v1.0.0 release candidate draft notes.                                                  |
+| Doc                                              | What it covers                                                                         |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------- |
+| [Tooling](./tooling.md)                          | Architecture, workspace inventory, toolchain pins, LTS policy, workspace tasks, CI/CD. |
+| [Packages](./packages.md)                        | Every workspace package — entrypoints, exports, scripts, tests, generated artifacts.   |
+| [Components matrix](./components-matrix.md)      | UIKit coverage vs. Catalyst / Ark UI / Headless UI.                                    |
+| [Releasing](./releasing.md)                      | CDN bundle build, verification, GitHub Actions release flow, cross-repo publish PR.    |
+| [Deploy-docs runbook](./runbooks/deploy-docs.md) | Cloudflare Pages operator playbook (provisioning, DNS, rollback, secret rotation).     |
+| [v1.1 backlog](./v1.1-backlog.md)                | Deferred bugs, features, CI hardening, repo-going-public follow-ups.                   |
+| [ADRs](./adr/)                                   | Architecture decision records — locked decisions cited from code + other docs.         |
+| [`apps/docs` README](../apps/docs/README.md)     | Astro app shape, package alias resolution, content collections, dogfood assets.        |
 
 ## Source of truth
 
-These docs describe the checked-out repo state. For exact behavior, read the
-source files they point to:
+These docs describe the checked-out repo state. For exact behavior,
+read the source files they point to:
 
 - package scripts: root `package.json` and each workspace `package.json`
 - task graph: `turbo.json`
@@ -32,4 +30,12 @@ source files they point to:
   `apps/docs/src/data/knownComponents.ts`
 - package exports: `packages/*/package.json` and package barrel files
 
-If a command or workflow changes, update the relevant repo doc in the same PR.
+If a command or workflow changes, update the relevant repo doc in the
+same PR.
+
+## See also
+
+- [`README.md`](../README.md) — repo entrypoint.
+- [`CONTRIBUTING.md`](../CONTRIBUTING.md) — contributor narrative
+  workflow (Setup, daily commands, lint/format/test, release checklist).
+- [`SECURITY.md`](../SECURITY.md) — security disclosure process.
