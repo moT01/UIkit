@@ -24,7 +24,9 @@ test.describe('mobile drawer contract', () => {
       testInfo.project.name !== 'mobile',
       'Drawer only renders at the mobile viewport.'
     );
-    await page.goto('/');
+    // `/` (landing) intentionally ships no sidebar; drawer JS only wires
+    // up where `#app-sidebar` exists. Use `/playground/`.
+    await page.goto('/playground/');
     await page.click('[data-nav-toggle]');
     await expect(page.locator('body')).toHaveAttribute('data-nav-open', '');
     await expect(page.locator('#app-sidebar')).toBeVisible();
@@ -41,7 +43,9 @@ test.describe('mobile drawer contract', () => {
       testInfo.project.name !== 'mobile',
       'Drawer only renders at the mobile viewport.'
     );
-    await page.goto('/');
+    // `/` (landing) intentionally ships no sidebar; drawer JS only wires
+    // up where `#app-sidebar` exists. Use `/playground/`.
+    await page.goto('/playground/');
     await page.click('[data-nav-toggle]');
     await page.click('[data-nav-backdrop]', { force: true });
     await expect(page.locator('body')).not.toHaveAttribute('data-nav-open', '');
@@ -55,7 +59,9 @@ test.describe('mobile drawer contract', () => {
       testInfo.project.name !== 'mobile',
       'Drawer only renders at the mobile viewport.'
     );
-    await page.goto('/');
+    // `/` (landing) intentionally ships no sidebar; drawer JS only wires
+    // up where `#app-sidebar` exists. Use `/playground/`.
+    await page.goto('/playground/');
     await page.click('[data-nav-toggle]');
     await page.keyboard.press('Escape');
     await expect(page.locator('body')).not.toHaveAttribute('data-nav-open', '');
@@ -69,7 +75,9 @@ test.describe('mobile drawer contract', () => {
       testInfo.project.name !== 'mobile',
       'Drawer only renders at the mobile viewport.'
     );
-    await page.goto('/');
+    // `/` ships no sidebar; drawer JS only wires up where `#app-sidebar`
+    // exists. Use `/playground/`.
+    await page.goto('/playground/');
     const btn = page.locator('[data-nav-toggle]');
     await expect(btn).toHaveAttribute('aria-expanded', 'false');
     await btn.click();
@@ -87,18 +95,17 @@ test.describe('mobile drawer contract', () => {
     );
     await page.goto('/handbook');
     await page.click('[data-nav-toggle]');
-    // /handbook ships its own in-page TOC nav rather than the
-    // ProseLayout `[data-prose-toc]` (which is guides-only).
-    const toc = page.locator('nav.handbook-toc');
-    await expect(toc).toBeVisible();
-    const links = toc.locator('a');
-    const count = await links.count();
+    // /handbook collapses the in-page TOC into the drawer's
+    // `#app-sidebar` (rendered by `HandbookSidebar.tsx`); each entry
+    // is an anchor pointing at an in-page `#` target.
+    const sidebar = page.locator('#app-sidebar');
+    await expect(sidebar).toBeVisible();
+    const inPageLinks = sidebar.locator('a[href^="#"]');
+    const count = await inPageLinks.count();
     expect(count).toBeGreaterThan(2);
-    // Each TOC entry must point at an in-page anchor — the visible
-    // affordance is "tap to scroll to section X". Verifying the
-    // href shape covers the contract without racing the
-    // in-page-anchor scroll behavior.
-    const href = await links.nth(1).getAttribute('href');
+    // Verifying the href shape covers the tap-to-scroll contract
+    // without racing the in-page-anchor scroll behavior.
+    const href = await inPageLinks.nth(1).getAttribute('href');
     expect(href).toMatch(/^#/);
   });
 });
