@@ -11,6 +11,8 @@ apps/docs/public/brand/asset-kit.zip
 
 # dependencies
 node_modules/
+# pnpm local store (created by `pnpm install` inside Docker / sandboxes)
+.pnpm-store/
 
 # logs
 npm-debug.log*
