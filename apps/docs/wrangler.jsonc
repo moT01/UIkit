@@ -1,0 +1,12 @@
+{
+  // freeCodeCamp UIKit docs site — Cloudflare Pages configuration.
+  //
+  // Static-only (Astro SSG). No Functions, no bindings.
+  // Deploy via `cloudflare/wrangler-action` in `.github/workflows/deploy-docs.yml`.
+  // See `docs/adr/0007-cloudflare-pages-docs-deploy.md` and
+  // `docs/runbooks/deploy-docs.md` for the full deploy story.
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "fcc-design",
+  "compatibility_date": "2026-05-02",
+  "pages_build_output_dir": "./dist"
+}
