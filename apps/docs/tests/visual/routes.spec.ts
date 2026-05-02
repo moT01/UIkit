@@ -56,6 +56,28 @@ for (const path of routes) {
         '*, *::before, *::after { animation: none !important; transition: none !important; }'
     });
 
+    // Force every `client:visible` island to hydrate before screenshot:
+    // walk the page top → bottom → top so each section enters the
+    // viewport once. Without this, Playwright's fullPage stitching
+    // hydrates islands mid-capture, producing DOM mutation between
+    // consecutive stability frames and timing out at 5 s.
+    await page.evaluate(async () => {
+      const docHeight = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      );
+      const viewportHeight = window.innerHeight;
+      for (let y = 0; y <= docHeight; y += viewportHeight) {
+        window.scrollTo(0, y);
+        await new Promise(r => requestAnimationFrame(() => r(null)));
+      }
+      window.scrollTo(0, 0);
+      await new Promise(r => requestAnimationFrame(() => r(null)));
+    });
+    // One more networkidle — any island that fired an XHR on hydrate
+    // (e.g. the search-index island) must finish before capture.
+    await page.waitForLoadState('networkidle');
+
     await expect(page).toHaveScreenshot(`${label}.png`, {
       fullPage: true
     });
