@@ -6,11 +6,11 @@ Also a dogfood app for `@freecodecamp/uikit`,
 `@freecodecamp/uikit-css`, `@freecodecamp/uikit-js`, and
 `@freecodecamp/uikit-icons`.
 
-For deploy, custom domain, secrets, rollback: see
+For deploy, custom domain, GitHub App, rollback: see
 [`docs/runbooks/deploy-docs.md`](../../docs/runbooks/deploy-docs.md)
-and [ADR-0007](../../docs/adr/0007-cloudflare-pages-docs-deploy.md).
-For the toolchain matrix and Turbo task graph: see
-[`docs/tooling.md`](../../docs/tooling.md).
+and [ADR-0008](../../docs/adr/0008-cloudflare-pages-git-integration.md)
+(which supersedes ADR-0007). For the toolchain matrix and Turbo
+task graph: see [`docs/tooling.md`](../../docs/tooling.md).
 
 ## App shape
 

@@ -236,8 +236,12 @@ GitHub Actions live in `.github/workflows/`:
 - `re-build.yml` — `pnpm build` and `pnpm --filter @freecodecamp/uikit-cdn run verify`.
 - `re-visual.yml` — Playwright Chromium visual regression for `apps/docs`.
 - `release.yml` — npm publish + opens PR on `freeCodeCamp/cdn` for the CDN bundle. Republish guard checks if version already lives there.
-- `deploy-docs.yml` — Cloudflare Pages production deploy for the docs site (`fcc-design` project, `design.freecodecamp.org`).
-- `deploy-docs-preview.yml` — Cloudflare Pages per-PR preview deploy. See [`docs/adr/0007-cloudflare-pages-docs-deploy.md`](./adr/0007-cloudflare-pages-docs-deploy.md) and [`docs/runbooks/deploy-docs.md`](./runbooks/deploy-docs.md).
+  Docs deploy is handled by Cloudflare Pages with Git integration
+  (`fcc-design` project, `design.freecodecamp.org`). The CF GitHub App
+  watches the repo and runs the build on CF infra; no deploy
+  workflow lives under `.github/workflows/`. See
+  [`docs/adr/0008-cloudflare-pages-git-integration.md`](./adr/0008-cloudflare-pages-git-integration.md)
+  and [`docs/runbooks/deploy-docs.md`](./runbooks/deploy-docs.md).
 
 Composite action `.github/actions/setup-node-pnpm/action.yml` installs pnpm
 and Node, with `node-version` defaulting to `22` (the floor).

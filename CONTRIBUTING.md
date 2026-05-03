@@ -78,13 +78,17 @@ pnpm test:visual:update  # refresh goldens after intentional UI change
 - Cross-repo push uses the `CDN_PUSH_TOKEN` secret (fine-grained PAT scoped to `freeCodeCamp/cdn`). The default `GITHUB_TOKEN` is never used outside this repo.
 - npm publish is not currently automated. Run `pnpm release:check`, then
   `pnpm release` locally with an org-scoped npm token.
-- `Deploy docs` deploys `apps/docs` to Cloudflare Pages (project `fcc-design`,
-  `design.freecodecamp.org`). Production runs on `push` to `main` via
-  `.github/workflows/deploy-docs.yml`; pull requests get per-branch previews
-  via `.github/workflows/deploy-docs-preview.yml`. Required secrets:
-  `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. See the operator runbook
-  in [`docs/runbooks/deploy-docs.md`](./docs/runbooks/deploy-docs.md) and the
-  decision in [ADR-0007](./docs/adr/0007-cloudflare-pages-docs-deploy.md).
+- Docs site deploys to Cloudflare Pages (project `fcc-design`,
+  `design.freecodecamp.org`) via the Cloudflare GitHub App + Git
+  integration. Pushes to `main` deploy production; every PR
+  (including forks) gets a preview at
+  `https://<branch>.fcc-design.pages.dev`. No repo-side deploy
+  workflow and no `CLOUDFLARE_*` secrets are required. See the
+  operator runbook in
+  [`docs/runbooks/deploy-docs.md`](./docs/runbooks/deploy-docs.md)
+  and the decision in
+  [ADR-0008](./docs/adr/0008-cloudflare-pages-git-integration.md)
+  (which supersedes ADR-0007).
 
 ## Release checklist
 

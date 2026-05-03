@@ -82,7 +82,7 @@ For the full component-by-component reference and how UIKit compares to Catalyst
 
 ## Deployment
 
-- **Docs site** → Cloudflare Pages (`design.freecodecamp.org`, project `fcc-design`). Pushes to `main` trigger `.github/workflows/deploy-docs.yml`; pull requests get per-branch previews via `.github/workflows/deploy-docs-preview.yml`. Build output: `apps/docs/dist/`. See [docs/adr/0007-cloudflare-pages-docs-deploy.md](./docs/adr/0007-cloudflare-pages-docs-deploy.md) and [docs/runbooks/deploy-docs.md](./docs/runbooks/deploy-docs.md).
+- **Docs site** → Cloudflare Pages with Git integration (`design.freecodecamp.org`, project `fcc-design`). Pushes to `main` deploy production; every PR (including forks) gets a preview at `https://<branch>.fcc-design.pages.dev`. Build output: `apps/docs/dist/`. See [docs/adr/0008-cloudflare-pages-git-integration.md](./docs/adr/0008-cloudflare-pages-git-integration.md) and [docs/runbooks/deploy-docs.md](./docs/runbooks/deploy-docs.md).
 - **CDN bundle** → opened as a PR against `freeCodeCamp/cdn` by `.github/workflows/release.yml` (manual `workflow_dispatch`). Live at <https://cdn.freecodecamp.org/uikit/>.
 - **npm packages** → published via `pnpm release` (Changesets + `changeset publish`). First release: all public packages at `0.1.0`.
 
